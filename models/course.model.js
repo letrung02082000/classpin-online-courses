@@ -1,0 +1,25 @@
+const mongoose = require('mongoose');
+
+
+const Schema = mongoose.Schema;
+
+const schema = new Schema({
+  _id: mongoose.ObjectId,
+  name: String,
+  description: String,
+  thumbnail: String,
+  price: Number,
+  discount: Number,
+  list_student: Array,
+  list_teacher: Array,
+  category: mongoose.ObjectId,  // id category
+  date_created: {Date, default: Date.now()},
+});
+
+const Course = mongoose.model('Course', schema, 'Course');
+
+module.exports = {
+  load() {
+    
+  }     
+}

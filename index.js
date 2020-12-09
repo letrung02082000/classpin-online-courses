@@ -13,6 +13,10 @@ const {port, mongo_url, secret_session} = key;
 const db = require('./db');
 const app = express();
 
+
+// static file
+app.use('/public', express.static('public'))
+
 var hbs = exphbs.create({
   // spectify helpers
   helpers: {
@@ -26,11 +30,11 @@ app.engine('.hbs', hbs.engine);
 app.set('view engine', '.hbs');
 
 
+// cookies
 app.use(cookieParser(secret_session));
 
-// static file
-app.use('/static', express.static('/public'));
 
+// req.body
 app.use(bodyParser.json()) // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
