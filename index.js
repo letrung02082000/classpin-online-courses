@@ -17,16 +17,12 @@ const app = express();
 // static file
 app.use('/public', express.static('public'))
 
-var hbs = exphbs.create({
-  // spectify helpers
-  helpers: {
-    foo: function () { return 'FOO!'; },
-    bar: function () { return 'BAR!'; }
-  },
+app.engine('hbs', exphbs({
+  defaultLayout: 'main.hbs',
   extname: '.hbs',
-});
-
-app.engine('.hbs', hbs.engine);
+  layoutsDir: 'views/_layouts',
+  partialsDir: 'views/_partials'
+}));
 app.set('view engine', '.hbs');
 
 
@@ -48,6 +44,8 @@ app.use('/login', authRoutes);
 app.get('/', (req, res)=> {
   res.render('home');
 });
+
+//app.use('/admin')
 
 // request not found
 app.use(function(req, res) {
