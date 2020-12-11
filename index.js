@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const exphbs = require('express-handlebars');
 var session = require('express-session');
+var express_handlebars_sections = require('express-handlebars-sections');
 const authRoutes = require('./routes/auth.route');
 
 
@@ -31,7 +32,10 @@ app.engine('hbs', exphbs({
   defaultLayout: 'main.hbs',
   extname: '.hbs',
   layoutsDir: 'views/_layouts',
-  partialsDir: 'views/_partials'
+  partialsDir: 'views/_partials',
+  helpers: {
+    section: express_handlebars_sections(),
+  }
 }));
 app.set('view engine', '.hbs');
 

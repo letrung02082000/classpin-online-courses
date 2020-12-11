@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const {mongo_url} = require('../config/main.config');
 
 const Schema = mongoose.Schema;
 
@@ -12,13 +12,13 @@ const schema = new Schema({
   phone: String,
   avatar: String,
   wishlist: Array, // ObjectId khoa hoc
-  date_created: {Date, default: Date.now()},
 });
 
 const Student = mongoose.model('Student', schema, 'Student');
 
 module.exports = {
-  all() {
-    return Student.find({});
+  load() {
   }     
+
+  ///
 }
