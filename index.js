@@ -5,7 +5,9 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const exphbs = require('express-handlebars');
+var session = require('express-session');
 const authRoutes = require('./routes/auth.route');
+
 
 const key = require('./config/main.config');
 const {port, mongo_url, secret_session} = key;
@@ -13,6 +15,14 @@ const {port, mongo_url, secret_session} = key;
 const db = require('./db');
 const app = express();
 
+// express sessions
+app.set('trust proxy', 1) // trust first proxy
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true }
+}))
 
 // static file
 app.use('/public', express.static('public'))
