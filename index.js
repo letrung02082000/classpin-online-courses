@@ -50,8 +50,6 @@ db.connectMongoDB(mongo_url);
 
 app.use(localmdw.localsUser);
 
-
-
 app.use('/account', authRoutes);
 
 app.get('/logout', (req, res) => {

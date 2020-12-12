@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const studentModel = require('../models/student.model');
 const bcrypt = require('bcryptjs');
 
+
 module.exports = {
   login: function(req, res) {
     req.session.retURL = req.headers.referer;
@@ -75,6 +76,15 @@ module.exports = {
 
   profile: function(req, res) {
     res.render('user/profile');
+  },
+
+  editProfile: function(req, res) {
+    res.render('user/editProfile');
+  },
+
+  postEditProfile: function(req, res) {
+    console.log(req.body);
+    console.log(req.file.path);
   }
 }
 

@@ -1,11 +1,45 @@
-<h1>Profile</h1>
+{{#section 'css'}}
+  <link rel="stylesheet" href="/public/static/css/profile.css">
+{{/section}}
 
-{{#if isAuth}}
-  <p>
-    hello, {{authUser.fullname}}
-  </p>
-  <form id="frmLogout" method="POST" action="/account/logout"></form>
-  <a class="btn btn-danger" href="javascript: $('#frmLogout').submit();">Logout</a>
-{{else}}
-  <a class="btn btn-primary" href="/account/login">Sign In</a>
-{{/if}}
+<div class="profile-section">
+  <div class="content">
+    <div class="profile-info">
+      <div class="avatar">
+        <img id="avatar" src="/public/static/images/unnamed.png" alt="avatar">
+      </div>
+      <div class="editProfile">
+        <a class="btn btn-primary" id="btnEdit" href="/account/editprofile">
+          <i class="fa fa-pencil" aria-hidden="true"></i>
+        </a>
+      </div>
+      <div class="text-infomation">
+        <h4>
+          Fullname:
+          <span>{{authUser.fullname}}</span>
+        </h4>
+        <h4>
+          Email:
+          <span>{{authUser.email}}</span>
+        </h4>
+        <h4>
+          Date of birth:
+          <span>{{authUser.date_of_birth}}</span>
+        </h4>
+      </div>
+    </div>
+
+    <div class="progress">
+      <h3>
+        <i class="fa fa-list" aria-hidden="true"></i>
+        Purchased courses
+      </h3>
+    </div>
+    <div class="progress">
+      <h3>
+        <i class="fa fa-list" aria-hidden="true"></i>
+        Work Experience and Education
+      </h3>
+    </div>
+  </div>
+</div>
