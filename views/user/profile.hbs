@@ -1,5 +1,5 @@
+<h1>Profile</h1>
 
-<h1>Trang chu</h1>
 {{#if isAuth}}
   <p>
     hello, {{authUser.fullname}}
@@ -9,13 +9,3 @@
 {{else}}
   <a class="btn btn-primary" href="/account/login">Sign In</a>
 {{/if}}
- 
-
-
-{{#section 'js'}}
-    <script>
-      var x = '{{isAuth}}';
-      console.log(x);
-      console.log("hello");
-    </script>
-{{/section}}

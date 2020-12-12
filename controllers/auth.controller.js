@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 
 module.exports = {
   login: function(req, res) {
+    req.session.retURL = req.headers.referer;
     const status = req.query.status;
     res.render('auth/login', {
       layout: false,
@@ -23,10 +24,14 @@ module.exports = {
       return;
     }
     if(bcrypt.hashSync(password, user.password)) {
-      req.session.auth = true;
-      req.session.user = user;
+      req.session.isAuth = true;
+      req.session.authUser = user;
 
-      res.redirect('/');
+      console.log(req.session.isAuth);
+      
+      let url = req.session.retURL || '/';
+
+      res.redirect(url);
     } else {
       res.render('auth/login', {
         layout: false,
@@ -37,7 +42,6 @@ module.exports = {
   },
 
   postSignUp: async function(req, res) {
-    console.log(req.body);
     const newStudent = {
       _id: mongoose.Types.ObjectId(),
       namelogin: req.body.namelogin,
@@ -49,7 +53,7 @@ module.exports = {
     }
    
     await studentModel.insertOne(newStudent);
-    res.redirect('/login/?status=success');
+    res.redirect('/account/login/?status=success');
   },
 
   isAvailable: async function(req, res) {
@@ -60,6 +64,17 @@ module.exports = {
     } else {
       res.json(false);
     }
+  },
+
+  postLogout: function(req, res) {
+    req.session.isAuth = false;
+    req.session.user = null;
+    let url = req.headers.referer;
+    res.redirect(url);
+  },
+
+  profile: function(req, res) {
+    res.render('user/profile');
   }
 }
 

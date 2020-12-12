@@ -45,7 +45,7 @@
               </a>
             </div>
           </form>
-          <form action="/login/postSignUp" class="sign-up-form" method="POST" id="frmSignUp">
+          <form action="/account/postSignUp" class="sign-up-form" method="POST" id="frmSignUp">
             <h2 class="title">Sign up</h2>
             <div class="input-field">
               <i class="fas fa-user"></i>
@@ -154,7 +154,7 @@
           return
         }
 
-        $.getJSON(`/login/is-available/?user=${username}`, function(data) {
+        $.getJSON(`/account/is-available/?user=${username}`, function(data) {
           console.log(data)
           if(data === true) {
             $('#frmSignUp').off('submit').submit();
