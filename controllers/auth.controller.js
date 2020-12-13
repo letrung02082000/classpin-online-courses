@@ -57,7 +57,8 @@ module.exports = {
       fullname: req.body.fullname,
       password: bcrypt.hashSync(req.body.password, 10),
       email: req.body.email,
-      date_of_birth: Date(req.body.date_of_birth),
+      date_of_birth: req.body.date_of_birth,
+      avatar: '/public/static/images/unnamed.png',
       wishlist: [], 
     }
    
@@ -83,16 +84,33 @@ module.exports = {
   },
 
   profile: function(req, res) {
-    res.render('user/profile');
+    var status = req.query.status;
+    res.render('user/profile', {
+      status: status,
+    });
   },
 
   editProfile: function(req, res) {
     res.render('user/editProfile');
   },
 
-  postEditProfile: function(req, res) {
+  postEditProfile: async function(req, res) {
     console.log(req.body);
-    console.log(req.file.path);
+    console.log(req.session.authUser.namelogin);
+    const filter = { namelogin: req.session.authUser.namelogin };
+    const update = {
+      fullname: req.body.fullname,
+      email: req.body.email,
+      date_of_birth: req.body.date_of_birth,
+    }
+    if(req.file) {
+      update.avatar = '\\' + req.file.path;
+    }
+    console.log(update);
+    const newUser = await studentModel.findOneAndUpdate(filter, update);
+    req.session.authUser = newUser;
+    var msg = encodeURIComponent('updatesuccess');
+    res.redirect('/account/profile/?status=' + msg);
   }
 }
 

@@ -13,7 +13,7 @@ const schema = new Schema({
   list_student: Array,
   list_teacher: Array,
   category: mongoose.ObjectId,  // id category
-  date_created: {Date, default: Date.now()},
+  date_created: { type: Date, default: Date.now },
 });
 
 const Course = mongoose.model('Course', schema, 'Course');

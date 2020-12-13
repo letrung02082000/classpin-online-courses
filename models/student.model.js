@@ -8,7 +8,7 @@ const schema = new Schema({
   fullname: String,
   password: String,
   email: String,
-  date_of_birth: Date,
+  date_of_birth: String,
   avatar: String,
   wishlist: Array, // ObjectId khoa hoc
 });
@@ -26,6 +26,12 @@ module.exports = {
 
   findById(id) {
     return Student.findById(id);
+  },
+
+  findOneAndUpdate(filter, update) {
+    return Student.findOneAndUpdate(filter, update, {
+      new: true,
+    })
   }
   ///
 }
