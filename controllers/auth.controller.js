@@ -5,8 +5,16 @@ const bcrypt = require('bcryptjs');
 
 module.exports = {
   login: function(req, res) {
-    req.session.retURL = req.headers.referer;
+    if(req.headers.referer) {
+      req.session.retURL = req.headers.referer;
+    }
+    console.log(req.session.retURL);
     const status = req.query.status;
+    if(req.session.isAuth === true) {
+      let url = req.session.retURL || '/';
+      res.redirect(url);
+      return;
+    }
     res.render('auth/login', {
       layout: false,
       status: status,
