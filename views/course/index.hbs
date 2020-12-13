@@ -1,0 +1,137 @@
+{{#section 'css'}}
+<link rel="stylesheet" href="/public/static/css/course.css">
+{{/section}}
+
+<div class="dark-background">
+  <div class="row">
+    <div class="col-7">
+      <div class="course-intro">
+        <div class="component-render">
+          {{#with this.course}}
+          <h1 class="heading-primary">
+            {{name}}
+          </h1>
+          <p>
+            {{description}}
+          </p>
+          {{/with}}
+          <div class="rating">
+            <span class="heading">User Rating</span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star"></span>
+            <p>4.1 average based on 254 reviews.</p>
+          </div>
+        </div>
+        <p>Created by Le Quoc Dat</p>
+
+        <a href="#" class="btn btn-outline-primary" id="btnWishlist">
+          Wishlist
+          <i class="far fa-heart"></i>
+        </a>
+      </div>
+    </div>
+    <div class="buy-card">
+      <div class="cardbody">
+        <div class="img">
+          <img src="/public/static/images/involve2.jpg" alt="course-img">
+        </div>
+        <div class="card-text">
+          <p>
+            <strong class="card-price">
+            {{#with this.course}}
+            ${{price}}
+            {{/with}}
+            </strong>
+          </p>
+          <div class="cart">
+            <a href="#" class="btn btn-danger button-add mb-2">Add to cart</a>
+            <a href="#" class="btn btn-outline-info button-add">Buy now</a>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</div> 
+
+<div class="row">
+  <div class="col-7 container-content">
+    <div class="card-description">
+      <div class="description">
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Molestias non placeat accusamus porro nostrum tenetur, nulla, saepe, recusandae consectetur blanditiis praesentium dicta quibusdam! Architecto commodi in illum velit ea molestias delectus, sunt libero corrupti nam doloremque omnis aliquam! Temporibus voluptates commodi, vitae illum, doloribus eveniet ab quibusdam debitis accusamus ea, adipisci quos delectus voluptatum blanditiis a velit enim reprehenderit obcaecati recusandae repellendus. Ad consectetur consequuntur, tempora, optio nemo praesentium neque exercitationem quaerat sequi reprehenderit, perspiciatis cumque quod alias dolorum cupiditate beatae quasi commodi cum dolorem? Sequi, similique, voluptate cum omnis voluptates quia officiis, corporis eum amet minima totam nulla incidunt.
+      </div>
+    </div>
+    <div class="table-content">
+      <b>Course content</b>
+    </div>
+  </div>
+</div>
+
+  {{#section 'js'}}
+
+
+  {{/section}}
+
+  {{!--
+  <hr style="border:3px solid #f1f1f1"> --}}
+
+  {{!-- <div class="row">
+    <div class="side">
+      <div>5 star</div>
+    </div>
+    <div class="middle">
+      <div class="bar-container">
+        <div class="bar-5"></div>
+      </div>
+    </div>
+    <div class="side right">
+      <div>150</div>
+    </div>
+    <div class="side">
+      <div>4 star</div>
+    </div>
+    <div class="middle">
+      <div class="bar-container">
+        <div class="bar-4"></div>
+      </div>
+    </div>
+    <div class="side right">
+      <div>63</div>
+    </div>
+    <div class="side">
+      <div>3 star</div>
+    </div>
+    <div class="middle">
+      <div class="bar-container">
+        <div class="bar-3"></div>
+      </div>
+    </div>
+    <div class="side right">
+      <div>15</div>
+    </div>
+    <div class="side">
+      <div>2 star</div>
+    </div>
+    <div class="middle">
+      <div class="bar-container">
+        <div class="bar-2"></div>
+      </div>
+    </div>
+    <div class="side right">
+      <div>6</div>
+    </div>
+    <div class="side">
+      <div>1 star</div>
+    </div>
+    <div class="middle">
+      <div class="bar-container">
+        <div class="bar-1"></div>
+      </div>
+    </div>
+    <div class="side right">
+      <div>20</div>
+    </div>
+  </div> --}}

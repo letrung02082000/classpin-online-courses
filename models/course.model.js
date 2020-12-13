@@ -11,7 +11,7 @@ const schema = new Schema({
   price: Number,
   discount: Number,
   list_student: Array,
-  list_teacher: Array,
+  teacher: mongoose.ObjectId,
   category: mongoose.ObjectId,  // id category
   date_created: { type: Date, default: Date.now },
 });
@@ -19,7 +19,7 @@ const schema = new Schema({
 const Course = mongoose.model('Course', schema, 'Course');
 
 module.exports = {
-  load() {
-    
-  }     
+  findById(courseId) {
+    return Course.findById(courseId).lean();
+  }
 }
