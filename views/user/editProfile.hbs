@@ -1,5 +1,6 @@
 {{#section 'css'}}
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+
 {{/section}}
 
 
@@ -32,16 +33,46 @@
 
     </div>
     <div class="card-footer text-muted">
+      <a class="btn btn-outline-info mr-2" href="/account/profile">
+        <i class="fa fa-backward" aria-hidden="true"></i>
+        Back to profile
+      </a>
       <a class="btn btn-info" href="javascript: $('#frmUpdate').submit()">Confirm</a>
     </div>
   </div>
 </div>
 
 {{#section 'js'}}
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
   <script>
       $('#frmUpdate').on('submit', function(e) {
-        
+        e.preventDefault();
+        const fullname = $('#fullname').val();
+        const email = $('#email').val();
+
+        if(fullname.length === 0 || email.length === 0)  {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'invalid data input',
+          })
+          return;
+        }
+
+        Swal.fire({
+          title: 'Do you want to save the changes?',
+          showDenyButton: true,
+          confirmButtonText: `Save`,
+          denyButtonText: `Don't save`,
+        }).then((result) => {
+          /* Read more about isConfirmed, isDenied below */
+          if (result.isConfirmed) {
+            $('#frmUpdate').off('submit').submit();
+          } else if (result.isDenied) {
+            Swal.fire('Changes are not saved', '', 'info')
+          }
+        })
       })
 
       $('#date_of_birth').datetimepicker({
