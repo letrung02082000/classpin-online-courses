@@ -8,7 +8,7 @@ const exphbs = require('express-handlebars');
 var session = require('express-session');
 var express_handlebars_sections = require('express-handlebars-sections');
 const authRoutes = require('./routes/auth.route');
-
+const courseRoutes = require('./routes/course.route');
 
 const key = require('./config/main.config');
 const {port, mongo_url, secret_session} = key;
@@ -54,6 +54,7 @@ db.connectMongoDB(mongo_url);
 
 
 app.use('/login', authRoutes);
+app.use('/course', courseRoutes);
 
 app.get('/', (req, res)=> {
   res.render('home');

@@ -1,0 +1,29 @@
+<div class="container pt-5">
+    {{#if empty}}
+    
+    {{else}}
+        {{#each courses}}
+            <div class="card" style="width: auto;">
+                <img class="card-img-top" src={{this.thumbnail}} alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">{{this.name}}</h5>
+                    <p class="card-text">{{this.decription}}</p>
+                    <div class="text-right">
+                        <a href="#" class="btn btn-primary">Detail</a>
+                        <a href="#" class="btn btn-secondary"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+            </div>
+        {{/each}}
+    {{/if}}
+    <nav>
+        <ul class="pagination">
+            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+            {{#each pageArr}}
+                <li class="page-item"><a class="page-link" href="/course?page={{this}}">{{this}}</a></li>
+            {{/each}}
+            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+        </ul>
+    </nav>
+
+</div>
