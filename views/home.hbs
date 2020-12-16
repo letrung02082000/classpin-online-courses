@@ -1,9 +1,21 @@
 
-
 <h1>Trang chu</h1>
+{{#if isAuth}}
+  <p>
+    hello, {{authUser.fullname}}
+  </p>
+  <form id="frmLogout" method="POST" action="/account/logout"></form>
+  <a class="btn btn-danger" href="javascript: $('#frmLogout').submit();">Logout</a>
+{{else}}
+  <a class="btn btn-primary" href="/account/login">Sign In</a>
+{{/if}}
+ 
+
 
 {{#section 'js'}}
     <script>
+      var x = '{{isAuth}}';
+      console.log(x);
       console.log("hello");
     </script>
 {{/section}}

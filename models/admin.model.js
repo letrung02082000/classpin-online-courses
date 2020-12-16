@@ -10,7 +10,7 @@ const schema = new Schema({
   email: String,
   phone: String,
   avatar: String,
-  date_created: {Date, default: Date.now()},
+  date_created: { type: Date, default: Date.now },
 });
 
 const Admin = mongoose.model('Admin', schema, 'Admin');

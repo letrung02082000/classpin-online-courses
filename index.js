@@ -8,21 +8,21 @@ const exphbs = require('express-handlebars');
 var session = require('express-session');
 var express_handlebars_sections = require('express-handlebars-sections');
 const authRoutes = require('./routes/auth.route');
-
-
+const courseRoutes = require('./routes/course.route');
+const localmdw = require('./middlewares/locals.middleware');
 const key = require('./config/main.config');
 const {port, mongo_url, secret_session} = key;
-
 const db = require('./db');
 const app = express();
 
 // express sessions
 app.set('trust proxy', 1) // trust first proxy
 app.use(session({
-  secret: 'keyboard cat',
+  secret: 'SECRET_KEY',
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: true }
+  cookie: { //secure: true 
+  }
 }))
 
 // static file
@@ -42,18 +42,22 @@ app.set('view engine', '.hbs');
 
 // cookies
 app.use(cookieParser(secret_session));
-
-
 // req.body
 app.use(bodyParser.json()) // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
-
-
 // connect mongoDB
 db.connectMongoDB(mongo_url);
 
 
-app.use('/login', authRoutes);
+app.use(localmdw.localsUser);
+
+app.use('/account', authRoutes);
+
+app.get('/logout', (req, res) => {
+
+})
+
+app.use('/course', courseRoutes);
 
 app.get('/', (req, res)=> {
   res.render('home');

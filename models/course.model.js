@@ -11,15 +11,19 @@ const schema = new Schema({
   price: Number,
   discount: Number,
   list_student: Array,
-  list_teacher: Array,
+  teacher: mongoose.ObjectId,
   category: mongoose.ObjectId,  // id category
-  date_created: {Date, default: Date.now()},
+  date_created: { type: Date, default: Date.now },
 });
 
 const Course = mongoose.model('Course', schema, 'Course');
 
 module.exports = {
-  load() {
-    
-  }     
+  findById(courseId) {
+    return Course.findById(courseId).lean();
+  },
+
+  async checkStudentInCourse(studentId, courseId) {
+    return Course.findOne({_id: courseId, list_student: {$all: [mongoose.Types.ObjectId(studentId)]}});
+  }
 }

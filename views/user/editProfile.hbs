@@ -1,0 +1,92 @@
+{{#section 'css'}}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+
+{{/section}}
+
+
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <h2 class="text-center">Update Profile</h2>
+    </div>
+    <div class="card-body">
+      <form id="frmUpdate" action="" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="fullname">Fullname</label>
+          <input type="text" name="fullname" id="fullname" class="form-control" placeholder="" aria-describedby="helpId" value="{{authUser.fullname}}">
+        </div>  
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" name="email" id="email" class="form-control" placeholder="" aria-describedby="helpId" value="{{authUser.email}}">        
+        </div>
+
+        <div class="form-group">
+          <label for="date_of_birth">Date of birth</label>
+          <input type="text" name="date_of_birth" id="date_of_birth" class="form-control" placeholder="" aria-describedby="helpId" value="{{authUser.date_of_birth}}">
+        </div>
+        <div class="form-group">
+          <label for="avatar">Avatar</label>
+          <input type="file" name="avatar" id="avatar" class="form-control-file" placeholder="" aria-describedby="helpId">        
+        </div>
+
+      </form>
+
+    </div>
+    <div class="card-footer text-muted">
+      <a class="btn btn-outline-info mr-2" href="/account/profile">
+        <i class="fa fa-backward" aria-hidden="true"></i>
+        Back to profile
+      </a>
+      <a class="btn btn-info" href="javascript: $('#frmUpdate').submit()">Confirm</a>
+    </div>
+  </div>
+</div>
+
+{{#section 'js'}}
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+  <script>
+      $('#frmUpdate').on('submit', function(e) {
+        e.preventDefault();
+        const fullname = $('#fullname').val();
+        const email = $('#email').val();
+
+        if(fullname.length === 0 || email.length === 0)  {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'invalid data input',
+          })
+          return;
+        }
+
+        Swal.fire({
+          title: 'Do you want to save the changes?',
+          showDenyButton: true,
+          confirmButtonText: `Save`,
+          denyButtonText: `Don't save`,
+        }).then((result) => {
+          /* Read more about isConfirmed, isDenied below */
+          if (result.isConfirmed) {
+            $('#frmUpdate').off('submit').submit();
+          } else if (result.isDenied) {
+            Swal.fire('Changes are not saved', '', 'info')
+          }
+        })
+      })
+
+      $('#date_of_birth').datetimepicker({
+        format: 'd/m/Y',
+        timepicker: false,
+        mask: true,
+      });
+
+      var status = '{{status}}';
+      if(status == "success") {
+        Swal.fire({
+          icon: 'success',
+          title: 'Create account successfully!'
+        })
+      } 
+    </script>
+{{/section}}

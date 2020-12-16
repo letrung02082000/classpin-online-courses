@@ -1,0 +1,160 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.7;
+  padding-top: 30px;
+}
+
+.dark-background{
+  background-color: #1e1e1c;
+}
+
+.heading-primary{
+  
+}
+
+.row{
+  padding: 40px 10%;
+}
+
+.heading-primary{
+  font-weight: 600;
+}
+
+.buy-card{
+  
+  padding: 0 !important;
+  min-height: 700px;
+  position: absolute;
+  right: 10%;
+  width: 350px;
+  background-color: #fff;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 2px;
+}
+
+.card-text{
+  padding: 20px;
+}
+
+.buy-card img{
+  width: 100%;
+  border: #fff solid 1px;
+}
+
+.cart{
+  text-align: center;
+}
+
+.button-add{
+  font-weight: 700;
+  padding: 12px !important;
+  width: 100%;
+}
+
+.card-text{
+  margin-top: 20px;
+}
+
+.card-price{
+  font-size: 40px;
+}
+
+.card-description{
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+  background-color: #FBFBF8;
+}
+
+.description{
+  padding: 20px;
+}
+
+.course-intro{
+  color: #fff;
+}
+
+.container-content{
+  padding: 0;
+  margin-left: 30px;
+}
+
+#btnWishlist{
+  border-color: #fff !important;
+  color: #fff !important;
+}
+
+#btnWishlist{
+  background-color: #1e1e1c !important;
+}
+
+.heading {
+  font-size: 25px;
+  margin-right: 25px;
+}
+
+.fa {
+  font-size: 25px;
+}
+
+.checked {
+  color: orange;
+}
+
+/* Three column layout */
+.side {
+  float: left;
+  width: 15%;
+  margin-top:10px;
+}
+
+.middle {
+  margin-top:10px;
+  float: left;
+  width: 70%;
+}
+
+/* Place text to the right */
+.right {
+  text-align: right;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* The bar container */
+.bar-container {
+  width: 100%;
+  background-color: #f1f1f1;
+  text-align: center;
+  color: white;
+}
+
+/* Individual bars */
+.bar-5 {width: 60%; height: 18px; background-color: #4CAF50;}
+.bar-4 {width: 30%; height: 18px; background-color: #2196F3;}
+.bar-3 {width: 10%; height: 18px; background-color: #00bcd4;}
+.bar-2 {width: 4%; height: 18px; background-color: #ff9800;}
+.bar-1 {width: 15%; height: 18px; background-color: #f44336;}
+
+/* Responsive layout - make the columns stack on top of each other instead of next to each other */
+@media (max-width: 400px) {
+  .side, .middle {
+    width: 100%;
+  }
+  .right {
+    display: none;
+  }
+}
+
+
