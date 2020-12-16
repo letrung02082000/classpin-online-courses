@@ -47,8 +47,6 @@ app.use(bodyParser.json()) // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 // connect mongoDB
 db.connectMongoDB(mongo_url);
-
-
 app.use(localmdw.localsUser);
 
 app.use('/account', authRoutes);
@@ -56,6 +54,8 @@ app.use('/account', authRoutes);
 app.get('/logout', (req, res) => {
 
 })
+
+app.use('/login', authRoutes);
 
 app.use('/course', courseRoutes);
 
