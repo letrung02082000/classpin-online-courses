@@ -60,6 +60,8 @@ app.use('/account', authRoutes);
 
 app.get('/logout', (req, res) => {});
 
+app.use('/login', authRoutes);
+
 app.use('/course', courseRoutes);
 
 app.use('/', homeRoutes);
