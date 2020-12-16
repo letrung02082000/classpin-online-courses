@@ -1,0 +1,64 @@
+{{#section 'css'}}
+  <link rel="stylesheet" href="/public/static/css/profile.css">
+  <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900&display=swap" rel="stylesheet">
+{{/section}}
+
+<div class="profile-section">
+  <div class="content">
+    <div class="profile-info">
+      <div class="text-center heading">
+        <h2 class="heading-secondary">
+          Profile
+        </h2>
+      </div>
+      <div class="profile-image">
+        <div class="avatar">
+          <img id="avatar" src='{{authUser.avatar}}' alt="avatar">
+        </div>
+        <div class="editProfile">
+          <a class="btn btn-primary" id="btnEdit" href="/account/editprofile">
+            <i class="fas fa-pencil-alt    "></i>
+          </a>
+        </div>
+      </div>
+      
+      <h4 id="fullname">
+          <span>{{authUser.fullname}}</span>
+        </h4>
+      <div class="text-infomation">
+        <p><strong>Email:</strong> {{authUser.email}}</p>
+        <p><strong>Date of birth:</strong> {{authUser.date_of_birth}}</p>
+        </h4>
+      </div>
+    </div>
+
+    <div class="progress">
+      <h3>
+        <i class="fa fa-list" aria-hidden="true"></i>
+        Purchased courses
+      </h3>
+    </div>
+    <div class="progress">
+      <h3>
+        <i class="fa fa-list" aria-hidden="true"></i>
+        WishList
+      </h3>
+    </div>
+  </div>
+</div>
+
+{{#section 'js'}}
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  <script>
+    const status = '{{status}}';
+    if(status === "updatesuccess") {
+      Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      title: 'Saved',
+      showConfirmButton: false,
+      timer: 1500
+      })
+    }
+  </script>
+{{/section}}

@@ -1,15 +1,14 @@
 const mongoose = require('mongoose');
-const {mongo_url} = require('../config/main.config');
 
 const Schema = mongoose.Schema;
 
 const schema = new Schema({
   _id: mongoose.ObjectId,
-  namelogin: {String , required},
-  fullname: {String, required},
-  password: {String, required},
+  namelogin: String,
+  fullname: String,
+  password: String,
   email: String,
-  phone: String,
+  date_of_birth: String,
   avatar: String,
   wishlist: Array, // ObjectId khoa hoc
 });
@@ -17,8 +16,22 @@ const schema = new Schema({
 const Student = mongoose.model('Student', schema, 'Student');
 
 module.exports = {
-  load() {
-  }     
+  insertOne(student) {
+    return Student.create(student);
+  },
 
+  findByNameLogin(username) {
+    return Student.findOne({namelogin: username});
+  },
+
+  findById(id) {
+    return Student.findById(id);
+  },
+
+  findOneAndUpdate(filter, update) {
+    return Student.findOneAndUpdate(filter, update, {
+      new: true,
+    })
+  }
   ///
 }
