@@ -1,21 +1,30 @@
+{{#section 'css'}}
+{{!--
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+  integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+  integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" /> --}}
 
-<h1>Trang chu</h1>
-{{#if isAuth}}
-  <p>
-    hello, {{authUser.fullname}}
-  </p>
-  <form id="frmLogout" method="POST" action="/account/logout"></form>
-  <a class="btn btn-danger" href="javascript: $('#frmLogout').submit();">Logout</a>
-{{else}}
-  <a class="btn btn-primary" href="/account/login">Sign In</a>
-{{/if}}
- 
-
+<link rel="stylesheet" type="text/css" href="/public/static/css/home.css">
+<link rel="stylesheet" href="/public/static/css/categoryCarousel.css">
+<link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900&display=swap" rel="stylesheet">
+{{/section}}
 
 {{#section 'js'}}
-    <script>
-      var x = '{{isAuth}}';
-      console.log(x);
-      console.log("hello");
-    </script>
+<script type="text/javascript" src="/public/static/js/home/categoryCarousel.js"></script>
 {{/section}}
+
+<main>
+  {{>homePartials/headerSlider}}
+  {{>homePartials/marketingCourses}}
+
+  <hr class="featurette-divider">
+
+  {{>homePartials/categoryCarousel}}
+
+  <hr class="featurette-divider">
+
+  {{>homePartials/allCategories}}
+
+  <hr class="featurette-divider">
+</main>
