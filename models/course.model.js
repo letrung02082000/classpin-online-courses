@@ -21,5 +21,9 @@ const Course = mongoose.model('Course', schema, 'Course');
 module.exports = {
   findById(courseId) {
     return Course.findById(courseId).lean();
+  },
+
+  async checkStudentInCourse(studentId, courseId) {
+    return Course.findOne({_id: courseId, list_student: {$all: [mongoose.Types.ObjectId(studentId)]}});
   }
 }
