@@ -1,0 +1,62 @@
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark d-flex">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">E-Course</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Categories
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#">Categories 1</a></li>
+                            <li><a class="dropdown-item" href="#">Categories 2</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+
+                            <li><a class="dropdown-item dropdown-toggle" href="#">IT</a>
+                                <ul class="submenu dropdown-menu">
+                                    <li><a class="dropdown-item" href="">Web development</a></li>
+                                    <li><a class="dropdown-item" href="">Mobile development</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <form class="d-flex justify-content-start ms-5 col-md-9">
+                        <input class="form-control me-2" type="search" placeholder="Search for anything"
+                            aria-label="Search" />
+                        <button class="btn btn-dark"><i class="fa fa-search" aria-hidden="true"></i></button>
+                    </form>
+                </ul>
+
+                {{#if isAuth}}
+                <p>
+                    Hello, {{authUser.fullname}}
+                </p>
+                <form id="frmLogout" method="POST" action="/account/logout"></form>
+                <a class="btn btn-danger" href="javascript: $('#frmLogout').submit();">Logout</a>
+                {{else}}
+                <ul class="navbar-nav justify-content-end">
+                    <li class="nav-item">
+                        <a class="btn btn-info me-3" href="/account/login">Log in</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active me-2" href="/account/signup">Sign up</a>
+                    </li>
+                </ul>
+                {{/if}}
+            </div>
+        </div>
+    </nav>
+</header>
