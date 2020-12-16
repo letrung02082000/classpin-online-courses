@@ -22,11 +22,16 @@ module.exports = {
         {
             pageArr.push(i);
         }
+        console.log(pageArr);
         res.render('course', {
             courses: toObject.multipleMongooseToObj(allCourses.docs),
             empty: (allCourses.length === 0),
-            current: allCourses.page,
-            pageArr: pageArr
+            pagingOption: {
+              page: allCourses.page,
+              pageArr: pageArr,
+              next: allCourses.nextPage,
+              pre: allCourses.pre
+            }
         });
     },
     async insertExample(req, res) {
