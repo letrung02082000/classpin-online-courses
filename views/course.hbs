@@ -3,7 +3,7 @@
     
     {{else}}
         {{#each courses}}
-            <div class="card" style="width: 30rem;">
+            <div class="card" style="width: 30rem ;">
                 <img class="card-img-top" src={{this.thumbnail}} alt="Card image cap">
                 <div class="card-body">
                     <h5 class="card-title">{{this.name}}</h5>
@@ -22,7 +22,7 @@
             {{#each pagingOption.pageArr}}
                 <li class="page-item"><a class="page-link" href="/course?page={{this}}">{{this}}</a></li>
             {{/each}}
-            <li class="page-item {{#if pagingOption.next}}{{else}}disabled{{/if}}"><a class="page-link" href="{{#if pagingOption.next}}{{pagingOption.next}}{{/if}}">Next</a></li>
+            <li class="page-item {{#if pagingOption.next}}{{else}}disabled{{/if}}"><a class="page-link" href="/course?page={{#if pagingOption.next}}{{pagingOption.next}}{{/if}}">Next</a></li>
         </ul>
     </nav>
 

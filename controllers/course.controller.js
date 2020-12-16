@@ -30,7 +30,7 @@ module.exports = {
               page: allCourses.page,
               pageArr: pageArr,
               next: allCourses.nextPage,
-              pre: allCourses.pre
+              pre: allCourses.prevPage
             }
         });
     },
