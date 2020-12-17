@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
 
 module.exports = {
   login: function(req, res) {
-    if(req.headers.referer) {
+    if(req.headers.referer && req.headers.referer !== "http://localhost:3000/account/login") {
       req.session.retURL = req.headers.referer;
     }
     console.log(req.session.retURL);
@@ -41,6 +41,7 @@ module.exports = {
       let url = req.session.retURL || '/';
 
       res.redirect(url);
+      return;
     } else {
       res.render('auth/login', {
         layout: false,
@@ -63,7 +64,8 @@ module.exports = {
     }
    
     await studentModel.insertOne(newStudent);
-    res.redirect('/account/login/?status=success');
+    var msg = encodeURIComponent('success');
+    res.redirect('/account/login/?status=' + msg);
   },
 
   isAvailable: async function(req, res) {
