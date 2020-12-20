@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const paginate = require('mongoose-paginate-v2');
 
 const Schema = mongoose.Schema;
 
@@ -10,10 +10,15 @@ const schema = new Schema({
   description: String,
 });
 
+schema.plugin(paginate);
+
 const Category = mongoose.model('Category', schema, 'Category');
 
 module.exports = {
-  load() {
-    
-  }     
+  async selectFromOneId(id) {
+    return await Category.findById(id);
+  },
+  async selectFromOneName(name) {
+    return await Category.find({ name: name });
+  }
 }
