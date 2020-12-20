@@ -10,7 +10,7 @@ module.exports = {
     }
     console.log(req.session.retURL);
     const status = req.query.status;
-    if(req.session.isAuth === true) {
+    if(req.user) {
       let url = req.session.retURL || '/';
       res.redirect(url);
       return;
@@ -79,8 +79,9 @@ module.exports = {
   },
 
   postLogout: function(req, res) {
-    req.session.isAuth = false;
-    req.session.user = null;
+    // req.session.isAuth = false;
+    // req.session.user = null;
+    req.logout();
     let url = req.headers.referer;
     res.redirect(url);
   },

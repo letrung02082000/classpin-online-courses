@@ -29,7 +29,7 @@ module.exports = {
   },
 
   findById(id) {
-    return Student.findById(id);
+    return Student.findById(id).lean();
   },
 
   findOneAndUpdate(filter, update) {

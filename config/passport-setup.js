@@ -1,6 +1,6 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20');
-const LocalStrategy = require('passport-local');
+const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcryptjs');
 const keys = require('./main.config');
 const studentModel = require('../models/student.model');
@@ -22,7 +22,8 @@ passport.use(
     clientSecret: keys.google.clientSecret,
   }, async (accessToken, refreshToken, profile, done) => {
     //passport callback function
-    //console.log(profile);
+    console.log(profile);
+    //console.log(email);
     // check user exist
     const user = await studentModel.findByGoogleID(profile.id);
     if(user) {
@@ -32,7 +33,8 @@ passport.use(
       const newStudent = {
         googleID: profile.id,
         fullname: profile.displayName,
-        avatar: profile.photos.value,
+        avatar: profile.photos[0].value,
+        email: profile.emails[0].value,
         wishlist: [],
       }
       const result = await studentModel.insertOne(newStudent);

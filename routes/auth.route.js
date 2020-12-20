@@ -9,14 +9,18 @@ var upload = multer({ dest: 'public/uploads/' })
 
 
 router.get('/login', controller.login);
-router.post('/login', controller.postLogin);
+router.post('/login', passport.authenticate('local', {successRedirect: '/', failureRedirect: '/account/login'}));
 
 //login with google
 router.get('/google/login', passport.authenticate('google', {
-  scope: ['profile']
+  //scope: ['profile', 'email']
+  scope: [
+    'https://www.googleapis.com/auth/userinfo.profile',
+    'https://www.googleapis.com/auth/userinfo.email'
+  ]
 }));
 
-router.get('/google/redirect', passport.authenticate('google'), controller.googleRedirect);
+router.get('/google/redirect', passport.authenticate('google', {successRedirect: '/', failureRedirect: '/account/login'}));
 
 router.post('/postSignUp', controller.postSignUp);
 router.get('/is-available', controller.isAvailable);
