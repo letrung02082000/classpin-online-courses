@@ -6,7 +6,9 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const exphbs = require('express-handlebars');
 var session = require('express-session');
+const passportSetup = require('./config/passport-setup');
 var express_handlebars_sections = require('express-handlebars-sections');
+const passport = require('passport');
 const authRoutes = require('./routes/auth.route');
 const courseRoutes = require('./routes/course.route');
 const homeRoutes = require('./routes/home.route');
@@ -28,6 +30,10 @@ app.use(
         },
     })
 );
+
+// initial passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 // static file
 app.use('/public', express.static('public'));

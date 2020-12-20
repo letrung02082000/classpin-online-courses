@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const schema = new Schema({
-  _id: mongoose.ObjectId,
   namelogin: String,
+  googleID: String,
   fullname: String,
   password: String,
   email: String,
@@ -22,6 +22,10 @@ module.exports = {
 
   findByNameLogin(username) {
     return Student.findOne({namelogin: username});
+  },
+
+  findByGoogleID(googleID) {
+    return Student.findOne({googleID: googleID});
   },
 
   findById(id) {

@@ -53,7 +53,7 @@ module.exports = {
 
   postSignUp: async function(req, res) {
     const newStudent = {
-      _id: mongoose.Types.ObjectId(),
+      //_id: mongoose.Types.ObjectId(),
       namelogin: req.body.namelogin,
       fullname: req.body.fullname,
       password: bcrypt.hashSync(req.body.password, 10),
@@ -113,6 +113,14 @@ module.exports = {
     req.session.authUser = newUser;
     var msg = encodeURIComponent('updatesuccess');
     res.redirect('/account/profile/?status=' + msg);
+  },
+
+  google: function(req, res) {
+  
+  },
+
+  googleRedirect: function(req, res) {
+    res.redirect('/');
   }
 }
 
