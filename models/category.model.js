@@ -18,7 +18,7 @@ module.exports = {
   async selectFromOneId(id) {
     return await Category.findById(id);
   },
-  async selectFromOneName(name) {
-    return await Category.find({ name: name });
+  async loadAll(name) {
+    return await Category.find().populate('sub_category');
   }
 }

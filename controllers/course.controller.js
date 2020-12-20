@@ -47,5 +47,28 @@ module.exports = {
     //const course = await courseModel.findById(req.params.id);
     var isvalid = await courseModel.checkStudentInCourse(req.session.authUser._id, req.params.id);
     console.log(isvalid);
+  },
+  async search(req, res) {
+    let query = req.query.q || '';
+    let sort = req.query.sort;
+    let category = req.query.category;
+    let page = +req.query.page || 1;
+    let perPage = 4; //16
+    console.log('Query: ' + req.query.q);
+    let searchCourses = await courseModel.loadLimitedCourses(perPage, page, { $text: { $search: query } });
+    let totalPage = searchCourses.totalPages;
+    let pageArr = paging(page, totalPage);
+    res.render('course', {
+      courses: toObject.multipleMongooseToObj(searchCourses.docs),
+      empty: (searchCourses.length === 0),
+      pagingOption: {
+        page: searchCourses.page,
+        pageArr: pageArr,
+        next: searchCourses.nextPage,
+        pre: searchCourses.prevPage
+      },
+      path: req.path,
+      query: `q=${req.query.q}`
+    });
   }
 }

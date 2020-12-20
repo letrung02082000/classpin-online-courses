@@ -19,12 +19,12 @@
     <nav>
         <ul class="pagination">
             <li class="page-item {{#if pagingOption.pre}}{{else}}disabled{{/if}}"><a class="page-link"
-                    href="{{path}}?page={{#if pagingOption.pre}}{{pagingOption.pre}}{{/if}}">Previous</a></li>
+                    href="{{path}}?{{query}}&page={{#if pagingOption.pre}}{{pagingOption.pre}}{{/if}}">Previous</a></li>
             {{#each pagingOption.pageArr}}
-            <li class="page-item"><a class="page-link" href="/course?page={{this}}">{{this}}</a></li>
+            <li class="page-item"><a class="page-link" href="{{path}}?{{../query}}&page={{this}}">{{this}}</a></li>
             {{/each}}
             <li class="page-item {{#if pagingOption.next}}{{else}}disabled{{/if}}"><a class="page-link"
-                    href="{{path}}?page={{#if pagingOption.next}}{{pagingOption.next}}{{/if}}">Next</a></li>
+                    href="{{path}}?{{query}}&page={{#if pagingOption.next}}{{pagingOption.next}}{{/if}}">Next</a></li>
         </ul>
     </nav>
 

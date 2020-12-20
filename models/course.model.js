@@ -15,7 +15,7 @@ const schema = new Schema({
   category: mongoose.ObjectId,  // id category
   date_created: { type: Date, default: Date.now },
 });
-
+schema.index({ '$**': 'text' });
 schema.plugin(mongoosePaginate);
 
 const Course = mongoose.model('Course', schema, 'Course');
@@ -24,10 +24,10 @@ module.exports = {
   async count() {
     return await Course.collection.countDocuments();
   },
-  async loadAllCourses() {
-    return await Course.find();
+  async loadCourses(query) {
+    return await Course.find(query);
   },
-  async loadLimitedCourses(perPage, page, query = {}) {
+  async loadLimitedCourses(perPage, page, query = {}, option = {}) {
     //return await Course.find().limit(perPage).skip((page - 1) * perPage);
     return await Course.paginate(query, { page: page, limit: perPage });
   },
