@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const exphbs = require('express-handlebars');
 var session = require('express-session');
+const connectFlash = require('connect-flash');
 const passportSetup = require('./config/passport-setup');
 var express_handlebars_sections = require('express-handlebars-sections');
 const passport = require('passport');
@@ -30,6 +31,7 @@ app.use(
         },
     })
 );
+app.use(connectFlash());
 
 // initial passport
 app.use(passport.initialize());

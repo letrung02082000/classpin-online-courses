@@ -18,37 +18,41 @@ module.exports = {
     res.render('auth/login', {
       layout: false,
       status: status,
+      msg: req.flash(),
     });
   },
 
-  postLogin: async function(req, res) { 
-    const username = req.body.namelogin;
-    const password = req.body.password;
-    const user = await studentModel.findByNameLogin(username);
-    if(!user) {
-      res.render('auth/login', {
-        layout: false,
-        msg: "User does not exist!",
-      });
-      return;
-    }
-    if(bcrypt.hashSync(password, user.password)) {
-      req.session.isAuth = true;
-      req.session.authUser = user;
+  postLogin: async function(req, res) {
+    let url = req.session.retURL || '/';
+    console.log(url);
+    res.redirect(url);
+    // const username = req.body.namelogin;
+    // const password = req.body.password;
+    // const user = await studentModel.findByNameLogin(username);
+    // if(!user) {
+    //   res.render('auth/login', {
+    //     layout: false,
+    //     msg: "User does not exist!",
+    //   });
+    //   return;
+    // }
+    // if(bcrypt.hashSync(password, user.password)) {
+    //   req.session.isAuth = true;
+    //   req.session.authUser = user;
 
-      console.log(req.session.isAuth);
+    //   console.log(req.session.isAuth);
       
-      let url = req.session.retURL || '/';
+    //   let url = req.session.retURL || '/';
 
-      res.redirect(url);
-      return;
-    } else {
-      res.render('auth/login', {
-        layout: false,
-        msg: "Wrong password !",
-      });
-      return;
-    }
+    //   res.redirect(url);
+    //   return;
+    // } else {
+    //   res.render('auth/login', {
+    //     layout: false,
+    //     msg: "Wrong password !",
+    //   });
+    //   return;
+    // }
   },
 
   postSignUp: async function(req, res) {

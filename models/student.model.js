@@ -5,6 +5,7 @@ const Schema = mongoose.Schema;
 const schema = new Schema({
   namelogin: String,
   googleID: String,
+  facebookID: String,
   fullname: String,
   password: String,
   email: String,
@@ -26,6 +27,10 @@ module.exports = {
 
   findByGoogleID(googleID) {
     return Student.findOne({googleID: googleID});
+  },
+
+  findByFacebookID(facebookID) {
+    return Student.findOne({facebookID: facebookID});
   },
 
   findById(id) {

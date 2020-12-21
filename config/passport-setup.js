@@ -1,6 +1,9 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20');
 const LocalStrategy = require('passport-local').Strategy;
+const FacebookStrategy = require('passport-facebook').Strategy;
+const TwitterStrategy = require('passport-twitter').Strategy;
+
 const bcrypt = require('bcryptjs');
 const keys = require('./main.config');
 const studentModel = require('../models/student.model');
@@ -60,3 +63,42 @@ passport.use(
   })
 );
 
+
+passport.use(
+  new FacebookStrategy({
+    clientID: keys.facebook.clientID,
+    clientSecret: keys.facebook.clientSecret,
+    callbackURL: '/account/facebook/redirect',
+    profileFields: ['id', 'displayName', 'photos', 'email'],
+  }, async (accessToken, refreshToken, profile, done) => {
+    //passport callback function
+    console.log(profile);
+    //console.log(email);
+    // check user exist
+    const user = await studentModel.findByFacebookID(profile.id);
+    if(user) {
+      console.log('user already exist');
+      done(null, user);
+    } else {
+      const newStudent = {
+        facebookID: profile.id,
+        fullname: profile.displayName,
+        avatar: profile.photos[0].value,
+        email: profile.emails[0].value,
+        wishlist: [],
+      }
+      const result = await studentModel.insertOne(newStudent);
+      done(null, result);
+    }
+  })
+);
+
+// passport.use(
+//   new TwitterStrategy({
+//     consumerKey:
+//     consumerSecret:
+//     callbackURL: '/account/twitter/redirect',
+//   }, async (accessToken, refreshToken, profile, done) => {
+//     console.log(profile);
+//   })
+// )

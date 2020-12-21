@@ -6,5 +6,13 @@ module.exports = {
   google : {
     clientID : process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
-  }
+  },
+  facebook: {
+    clientID : process.env.FACEBOOK_APP_ID,
+    clientSecret: process.env.FACEBOOK_APP_SECRET,
+  },
+  twitter: {
+    consumerKey: process.env.TWITTER_CONSUMER_KEY,
+    consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
+  },
 }
