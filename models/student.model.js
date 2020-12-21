@@ -4,8 +4,6 @@ const Schema = mongoose.Schema;
 
 const schema = new Schema({
   namelogin: String,
-  googleID: String,
-  facebookID: String,
   fullname: String,
   password: String,
   email: String,
@@ -19,6 +17,10 @@ const Student = mongoose.model('Student', schema, 'Student');
 module.exports = {
   insertOne(student) {
     return Student.create(student);
+  },
+
+  findByEmail(email) {
+    return Student.findOne({email : email});
   },
 
   findByNameLogin(username) {
@@ -41,6 +43,10 @@ module.exports = {
     return Student.findOneAndUpdate(filter, update, {
       new: true,
     })
+  },
+
+  findByNameloginOrEmail(value) {
+    return Student.findOne({$or: [{namelogin: value}, {email: value}]});
   }
   ///
 }

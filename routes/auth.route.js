@@ -29,7 +29,6 @@ router.get('/facebook/login', passport.authenticate('facebook', {
 
 router.get('/facebook/redirect', passport.authenticate('facebook', {successRedirect: '/', failureRedirect: '/account/login'}));
 
-
 router.post('/postSignUp', controller.postSignUp);
 router.get('/is-available', controller.isAvailable);
 router.post('/logout', controller.postLogout);

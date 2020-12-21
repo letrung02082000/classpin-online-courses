@@ -3,6 +3,8 @@ const GoogleStrategy = require('passport-google-oauth20');
 const LocalStrategy = require('passport-local').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
 const TwitterStrategy = require('passport-twitter').Strategy;
+const LinkedInStrategy  = require('passport-linkedin-oauth2').Strategy;
+
 
 const bcrypt = require('bcryptjs');
 const keys = require('./main.config');
@@ -28,13 +30,12 @@ passport.use(
     console.log(profile);
     //console.log(email);
     // check user exist
-    const user = await studentModel.findByGoogleID(profile.id);
+    const user = await studentModel.findByEmail(profile.emails[0].value);
     if(user) {
       console.log('user already exist');
       done(null, user);
     } else {
       const newStudent = {
-        googleID: profile.id,
         fullname: profile.displayName,
         avatar: profile.photos[0].value,
         email: profile.emails[0].value,
@@ -51,7 +52,8 @@ passport.use(
     usernameField: 'namelogin',
     passwordField: 'password'
   }, async (namelogin, password, done) => {
-    const user = await studentModel.findByNameLogin(namelogin);
+    const user = await studentModel.findByNameloginOrEmail(namelogin);
+    console.log(user);
     if(!user) {
       return done(null, false, {message: 'Incorrect username.'});
     }
@@ -75,13 +77,12 @@ passport.use(
     console.log(profile);
     //console.log(email);
     // check user exist
-    const user = await studentModel.findByFacebookID(profile.id);
+    const user = await studentModel.findByEmail(profile.emails[0].value);
     if(user) {
       console.log('user already exist');
       done(null, user);
     } else {
       const newStudent = {
-        facebookID: profile.id,
         fullname: profile.displayName,
         avatar: profile.photos[0].value,
         email: profile.emails[0].value,
@@ -92,6 +93,35 @@ passport.use(
     }
   })
 );
+
+
+// passport.use(
+//   new LinkedInStrategy({
+//     clientID: keys.linkedin.clientID,
+//     clientSecret: keys.linkedin.clientSecret,
+//     callbackURL: "/account/linkedin/redirect",
+//     scope: ['r_emailaddress', 'r_liteprofile'],
+//   }, async(accessToken, refreshToken, profile, done) => {
+//     //passport callback function
+//     console.log(profile);
+//     //console.log(email);
+//     // check user exist
+//     const user = await studentModel.findByEmail(profile.emails[0].value);
+//     if(user) {
+//       console.log('user already exist');
+//       done(null, user);
+//     } else {
+//       const newStudent = {
+//         fullname: profile.displayName,
+//         avatar: profile.photos[0].value,
+//         email: profile.emails[0].value,
+//         wishlist: [],
+//       }
+//       const result = await studentModel.insertOne(newStudent);
+//       done(null, result);
+//     }
+//   })
+// )
 
 // passport.use(
 //   new TwitterStrategy({

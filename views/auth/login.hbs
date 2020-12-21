@@ -138,6 +138,7 @@
         const confirm = $('#txtConfirm').val();
         const name = $('#txtFullname').val();
         const birthDate = $('#txtBirthDate').val();
+        const email = $('#txtEmail').val();
         if(username.length === 0 || name.length === 0 || birthDate.length === 0) {
           Swal.fire({
             icon: 'error',
@@ -156,18 +157,19 @@
           return
         }
 
-        $.getJSON(`/account/is-available/?user=${username}`, function(data) {
+        $.getJSON(`/account/is-available/?user=${username}&email=${email}`, function(data) {
           console.log(data)
-          if(data === true) {
-            $('#frmSignUp').off('submit').submit();
-          } else {
+          if(data.isvalid === false) {
             Swal.fire({
               icon: 'error',
               title: 'Oops...',
-              text: "User already exists",
+              text: data.msg,
             })
+          } else {
+            $('#frmSignUp').off('submit').submit();
           }
         })
+
 
       })
 

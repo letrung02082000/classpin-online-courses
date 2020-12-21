@@ -15,4 +15,8 @@ module.exports = {
     consumerKey: process.env.TWITTER_CONSUMER_KEY,
     consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
   },
+  linkedin: {
+    clientID: process.env.LINKEDIN_KEY,
+    clientSecret: process.env.LINKEDIN_SECRET,
+  }
 }

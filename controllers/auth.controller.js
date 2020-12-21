@@ -74,12 +74,18 @@ module.exports = {
 
   isAvailable: async function(req, res) {
     const username = req.query.user;
-    const user = await studentModel.findByNameLogin(username);
-    if(user === null) {
-      res.json(true);
-    } else {
-      res.json(false);
+    const email = req.query.email;
+    const checkuser = await studentModel.findByNameLogin(username);
+    if(checkuser) {
+      res.json({isvalid: false, msg: "Username already exist."});
+      return;
     }
+    const checkemail = await studentModel.findByEmail(email);
+    if(checkemail) {
+      res.json({isvalid: false, msg: "Email already exist."});
+      return;
+    }
+    res.json({isvalid: true});
   },
 
   postLogout: function(req, res) {
@@ -103,17 +109,16 @@ module.exports = {
 
   postEditProfile: async function(req, res) {
     console.log(req.body);
-    console.log(req.session.authUser.namelogin);
-    const filter = { namelogin: req.session.authUser.namelogin };
+    console.log(req.user);
+    const filter = { email: req.user.email};
     const update = {
       fullname: req.body.fullname,
-      email: req.body.email,
       date_of_birth: req.body.date_of_birth,
     }
     if(req.file) {
       update.avatar = '\\' + req.file.path;
     }
-    console.log(update);
+    //console.log(update);
     const newUser = await studentModel.findOneAndUpdate(filter, update);
     req.session.authUser = newUser;
     var msg = encodeURIComponent('updatesuccess');
