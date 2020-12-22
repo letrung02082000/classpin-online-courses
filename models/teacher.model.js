@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { findById } = require('./course.model');
 
 const Schema = mongoose.Schema;
 
@@ -16,7 +17,11 @@ const schema = new Schema({
 const Teacher = mongoose.model('Teacher', schema, 'Teacher');
 
 module.exports = {
-  load() {
-    
-  }     
+  loadAllTeachers() {
+    return await Teacher.find({});
+  },
+  
+  findById(teacherId){
+    return Teacher.findById(teacherId).lean();
+  }
 }

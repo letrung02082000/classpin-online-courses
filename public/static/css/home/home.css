@@ -1,3 +1,4 @@
+/* NAV BAR TOGGLE */
 @media (min-width: 500px) {
     .dropdown-menu .dropdown-toggle:after {
         border-top: 0.3em solid transparent;
@@ -36,13 +37,14 @@
     }
 }
 
+/* GLOBAL CSS */
+
 body {
     padding-bottom: 3rem;
     color: #5a5a5a;
 }
 
-/* CUSTOMIZE THE CAROUSEL
-  -------------------------------------------------- */
+/* CUSTOMIZE THE CAROUSEL */
 
 /* Carousel base class */
 .carousel {

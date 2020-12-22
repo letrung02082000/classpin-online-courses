@@ -27,15 +27,18 @@
 
 <main>
   {{>homePartials/headerSlider}}
-  {{>homePartials/marketingCourses}}
+  <div class="container-fluid">
+    {{>homePartials/marketingCourses}}
 
-  <hr class="featurette-divider">
+    <hr class="featurette-divider">
 
-  {{>homePartials/categoryCarousel}}
+    <h2>New courses</h2>
+    {{>homePartials/categoryCarousel}}
 
-  <hr class="featurette-divider">
+    <hr class="featurette-divider">
 
-  {{>homePartials/allCategories}}
+    {{>homePartials/allCategories}}
 
-  <hr class="featurette-divider">
+    <hr class="featurette-divider">
+  </div>
 </main>
