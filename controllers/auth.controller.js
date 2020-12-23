@@ -18,7 +18,7 @@ module.exports = {
             return;
         }
         res.render('auth/login', {
-            // layout: true,
+            layout: false,
             status: status,
         });
     },
@@ -29,13 +29,13 @@ module.exports = {
         const user = await studentModel.findByNameLogin(username);
         if (!user) {
             res.render('auth/login', {
-                // layout: true,
+                layout: true,
                 msg: 'User does not exist!',
             });
             return;
         }
         if (bcrypt.hashSync(password, user.password)) {
-            req.session.isAuth = true;
+            req.session.isAuth = false;
             req.session.authUser = user;
 
             console.log(req.session.isAuth);
@@ -46,7 +46,7 @@ module.exports = {
             return;
         } else {
             res.render('auth/login', {
-                // layout: true,
+                layout: false,
                 msg: 'Wrong password !',
             });
             return;

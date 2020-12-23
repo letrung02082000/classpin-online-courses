@@ -24,7 +24,7 @@
 .carousel-container .card-container {
     width: 290px;
     flex-shrink: 0;
-    height: 250px;
+    height: 350px;
     padding-right: 15px;
     box-sizing: border-box;
 }
@@ -69,6 +69,7 @@
     justify-content: center;
     align-items: center;
     font-size: 30px;
+    height: 150px;
 }
 .card .info {
     flex-basis: 40px;
@@ -77,4 +78,12 @@
     flex-grow: 0;
     padding: 10px;
     box-sizing: border-box;
+}
+
+.card-button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 10px;
+    flex: 0;
 }

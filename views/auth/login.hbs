@@ -1,187 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script
-      src="https://kit.fontawesome.com/64d58efce2.js"
-      crossorigin="anonymous"
-    ></script>
-    <link rel="stylesheet" href="/public/static/css/loginsignup.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
-    <title>Sign in</title>
-  </head>
-  <body>
-    <div class="container">
-      <div class="forms-container">
-        <div class="signin-signup">
-          <form action="" class="sign-in-form" method="POST" id="frmSignIn">
-            <h2 class="title">Sign in</h2>
-            <div class="input-field">
-              <i class="fas fa-user"></i>
-              <input type="text" placeholder="Username" name="namelogin"/>
-            </div>
-            <div class="input-field">
-              <i class="fas fa-lock"></i>
-              <input type="password" placeholder="Password" name="password"/>
-            </div>
-            {{#if msg}}
-              <p class="text-danger" style="color: red;">{{msg}}</p>
-            {{/if}}
-            <input type="submit" value="Login" class="btn solid" />
-            <p class="social-text">Or Sign in with social platforms</p>
-            <div class="social-media">
-              <a href="#" class="social-icon">
-                <i class="fab fa-facebook-f"></i>
-              </a>
-              <a href="#" class="social-icon">
-                <i class="fab fa-twitter"></i>
-              </a>
-              <a href="#" class="social-icon">
-                <i class="fab fa-google"></i>
-              </a>
-              <a href="#" class="social-icon">
-                <i class="fab fa-linkedin-in"></i>
-              </a>
-            </div>
-          </form>
-          <form action="/account/postSignUp" class="sign-up-form" method="POST" id="frmSignUp">
-            <h2 class="title">Sign up</h2>
-            <div class="input-field">
-              <i class="fas fa-user"></i>
-              <input id="txtUsername" type="text" placeholder="Username" name="namelogin"/>
-            </div>
-            <div class="input-field">
-              <i class="fas fa-signature"></i>
-              <input id="txtFullname" type="text" placeholder="Full name" name="fullname"/>
-            </div>
-            <div class="input-field">
-              <i class="fas fa-calendar"></i>
-              <input id="txtBirthDate" type="text" placeholder="Date of birth" name="date_of_birth"/>
-            </div>
-            <div class="input-field">
-              <i class="fas fa-envelope"></i>
-              <input id="txtEmail" type="email" placeholder="Email" name="email"/>
-            </div>
-            <div class="input-field">
-              <i class="fas fa-lock"></i>
-              <input id="txtPassword" type="password" placeholder="Password" name="password" maxlength="30" minlength="8"/>
-            </div>
-            <div class="input-field">
-              <i class="fas fa-lock"></i>
-              <input id="txtConfirm" type="password" placeholder="Retype Password" maxlength="30" minlength="8"/>
-            </div>
-            
-            <input type="submit" class="btn" value="Sign up" />
-            {{!-- <p class="social-text">Or Sign up with social platforms</p>
-            <div class="social-media">
-              <a href="#" class="social-icon">
-                <i class="fab fa-facebook-f"></i>
-              </a>
-              <a href="#" class="social-icon">
-                <i class="fab fa-twitter"></i>
-              </a>
-              <a href="#" class="social-icon">
-                <i class="fab fa-google"></i>
-              </a>
-              <a href="#" class="social-icon">
-                <i class="fab fa-linkedin-in"></i>
-              </a>
-            </div> --}}
-          </form>
-        </div>
-      </div>
 
-      <div class="panels-container">
-        <div class="panel left-panel">
-          <div class="content">
-            <h3>New here ?</h3>
-            <p>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Debitis,
-              ex ratione. Aliquid!
-            </p>
-            <button class="btn transparent" id="sign-up-btn">
-              Sign up
-            </button>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="/public/static/css/loginsignup.css" />
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+  <title>Sign in</title>
+</head>
+
+<body>
+  <div>
+    <a class="homebtn" href="/">Back to home</a>
+  </div>
+  <div class="container">
+    <div class="forms-container">
+      <div class="signin-signup">
+        <form action="" class="sign-in-form" method="POST" id="frmSignIn">
+          <h2 class="title">Sign in</h2>
+          <div class="input-field">
+            <i class="fas fa-user"></i>
+            <input type="text" placeholder="Username" name="namelogin" />
           </div>
-          <img src="/public/static/images/log.svg" class="image" alt="img-login" />
-        </div>
-        <div class="panel right-panel">
-          <div class="content">
-            <h3>One of us ?</h3>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum
-              laboriosam ad deleniti.
-            </p>
-            <button class="btn transparent" id="sign-in-btn">
-              Sign in
-            </button>
+          <div class="input-field">
+            <i class="fas fa-lock"></i>
+            <input type="password" placeholder="Password" name="password" />
           </div>
-          <img src="/public/static/images/register.svg" class="image" alt="img-register" />
-        </div>
+          {{#if msg}}
+          <p class="text-danger" style="color: red;">{{msg}}</p>
+          {{/if}}
+          <input type="submit" value="Login" class="btn solid" />
+          <p class="social-text">Or Sign in with social platforms</p>
+          <div class="social-media">
+            <a href="#" class="social-icon">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="#" class="social-icon">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="#" class="social-icon">
+              <i class="fab fa-google"></i>
+            </a>
+            <a href="#" class="social-icon">
+              <i class="fab fa-linkedin-in"></i>
+            </a>
+          </div>
+
+        </form>
+        <form action="/account/postSignUp" class="sign-up-form" method="POST" id="frmSignUp">
+          <h2 class="title">Sign up</h2>
+          <div class="input-field">
+            <i class="fas fa-user"></i>
+            <input id="txtUsername" type="text" placeholder="Username" name="namelogin" />
+          </div>
+          <div class="input-field">
+            <i class="fas fa-signature"></i>
+            <input id="txtFullname" type="text" placeholder="Full name" name="fullname" />
+          </div>
+          <div class="input-field">
+            <i class="fas fa-calendar"></i>
+            <input id="txtBirthDate" type="text" placeholder="Date of birth" name="date_of_birth" />
+          </div>
+          <div class="input-field">
+            <i class="fas fa-envelope"></i>
+            <input id="txtEmail" type="email" placeholder="Email" name="email" />
+          </div>
+          <div class="input-field">
+            <i class="fas fa-lock"></i>
+            <input id="txtPassword" type="password" placeholder="Password" name="password" maxlength="30"
+              minlength="8" />
+          </div>
+          <div class="input-field">
+            <i class="fas fa-lock"></i>
+            <input id="txtConfirm" type="password" placeholder="Retype Password" maxlength="30" minlength="8" />
+          </div>
+
+          <input type="submit" class="btn" value="Sign up" />
+          {{!-- <p class="social-text">Or Sign up with social platforms</p>
+          <div class="social-media">
+            <a href="#" class="social-icon">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="#" class="social-icon">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="#" class="social-icon">
+              <i class="fab fa-google"></i>
+            </a>
+            <a href="#" class="social-icon">
+              <i class="fab fa-linkedin-in"></i>
+            </a>
+          </div> --}}
+        </form>
       </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    <script src="/public/static/js/app.js"></script>
-    <script>
-      $('#frmSignUp').on('submit', function(e) {
-        e.preventDefault();
-        const username = $('#txtUsername').val();
-        const password = $('#txtPassword').val();
-        const confirm = $('#txtConfirm').val();
-        const name = $('#txtFullname').val();
-        const birthDate = $('#txtBirthDate').val();
-        if(username.length === 0 || name.length === 0 || birthDate.length === 0) {
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'invalid data input',
-          })
-          return
-        }
+    <div class="panels-container">
+      <div class="panel left-panel">
+        <div class="content">
+          <h3>New here ?</h3>
+          <p>
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Debitis,
+            ex ratione. Aliquid!
+          </p>
+          <button class="btn transparent" id="sign-up-btn">
+            Sign up
+          </button>
+        </div>
+        <img src="/public/static/images/log.svg" class="image" alt="img-login" />
+      </div>
+      <div class="panel right-panel">
+        <div class="content">
+          <h3>One of us ?</h3>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum
+            laboriosam ad deleniti.
+          </p>
+          <button class="btn transparent" id="sign-in-btn">
+            Sign in
+          </button>
+        </div>
+        <img src="/public/static/images/register.svg" class="image" alt="img-register" />
+      </div>
+    </div>
+  </div>
 
-        if(password !== confirm) {
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: "Password did'nt match",
-          })
-          return
-        }
-
-        $.getJSON(`/account/is-available/?user=${username}`, function(data) {
-          console.log(data)
-          if(data === true) {
-            $('#frmSignUp').off('submit').submit();
-          } else {
-            Swal.fire({
-              icon: 'error',
-              title: 'Oops...',
-              text: "User already exists",
-            })
-          }
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  <script src="/public/static/js/app.js"></script>
+  <script>
+    $('#frmSignUp').on('submit', function (e) {
+      e.preventDefault();
+      const username = $('#txtUsername').val();
+      const password = $('#txtPassword').val();
+      const confirm = $('#txtConfirm').val();
+      const name = $('#txtFullname').val();
+      const birthDate = $('#txtBirthDate').val();
+      if (username.length === 0 || name.length === 0 || birthDate.length === 0) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'invalid data input',
         })
+        return
+      }
 
+      if (password !== confirm) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: "Password did'nt match",
+        })
+        return
+      }
+
+      $.getJSON(`/account/is-available/?user=${username}`, function (data) {
+        console.log(data)
+        if (data === true) {
+          $('#frmSignUp').off('submit').submit();
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: "User already exists",
+          })
+        }
       })
 
-      $('#txtBirthDate').datetimepicker({
-        format: 'd/m/Y',
-        timepicker: false,
-        mask: true,
-      });
+    })
 
-      var status = '{{status}}';
-      if(status == "success") {
-        Swal.fire({
-          icon: 'success',
-          title: 'Create account successfully!'
-        })
-      } 
-    </script>
-  </body>
+    $('#txtBirthDate').datetimepicker({
+      format: 'd/m/Y',
+      timepicker: false,
+      mask: true,
+    });
+
+    var status = '{{status}}';
+    if (status == "success") {
+      Swal.fire({
+        icon: 'success',
+        title: 'Create account successfully!'
+      })
+    } 
+  </script>
+</body>
+
 </html>

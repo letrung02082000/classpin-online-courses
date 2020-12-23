@@ -1,11 +1,26 @@
 const { LoadTenNewestCourses } = require('../models/course.model');
-const { multipleMongooseToObj } = require('../utils/toobject');
+const { multipleMongooseToObj, mongooseToObj } = require('../utils/toobject');
+const { Mongoose } = require('mongoose');
+const { insertExample, loadAllTeachers } = require('../models/teacher.model');
+const categoryModel = require('../models/teacher.model');
+const { loadAllCategories } = require('../models/category.model');
 
 module.exports = {
     home: async function (req, res) {
-        const tenNewestCourses = await LoadTenNewestCourses();
+        //await insertExample();
+        var allCategories = await loadAllCategories();
+
+        allCategories = multipleMongooseToObj(allCategories);
+
+        var tenNewestCourses = await LoadTenNewestCourses();
+
+        tenNewestCourses = multipleMongooseToObj(tenNewestCourses);
+
+        //console.log(tenNewestCourses);
+
         res.render('home', {
-            tenNewestCourses: multipleMongooseToObj(tenNewestCourses),
+            tenNewestCourses: tenNewestCourses,
+            allCategories,
         });
     },
 };

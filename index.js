@@ -10,6 +10,7 @@ var express_handlebars_sections = require('express-handlebars-sections');
 const authRoutes = require('./routes/auth.route');
 const courseRoutes = require('./routes/course.route');
 const homeRoutes = require('./routes/home.route');
+const cartRoutes = require('./routes/cart.route');
 const localmdw = require('./middlewares/locals.middleware');
 const key = require('./config/main.config');
 const { port, mongo_url, secret_session } = key;
@@ -63,6 +64,8 @@ app.get('/logout', (req, res) => {});
 app.use('/login', authRoutes);
 
 app.use('/course', courseRoutes);
+
+app.use('/cart', cartRoutes);
 
 app.use('/', homeRoutes);
 

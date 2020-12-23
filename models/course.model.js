@@ -11,8 +11,8 @@ const schema = new Schema({
     price: Number,
     discount: Number,
     list_student: Array,
-    teacher: mongoose.ObjectId,
-    category: mongoose.ObjectId, // id category
+    teacher: { type: mongoose.Schema.Types.ObjectId, ref: 'Teacher' },
+    category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' }, // id category
     date_created: { type: Date, default: Date.now },
 });
 
@@ -24,8 +24,9 @@ module.exports = {
     async count() {
         return await Course.collection.countDocuments();
     },
+
     async loadAllCourses() {
-        return await Course.find();
+        return await Course.find({});
     },
     async loadLimitedCourses(perPage, page) {
         //return await Course.find().limit(perPage).skip((page - 1) * perPage);
@@ -55,7 +56,7 @@ module.exports = {
         Course.collection.insertMany(arr);
     },
     findById(courseId) {
-        return Course.findById(courseId).lean();
+        return Course.findOne({ _id: courseId });
     },
 
     async checkStudentInCourse(studentId, courseId) {
@@ -66,6 +67,10 @@ module.exports = {
     },
 
     async LoadTenNewestCourses() {
-        return await Course.find({}).sort({ date_created: 1 }).limit(10);
+        return await Course.find({})
+            .populate('teacher', 'fullname')
+            .populate('category', 'name')
+            .sort({ date_created: 1 })
+            .limit(10);
     },
 };

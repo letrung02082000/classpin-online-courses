@@ -35,19 +35,30 @@
 
 
             </div>
-            {{#if isAuth}}
-            <p>
-                Hello, {{authUser.fullname}}
-            </p>
-            <form id="frmLogout" method="POST" action="/account/logout"></form>
-            <a class="btn btn-danger" href="javascript: $('#frmLogout').submit();">Logout</a>
-            {{else}}
             <ul class="navbar-nav justify-content-end">
+                {{#if isAuth}}
+                <li class="nav-item dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{authUser.fullname}}
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="/account/profile">Profile</a>
+                        <form class="dropdown-item" id="frmLogout" method="POST" action="/account/logout">
+                            <a class="btn btn-danger" href="javascript: $('#frmLogout').submit();">Logout</a>
+                        </form>
+                    </div>
+                </li>
+
+                {{else}}
+                <li class="nav-item mr-3">
+                    <a class="nav-link" href="/cart"><i class="fas fa-shopping-cart"></i></a>
+                </li>
                 <li class="nav-item">
                     <a class="btn btn-info me-3" href="/account/login">Log in | Sign up</a>
                 </li>
+                {{/if}}
             </ul>
-            {{/if}}
         </div>
     </nav>
 </header>
