@@ -46,8 +46,27 @@ module.exports = {
   postRating: async function (req, res) {
     console.log(req.body);
     //const course = await courseModel.findById(req.params.id);
-    var isvalid = await courseModel.checkStudentInCourse(req.session.authUser._id, req.params.id);
+    const idCourse = req.params.id;
+    // check student in course
+    var isvalid = await courseModel.checkStudentInCourse(req.user._id, idCourse);
     console.log(isvalid);
+
+    /// testing
+    isvalid = true; 
+
+
+    if(!isvalid) {
+      throw Error("No permission");
+    } else {
+      const newRating = {
+        studentId: req.user._id,
+        description: req.body.description,
+        rating: +req.body.rating,
+      }
+      const result = await ratingModel.insertOne(newRating);
+      console.log(result);
+      res.redirect('/course/' + idCourse);
+    }
   },
   async search(req, res) {
     let query = req.query.q || '';

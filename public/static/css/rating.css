@@ -81,9 +81,9 @@ input#rate-5:checked ~ label{
 #rate-5:checked ~ form header:before{
   content: "I just love it 😍";
 }
-.container form{
+/* .container form{
   display: none;
-}
+} */
 input:checked ~ form{
   display: block;
 }
@@ -135,4 +135,8 @@ form .btn button{
 }
 form .btn button:hover{
   background: #1b1b1b;
+}
+
+.items{
+  margin-bottom: 20px;
 }
