@@ -7,7 +7,7 @@ const {email} = require('../config/main.config');
 
 module.exports = {
   login: function(req, res) {
-    if(req.headers.referer && req.headers.referer !== "http://localhost:3000/account/login") {
+    if(req.headers.referer) {
       req.session.retURL = req.headers.referer;
     }
     console.log(req.session.retURL);
@@ -45,6 +45,7 @@ module.exports = {
     //   console.log(req.session.isAuth);
       
     //   let url = req.session.retURL || '/';
+
 
     //   res.redirect(url);
     //   return;
@@ -99,8 +100,7 @@ module.exports = {
     // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
 
     await studentModel.insertOne(newStudent);
-    var msg = encodeURIComponent('success');
-    res.redirect('/account/login/?status=' + msg);
+    res.redirect('/account/login/?status=success');
   },
 
   isAvailable: async function(req, res) {

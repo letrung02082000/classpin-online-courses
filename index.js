@@ -13,6 +13,8 @@ const passport = require('passport');
 const authRoutes = require('./routes/auth.route');
 const courseRoutes = require('./routes/course.route');
 const homeRoutes = require('./routes/home.route');
+const teacherRoutes = require('./routes/teacher.route');
+const categoryRoutes = require('./routes/category.route');
 const localmdw = require('./middlewares/locals.middleware');
 const key = require('./config/main.config');
 const { port, mongo_url, secret_session } = key;
@@ -67,6 +69,10 @@ app.use(localmdw.localsUser);
 app.use('/account', authRoutes);
 
 app.use('/course', courseRoutes);
+
+app.use('/teacher', teacherRoutes);
+
+app.use('/category', categoryRoutes);
 
 app.use('/', homeRoutes);
 
