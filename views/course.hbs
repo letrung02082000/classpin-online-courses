@@ -4,10 +4,10 @@
     {{else}}
     {{#each courses}}
     <div class="card" style="width: 30rem ;">
-        <img class="card-img-top" src={{this.thumbnail}} alt="Card image cap">
+        <img class="card-img-top" src='\\{{this.thumbnail}}' alt="Card image cap">
         <div class="card-body">
             <h5 class="card-title">{{this.name}}</h5>
-            <p class="card-text">{{this.decription}}</p>
+            <p class="card-text">{{{this.short_description}}}</p>
             <div class="text-right">
                 <a href="#" class="btn btn-primary">Detail</a>
                 <a href="#" class="btn btn-secondary"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
@@ -15,7 +15,6 @@
         </div>
     </div>
     {{/each}}
-    {{/if}}
     <nav>
         <ul class="pagination">
             <li class="page-item {{#if pagingOption.pre}}{{else}}disabled{{/if}}"><a class="page-link"
@@ -27,5 +26,7 @@
                     href="{{path}}?{{query}}&page={{#if pagingOption.next}}{{pagingOption.next}}{{/if}}">Next</a></li>
         </ul>
     </nav>
+    {{/if}}
+
 
 </div>

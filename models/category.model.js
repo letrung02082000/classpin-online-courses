@@ -18,7 +18,10 @@ module.exports = {
   async selectFromOneId(id) {
     return await Category.findById(id);
   },
-  async loadAll(name) {
-    return await Category.find().populate('sub_category');
+  async loadAll() {
+    return await Category.find().lean().populate('sub_category');
+  },
+  async loadTopCategory() {
+    return await Category.find({ sub_category: { $gt: [] } }).lean().populate('sub_category');
   }
 }

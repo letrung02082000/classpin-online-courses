@@ -1,5 +1,5 @@
 const express = require('express');
-//const controller = require('../controllers/course.controller');
+const controller = require('../controllers/category.controller');
 
 
 

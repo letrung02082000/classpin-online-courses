@@ -14,7 +14,8 @@ module.exports = {
     let totalPage = allCourses.totalPages;
     let pageArr = paging(page, totalPage);
     res.render('course', {
-      courses: toObject.multipleMongooseToObj(allCourses.docs),
+      //courses: toObject.multipleMongooseToObj(allCourses.docs),
+      courses: allCourses.docs,
       empty: (allCourses.length === 0),
       pagingOption: {
         page: allCourses.page,

@@ -17,8 +17,8 @@ module.exports = {
         let matchCourses = await courseModel.loadLimitedCourses(perPage, page, { category: matchedCategory._id });
         let pageArr = paging(page, matchCourses.totalPages);
         res.render('course', {
-            course: toObject.multipleMongooseToObj(matchCourses),
-            empty: course.length === 0,
+            courses: matchCourses.docs,
+            empty: matchCourses.docs.length === 0,
             pagingOption: {
                 page: page,
                 pageArr: pageArr,
@@ -28,7 +28,11 @@ module.exports = {
             path: req.path
         })
     },
-    allCategory(req, res) {
-
+    async allCategory(req, res) {
+        let categories = await categoryModel.loadTopCategory();
+        console.log(categories);
+        res.render('category/index', {
+            categories: categories
+        });
     }
 }

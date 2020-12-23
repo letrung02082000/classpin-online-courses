@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate-v2');
-
 const Schema = mongoose.Schema;
 
 const schema = new Schema({
   _id: mongoose.ObjectId,
   name: String,
+  short_description: String,
   description: String,
   thumbnail: String,
   price: Number,
@@ -29,7 +29,7 @@ module.exports = {
   },
   async loadLimitedCourses(perPage, page, query = {}, option = {}) {
     //return await Course.find().limit(perPage).skip((page - 1) * perPage);
-    return await Course.paginate(query, { page: page, limit: perPage });
+    return await Course.paginate(query, { page: page, limit: perPage, lean: true });
   },
   async insertExample() {
     let arr = [{
@@ -56,5 +56,8 @@ module.exports = {
 
   async checkStudentInCourse(studentId, courseId) {
     return Course.findOne({ _id: courseId, list_student: { $all: [mongoose.Types.ObjectId(studentId)] } });
+  },
+  async addCourse(course) {
+    return Course.create(course);
   }
 }
