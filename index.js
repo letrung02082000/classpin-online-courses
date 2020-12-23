@@ -6,7 +6,10 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const exphbs = require('express-handlebars');
 var session = require('express-session');
+const connectFlash = require('connect-flash');
+const passportSetup = require('./config/passport-setup');
 var express_handlebars_sections = require('express-handlebars-sections');
+const passport = require('passport');
 const authRoutes = require('./routes/auth.route');
 const courseRoutes = require('./routes/course.route');
 const homeRoutes = require('./routes/home.route');
@@ -28,6 +31,11 @@ app.use(
         },
     })
 );
+app.use(connectFlash());
+
+// initial passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 // static file
 app.use('/public', express.static('public'));
@@ -57,10 +65,6 @@ db.connectMongoDB(mongo_url);
 app.use(localmdw.localsUser);
 
 app.use('/account', authRoutes);
-
-app.get('/logout', (req, res) => {});
-
-app.use('/login', authRoutes);
 
 app.use('/course', courseRoutes);
 

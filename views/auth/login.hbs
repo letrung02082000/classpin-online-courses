@@ -26,18 +26,20 @@
               <input type="password" placeholder="Password" name="password"/>
             </div>
             {{#if msg}}
-              <p class="text-danger" style="color: red;">{{msg}}</p>
+              {{#each msg}}
+                <p class="text-danger" style="color: red;">{{this}}</p>
+              {{/each}}
             {{/if}}
             <input type="submit" value="Login" class="btn solid" />
             <p class="social-text">Or Sign in with social platforms</p>
             <div class="social-media">
-              <a href="#" class="social-icon">
+              <a href="/account/facebook/login" class="social-icon">
                 <i class="fab fa-facebook-f"></i>
               </a>
               <a href="#" class="social-icon">
                 <i class="fab fa-twitter"></i>
               </a>
-              <a href="#" class="social-icon">
+              <a href="/account/google/login" class="social-icon">
                 <i class="fab fa-google"></i>
               </a>
               <a href="#" class="social-icon">
@@ -136,6 +138,7 @@
         const confirm = $('#txtConfirm').val();
         const name = $('#txtFullname').val();
         const birthDate = $('#txtBirthDate').val();
+        const email = $('#txtEmail').val();
         if(username.length === 0 || name.length === 0 || birthDate.length === 0) {
           Swal.fire({
             icon: 'error',
@@ -154,18 +157,19 @@
           return
         }
 
-        $.getJSON(`/account/is-available/?user=${username}`, function(data) {
+        $.getJSON(`/account/is-available/?user=${username}&email=${email}`, function(data) {
           console.log(data)
-          if(data === true) {
-            $('#frmSignUp').off('submit').submit();
-          } else {
+          if(data.isvalid === false) {
             Swal.fire({
               icon: 'error',
               title: 'Oops...',
-              text: "User already exists",
+              text: data.msg,
             })
+          } else {
+            $('#frmSignUp').off('submit').submit();
           }
         })
+
 
       })
 
