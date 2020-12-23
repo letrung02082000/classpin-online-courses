@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const studentModel = require('../models/student.model');
 const bcrypt = require('bcryptjs');
 const nodemailer = require("nodemailer");
+const {email} = require('../config/main.config');
 
 
 module.exports = {
@@ -69,12 +70,12 @@ module.exports = {
     }
     // create reusable transporter object using the default SMTP transport
     let transporter = nodemailer.createTransport({
-      host: "smtp.mailtrap.io",
+      host: "smtp.gmail.com",
       port: 587,
       secure: false, // true for 465, false for other ports
       auth: {
-        user: '1620e7209b65fc', // generated ethereal user
-        pass: 'd69afa8298f34b', // generated ethereal password
+        user: email.account, // generated ethereal user
+        pass: email.password, // generated ethereal password
       },
       tls: {
         rejectUnauthorized: false,
@@ -83,10 +84,10 @@ module.exports = {
 
     // send mail with defined transport object
     let info = await transporter.sendMail({
-      from: '"Fred Foo 👻" <foo@example.com>', // sender address
+      from: '"OnlineCourse" <foo@example.com>', // sender address
       to: newStudent.email, // list of receivers
-      subject: "Hello ✔", // Subject line
-      text: "Hello world?", // plain text body
+      subject: "Hello, welcome to OnlineCourse", // Subject line
+      text: "", // plain text body
       html: "<b>Hello world?</b>", // html body
     });
 

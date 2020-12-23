@@ -18,5 +18,9 @@ module.exports = {
   linkedin: {
     clientID: process.env.LINKEDIN_KEY,
     clientSecret: process.env.LINKEDIN_SECRET,
+  },
+  email: {
+    account: process.env.EMAIL_ACCOUNT,
+    password: process.env.EMAIL_PASS,
   }
 }
