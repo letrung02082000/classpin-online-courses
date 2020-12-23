@@ -12,7 +12,7 @@ body{
 }
 
 .dark-background{
-  background-color: #1e1e1c;
+  background-color:rgba(30,30,28, 0.6);
   padding-top: 40px;
 }
 
@@ -98,7 +98,7 @@ body{
 }
 
 #btnWishlist{
-  background-color: #1e1e1c !important;
+  background-color:rgba(30,30,28, 0.6) !important;
 }
 
 .heading {
@@ -170,6 +170,7 @@ body{
   font-size: 16px;
   /* border-radius: 100rem; */
   background-color: white;
+  
 }
 
 .testimonial__shape {
@@ -208,7 +209,7 @@ body{
 
 .card-testimonial {
   display: flex;
-  
+  border-radius: 100px !important;
 }
 
 
@@ -218,7 +219,6 @@ body{
   text-transform: uppercase; 
 }
 
-
-
-
-
+.card-list-rating {
+  background-color: #fff;
+}
