@@ -1,13 +1,24 @@
 {{#section 'css'}}
-{{!--
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
-  integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-  integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" /> --}}
-
-<link rel="stylesheet" type="text/css" href="/public/static/css/home.css">
-<link rel="stylesheet" href="/public/static/css/categoryCarousel.css">
+<link rel="stylesheet" type="text/css" href="/public/static/css/home/home.css">
+<link rel="stylesheet" href="/public/static/css/home/categoryCarousel.css">
 <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900&display=swap" rel="stylesheet">
+<link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/carousel/">
+<style>
+  .bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  @media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+      font-size: 3.5rem;
+    }
+  }
+</style>
 {{/section}}
 
 {{#section 'js'}}
@@ -16,15 +27,18 @@
 
 <main>
   {{>homePartials/headerSlider}}
-  {{>homePartials/marketingCourses}}
+  <div class="container-fluid">
+    {{>homePartials/marketingCourses}}
 
-  <hr class="featurette-divider">
+    <hr class="featurette-divider">
 
-  {{>homePartials/categoryCarousel}}
+    <h2>New courses</h2>
+    {{>homePartials/categoryCarousel}}
 
-  <hr class="featurette-divider">
+    <hr class="featurette-divider">
 
-  {{>homePartials/allCategories}}
+    {{>homePartials/allCategories}}
 
-  <hr class="featurette-divider">
+    <hr class="featurette-divider">
+  </div>
 </main>

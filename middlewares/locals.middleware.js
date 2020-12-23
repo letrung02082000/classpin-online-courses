@@ -1,6 +1,7 @@
 module.exports.localsUser = function(req, res, next) {
   if(typeof req.user === 'undefined') {
     res.locals.isAuth = false;
+    req.session.cart = [];
   }
   else {
     res.locals.isAuth = true;
@@ -8,3 +9,4 @@ module.exports.localsUser = function(req, res, next) {
   }
   next();
 }
+

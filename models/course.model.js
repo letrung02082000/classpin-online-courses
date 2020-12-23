@@ -3,18 +3,20 @@ const mongoosePaginate = require('mongoose-paginate-v2');
 const Schema = mongoose.Schema;
 
 const schema = new Schema({
-  _id: mongoose.ObjectId,
-  name: String,
-  short_description: String,
-  description: String,
-  thumbnail: String,
-  price: Number,
-  discount: Number,
-  list_student: Array,
-  teacher: mongoose.ObjectId,
-  category: mongoose.ObjectId,  // id category
-  date_created: { type: Date, default: Date.now },
+
+    _id: mongoose.ObjectId,
+    name: String,
+    description: String,
+    short_description: String,
+    thumbnail: String,
+    price: Number,
+    discount: Number,
+    list_student: Array,
+    teacher: { type: mongoose.Schema.Types.ObjectId, ref: 'Teacher' },
+    category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' }, // id category
+    date_created: { type: Date, default: Date.now },
 });
+
 schema.index({ '$**': 'text' });
 schema.plugin(mongoosePaginate);
 
@@ -50,14 +52,22 @@ module.exports = {
     }];
     Course.collection.insertMany(arr);
   },
-  findById(courseId) {
-    return Course.findById(courseId).lean();
-  },
+    findById(courseId) {
+      return Course.findById(courseId).lean();
+    },
 
-  async checkStudentInCourse(studentId, courseId) {
-    return Course.findOne({ _id: courseId, list_student: { $all: [mongoose.Types.ObjectId(studentId)] } });
-  },
-  async addCourse(course) {
-    return Course.create(course);
-  }
+    async checkStudentInCourse(studentId, courseId) {
+      return Course.findOne({ _id: courseId, list_student: { $all: [mongoose.Types.ObjectId(studentId)] } });
+    },
+    async addCourse(course) {
+      return Course.create(course);
+    },
+    async LoadTenNewestCourses() {
+        return await Course.find({})
+            .populate('teacher', 'fullname')
+            .populate('category', 'name')
+            .sort({ date_created: 1 })
+            .limit(10);
+    },
 }
+
