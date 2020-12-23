@@ -29,7 +29,7 @@ module.exports = {
   },
   async loadLimitedCourses(perPage, page, query = {}, option = {}) {
     //return await Course.find().limit(perPage).skip((page - 1) * perPage);
-    return await Course.paginate(query, { page: page, limit: perPage, lean: true });
+    return await Course.paginate(query, { page: page, limit: perPage, lean: true, ...option });
   },
   async insertExample() {
     let arr = [{

@@ -56,12 +56,18 @@ module.exports = {
     let page = +req.query.page || 1;
     let perPage = 4; //16
     console.log('Query: ' + req.query.q);
-    let searchCourses = await courseModel.loadLimitedCourses(perPage, page, { $text: { $search: query } });
+    let option = {};
+    if (sort === 'priceasc') {
+      option.sort = {
+        price: 'asc'
+      };
+    }
+    let searchCourses = await courseModel.loadLimitedCourses(perPage, page, { $text: { $search: query } }, option);
     let totalPage = searchCourses.totalPages;
     let pageArr = paging(page, totalPage);
     res.render('course', {
-      courses: toObject.multipleMongooseToObj(searchCourses.docs),
-      empty: (searchCourses.length === 0),
+      courses: searchCourses.docs,
+      empty: (searchCourses.docs.length === 0),
       pagingOption: {
         page: searchCourses.page,
         pageArr: pageArr,
