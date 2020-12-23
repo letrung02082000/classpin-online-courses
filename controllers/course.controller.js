@@ -57,7 +57,7 @@ module.exports = {
     let perPage = 4; //16
     console.log('Query: ' + req.query.q);
     let option = {};
-    if (sort === 'priceasc') {
+    if (sort === 'price') {
       option.sort = {
         price: 'asc'
       };
