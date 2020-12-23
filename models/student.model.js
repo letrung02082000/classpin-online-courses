@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const schema = new Schema({
-  _id: mongoose.ObjectId,
   namelogin: String,
   fullname: String,
   password: String,
@@ -20,18 +19,34 @@ module.exports = {
     return Student.create(student);
   },
 
+  findByEmail(email) {
+    return Student.findOne({email : email});
+  },
+
   findByNameLogin(username) {
     return Student.findOne({namelogin: username});
   },
 
+  findByGoogleID(googleID) {
+    return Student.findOne({googleID: googleID});
+  },
+
+  findByFacebookID(facebookID) {
+    return Student.findOne({facebookID: facebookID});
+  },
+
   findById(id) {
-    return Student.findById(id);
+    return Student.findById(id).lean();
   },
 
   findOneAndUpdate(filter, update) {
     return Student.findOneAndUpdate(filter, update, {
       new: true,
     })
+  },
+
+  findByNameloginOrEmail(value) {
+    return Student.findOne({$or: [{namelogin: value}, {email: value}]});
   }
   ///
 }

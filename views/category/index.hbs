@@ -1,0 +1,16 @@
+<div class="container mt-4 mb-4">
+  <div class="card-group">
+    {{#each categories}}
+    <div class="card">
+      <div class="card-header">
+        <h3>{{this.name}}</h3>
+      </div>
+      <div class="card-body">
+        {{#each sub_category}}
+        <a id="{{this.name}}" class="btn btn-primary" href="/category/{{this._id}}" role="button">{{this.name}}</a>
+        {{/each}}
+      </div>
+    </div>
+    {{/each}}
+  </div>
+</div>
