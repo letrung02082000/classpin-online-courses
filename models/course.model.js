@@ -55,8 +55,8 @@ module.exports = {
         ];
         Course.collection.insertMany(arr);
     },
-    findById(courseId) {
-        return Course.findOne({ _id: courseId });
+    async findById(courseId) {
+        return await Course.findById(courseId).lean();
     },
 
     async checkStudentInCourse(studentId, courseId) {
