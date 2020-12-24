@@ -41,10 +41,11 @@
                 <li class="nav-item dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src="{{authUser.avatar}}" alt="avt" style="height: 30px; border-radius: 50%;">
                         {{authUser.fullname}}
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="/account/profile">Profile</a>
+                        <a class="dropdown-item" href="/account/profile">My Profile</a>
                         <form class="dropdown-item" id="frmLogout" method="POST" action="/account/logout">
                             <a class="btn btn-danger" href="javascript: $('#frmLogout').submit();">Logout</a>
                         </form>

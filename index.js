@@ -55,6 +55,7 @@ app.engine(
         partialsDir: 'views/_partials',
         helpers: {
             section: express_handlebars_sections(),
+            ifCond: require('./helpers/ifCond.helper').ifCond,
         },
     })
 );
