@@ -3,7 +3,6 @@ const mongoosePaginate = require('mongoose-paginate-v2');
 const Schema = mongoose.Schema;
 
 const schema = new Schema({
-
     _id: mongoose.ObjectId,
     name: String,
     description: String,
@@ -11,7 +10,8 @@ const schema = new Schema({
     thumbnail: String,
     price: Number,
     discount: Number,
-    list_student: Array,
+    list_student: [{type: Schema.Types.ObjectId, ref: 'Student'}],
+    list_rating: [{type: Schema.Types.ObjectId, ref: 'Rating'}],
     teacher: { type: mongoose.Schema.Types.ObjectId, ref: 'Teacher' },
     category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' }, // id category
     date_created: { type: Date, default: Date.now },
@@ -52,22 +52,33 @@ module.exports = {
     }];
     Course.collection.insertMany(arr);
   },
-    findById(courseId) {
-      return Course.findById(courseId).lean();
-    },
+  findById(courseId) {
+    return Course.findById(courseId).lean();
+  },
 
-    async checkStudentInCourse(studentId, courseId) {
-      return Course.findOne({ _id: courseId, list_student: { $all: [mongoose.Types.ObjectId(studentId)] } });
-    },
-    async addCourse(course) {
-      return Course.create(course);
-    },
-    async LoadTenNewestCourses() {
-        return await Course.find({})
-            .populate('teacher', 'fullname')
-            .populate('category', 'name')
-            .sort({ date_created: 1 })
-            .limit(10);
-    },
+  // return rating embeded in list_rating of course
+  findAllRatingOfCourse(courseID) {
+    return Course.findById(courseID).populate([{ path: 'list_rating', populate: {path: 'student'}}]).lean();
+  },
+
+  // add ratingID to list_rating
+  pushRatingIDToCourse(courseID, ratingID) {
+    return Course.updateOne({_id: courseID}, {$addToSet : {list_rating : ratingID}});
+  },
+
+  //return course if exists student
+  async checkStudentInCourse(studentId, courseId) {
+    return Course.findOne({ _id: courseId, list_student: { $all: [mongoose.Types.ObjectId(studentId)] } });
+  },
+  async addCourse(course) {
+    return Course.create(course);
+  },
+  async LoadTenNewestCourses() {
+      return await Course.find({})
+          .populate('teacher', 'fullname')
+          .populate('category', 'name')
+          .sort({ date_created: 1 })
+          .limit(10);
+  },
 }
 
