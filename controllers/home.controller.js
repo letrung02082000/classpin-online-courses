@@ -1,4 +1,7 @@
-const { LoadTenNewestCourses } = require('../models/course.model');
+const {
+    LoadTenNewestCourses,
+    loadTenViewCourses,
+} = require('../models/course.model');
 const { multipleMongooseToObj, mongooseToObj } = require('../utils/toobject');
 const { Mongoose } = require('mongoose');
 const mongoose = require('mongoose');
@@ -10,19 +13,26 @@ const { findRatingById } = require('../models/rating.model');
 module.exports = {
     home: async function (req, res) {
         //await insertExample();
-        var allCategories = await loadAllCategories();
+        try {
+            var allCategories = await loadAllCategories();
 
-        allCategories = multipleMongooseToObj(allCategories);
+            allCategories = multipleMongooseToObj(allCategories);
 
-        var tenNewestCourses = await LoadTenNewestCourses();
+            var tenNewestCourses = await LoadTenNewestCourses();
 
-        tenNewestCourses = multipleMongooseToObj(tenNewestCourses);
+            tenNewestCourses = multipleMongooseToObj(tenNewestCourses);
 
-        console.log(tenNewestCourses);
+            var tenViewCourses = await loadTenViewCourses();
+
+            tenViewCourses = multipleMongooseToObj(tenViewCourses);
+        } catch (error) {
+            console.log(error);
+        }
 
         res.render('home', {
             tenNewestCourses: tenNewestCourses,
             allCategories,
+            tenViewCourses,
         });
     },
 };

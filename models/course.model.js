@@ -16,6 +16,7 @@ const schema = new Schema({
     teacher: { type: mongoose.Schema.Types.ObjectId, ref: 'Teacher' },
     category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' }, // id category
     date_created: { type: Date, default: Date.now },
+    view_count: { type: Number, default: 0 },
 });
 
 schema.index({ '$**': 'text' });
@@ -96,6 +97,23 @@ module.exports = {
             .populate('teacher', 'fullname')
             .populate('category', 'name')
             .sort({ date_created: 1 })
+            .limit(10);
+    },
+
+    //count view
+    async increaseCourseView(courseId) {
+        const course = await Course.findById(courseId, function (err, doc) {
+            if (err) return console.log(err);
+        });
+        course.view_count += 1;
+        course.save();
+    },
+
+    async loadTenViewCourses() {
+        return await Course.find({})
+            .populate('teacher', 'fullname')
+            .populate('category', 'name')
+            .sort({ view_count: -1 })
             .limit(10);
     },
 };
