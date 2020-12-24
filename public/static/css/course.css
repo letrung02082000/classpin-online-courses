@@ -176,7 +176,6 @@ body{
 .testimonial__shape {
   width: 60px;
   height: 60px;
-  background-color: orangered;
   position: relative;
   margin-right: 20px;
   clip-path: circle(50% at 50% 50%);
@@ -221,4 +220,11 @@ body{
 
 .card-list-rating {
   background-color: #fff;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+
+.card-table-content{
+  background-color: #fff;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }

@@ -42,7 +42,10 @@
         <div class="img">
           <img src="/public/static/images/involve2.jpg" alt="course-img">
         </div>
-        <div class="card-text">
+        {{#if isMember}}
+          
+        {{else}}
+          <div class="card-text">
           <p>
             <strong class="card-price">
               {{#with this.course}}
@@ -55,7 +58,7 @@
             <a href="#" class="btn btn-outline-info button-add">Buy now</a>
           </div>
         </div>
-
+        {{/if}}
       </div>
     </div>
   </div>
@@ -74,7 +77,7 @@
     </div>
 
     <b class="mb-2">Course content</b>
-    <div class="card-description mb-5">
+    <div class="card-body card-table-content">
       <div class="description">
 
         <p>
@@ -96,7 +99,7 @@
     <br>
     <b class="mb-2">Student feedback</b>
 
-    
+
 
     <div class="card-body card-list-rating">
       <div class="row">
@@ -159,61 +162,40 @@
           <div>20</div>
         </div>
       </div>
-
+      {{#if isMember}}
       <div class="feedback text-center">
         <a href="/course/{{course._id}}/rating" class="btn btn-outline-info"
           style="padding: 7px 28px; font-weight: 600;">Rate</a>
       </div>
+      {{/if}}
     </div>
 
-    <hr style="border:3px solid #f1f1f1">
-    <div class="student-feedback mt-3">
+    <div class="student-feedback mt-5">
       <div class="testimonial">
+        {{#each this.course.list_rating}}
         <div class="card-body card-testimonial">
           <div class="avatar">
             <figure class="testimonial__shape">
-              <img src="./img/person1.jpg" class="testimonial__img" alt="photo1">
+              <img src="{{this.student.avatar}}" class="testimonial__img" alt="photo1">
               <figcaption class="testimonial__caption">
-                Lionel Meshi
+                {{this.student.fullname}}
               </figcaption>
             </figure>
           </div>
           <div class="testimonial__text mt-2">
             <h3 class="heading-tertiary u-margin-bottom-small">
-              thank for your guide
+              {{this.student.fullname}}
             </h3>
             <div class="feedback">
-              <div class="rateYo mt-1 mb-1" data-rateyo-rating="3.5" data-rateyo-star-width="25px"></div>
+              <div class="rateYo mt-1 mb-1" data-rateyo-rating={{this.rating}} data-rateyo-star-width="25px"></div>
             </div>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Incidunt repellat tenetur officia quis quasi,
+              {{this.description}}
             </p>
           </div>
         </div>
         <hr style="border:3px solid #f1f1f1; margin: 0;">
-        <div class="card-body card-testimonial">
-          <div class="avatar">
-            <figure class="testimonial__shape">
-              <img src="./img/person1.jpg" class="testimonial__img" alt="photo1">
-              <figcaption class="testimonial__caption">
-                Lionel Meshi
-              </figcaption>
-            </figure>
-          </div>
-          <div class="testimonial__text mt-2">
-            <h3 class="heading-tertiary u-margin-bottom-small">
-              thank for your guide
-            </h3>
-            <div class="feedback">
-              <div class="rateYo mt-1 mb-1" data-rateyo-rating="3.5" data-rateyo-star-width="25px"></div>
-            </div>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Incidunt repellat tenetur officia quis quasi,
-            </p>
-          </div>
-        </div>
+        {{/each}}
       </div>
     </div>
   </div>

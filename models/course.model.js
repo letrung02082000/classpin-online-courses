@@ -11,7 +11,8 @@ const schema = new Schema({
     thumbnail: String,
     price: Number,
     discount: Number,
-    list_student: Array,
+    list_student: [{ type: Schema.Types.ObjectId, ref: 'Student' }],
+    list_rating: [{ type: Schema.Types.ObjectId, ref: 'Rating' }],
     teacher: { type: mongoose.Schema.Types.ObjectId, ref: 'Teacher' },
     category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' }, // id category
     date_created: { type: Date, default: Date.now },
@@ -65,6 +66,22 @@ module.exports = {
         return Course.findById(courseId).lean();
     },
 
+    // return rating embeded in list_rating of course
+    findAllRatingOfCourse(courseID) {
+        return Course.findById(courseID)
+            .populate([{ path: 'list_rating', populate: { path: 'student' } }])
+            .lean();
+    },
+
+    // add ratingID to list_rating
+    pushRatingIDToCourse(courseID, ratingID) {
+        return Course.updateOne(
+            { _id: courseID },
+            { $addToSet: { list_rating: ratingID } }
+        );
+    },
+
+    //return course if exists student
     async checkStudentInCourse(studentId, courseId) {
         return Course.findOne({
             _id: courseId,

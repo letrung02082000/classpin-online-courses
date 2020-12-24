@@ -31,10 +31,20 @@ module.exports = {
     res.render('home');
   },
   course: async function (req, res) {
-    const matchedCourse = await courseModel.findById(req.params.id);
-    console.log(matchedCourse.name);
+    const courseID = req.params.id;
+    const matchedCourse = await courseModel.findAllRatingOfCourse(courseID);
+    //checkout user was a member in course
+    let isMember = false;
+    if(req.user) {
+      const check = await courseModel.checkStudentInCourse(req.user._id, courseID);
+      if(check) {
+        isMember = true;
+      }
+    }
+    
     res.render('course/index', {
-      course: matchedCourse
+      course: matchedCourse,
+      isMember: isMember,
     })
   },
   rating: function (req, res) {
@@ -48,23 +58,24 @@ module.exports = {
     //const course = await courseModel.findById(req.params.id);
     const idCourse = req.params.id;
     // check student in course
-    var isvalid = await courseModel.checkStudentInCourse(req.user._id, idCourse);
-    console.log(isvalid);
+    var matchedCourse = await courseModel.checkStudentInCourse(req.user._id, idCourse);
+    console.log(matchedCourse);
 
-    /// testing
-    isvalid = true; 
-
-
-    if(!isvalid) {
+    if(!matchedCourse) {
       throw Error("No permission");
     } else {
       const newRating = {
-        studentId: req.user._id,
+        student: req.user._id,
         description: req.body.description,
         rating: +req.body.rating,
       }
-      const result = await ratingModel.insertOne(newRating);
-      console.log(result);
+
+      // insert new rating to MONGODB
+      const rating = await ratingModel.insertOne(newRating);
+      
+      // add ratingID to course
+      await courseModel.pushRatingIDToCourse(matchedCourse._id, rating._id);
+      console.log(rating);
       res.redirect('/course/' + idCourse);
     }
   },
