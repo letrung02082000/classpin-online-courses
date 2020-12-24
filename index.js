@@ -6,6 +6,8 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const exphbs = require('express-handlebars');
 var session = require('express-session');
+const mongoStore = require('connect-mongo')(session);
+const mongoose = require('mongoose');
 const connectFlash = require('connect-flash');
 const passportSetup = require('./config/passport-setup');
 var express_handlebars_sections = require('express-handlebars-sections');
@@ -23,6 +25,7 @@ const localmdw = require('./middlewares/locals.middleware');
 const key = require('./config/main.config');
 const { port, mongo_url, secret_session } = key;
 const db = require('./db');
+const { requireUser } = require('./middlewares/requireUserLogin.middleware');
 const app = express();
 
 // express sessions
@@ -35,6 +38,7 @@ app.use(
         cookie: {
             //secure: true
         },
+        store: new mongoStore({ mongooseConnection: mongoose.connection }),
     })
 );
 app.use(connectFlash());

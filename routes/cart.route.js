@@ -4,5 +4,6 @@ const router = express.Router();
 
 router.get('/', cartController.getCart);
 router.post('/add', cartController.addToCart);
+router.get('/checkout', cartController.getCheckout);
 
 module.exports = router;

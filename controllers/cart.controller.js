@@ -1,20 +1,20 @@
 const courseModel = require('../models/course.model');
 const mongoose = require('mongoose');
-const { mongooseToObj } = require('../utils/toobject');
 
 module.exports = {
     getCart: async function (req, res) {
         const cartArr = req.session.cart;
-
+        console.log(cartArr);
         var viewCartArr = [];
 
         for (ci of cartArr) {
-            var id = mongoose.mongo.ObjectId(ci.courseId);
+            console.log(ci);
+            const id = mongoose.mongo.ObjectId(ci.courseId);
             var course = await courseModel.findById(id);
             viewCartArr = [...viewCartArr, course];
         }
-
-        res.render('cart', { viewCartArr: viewCartArr });
+        console.log(viewCartArr);
+        res.render('checkout/cart', { viewCartArr: viewCartArr });
     },
     addToCart: function (req, res) {
         const courseId = req.body.courseId;
@@ -27,7 +27,11 @@ module.exports = {
         }
 
         req.session.cart = [...req.session.cart, { courseId }];
-        console.log(req.session.cart);
         res.redirect(req.headers.referer);
+        console.log(req.session.cart);
+    },
+
+    getCheckout: function (req, res) {
+        res.render('checkout/checkout.hbs');
     },
 };
