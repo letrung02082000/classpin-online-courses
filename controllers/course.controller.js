@@ -42,9 +42,24 @@ module.exports = {
       }
     }
     
+    // compute avg rating
+    const avg = await courseModel.computeAvgRating(matchedCourse._id);
+    console.log(avg);
+    let avgRating = 0;
+    if(avg[0]) {
+      avgRating = avg[0].avgRating;
+    }
+
+    let totalRating = 0;
+    if(matchedCourse.list_rating) {
+      totalRating = matchedCourse.list_rating.length;
+    }
     res.render('course/index', {
       course: matchedCourse,
       isMember: isMember,
+      avgRating: Math.round(avgRating * 100) / 100, // value of avgRating
+      totalRating: totalRating,
+      amountStudent: matchedCourse.list_student.length,
     })
   },
   rating: function (req, res) {

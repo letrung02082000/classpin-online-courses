@@ -21,15 +21,16 @@
             {{name}}
           </h1>
           <p>
-            {{description}}
+            {{short_description}}
           </p>
           {{/with}}
           <div class="rating">
-            <div class="rateYo" data-rateyo-rating="4.5" data-rateyo-star-width="30px"></div>
-            <p class="mt-2">4.1 average based on 254 reviews.</p>
+            <div class="rateYo" data-rateyo-rating="{{this.avgRating}}" data-rateyo-star-width="30px"></div>
+            <p class="mt-2">{{this.avgRating}} average based on {{this.totalRating}} ratings ({{amountStudent}} students).</p>
+            <p>Created by {{this.course.teacher.fullname}}</p>
+            <p>Last updated</p>
           </div>
         </div>
-        <p>Created by Le Quoc Dat</p>
 
         <a href="#" class="btn btn-outline-primary" id="btnWishlist">
           Wishlist
@@ -104,10 +105,8 @@
     <div class="card-body card-list-rating">
       <div class="row">
         <div class="rating">
-          <div class="rateYo" data-rateyo-rating="4.5"></div>
-        </div>
-        <div class="side">
-          <div>5 star</div>
+          <div class="rateYo" data-rateyo-rating="{{this.avgRating}}"></div>
+          <p class="mt-2">{{this.avgRating}} average based on {{this.totalRating}} ratings.</p>
         </div>
         <div class="middle">
           <div class="bar-container">

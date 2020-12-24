@@ -58,7 +58,28 @@ module.exports = {
 
   // return rating embeded in list_rating of course
   findAllRatingOfCourse(courseID) {
-    return Course.findById(courseID).populate([{ path: 'list_rating', populate: {path: 'student'}}]).lean();
+    return Course.findById(courseID)
+      .populate([{ path: 'list_rating', populate: {path: 'student'}}])
+      .populate({path: 'teacher'})
+      .lean();
+  },
+  
+  // return a document nested in array have field avgRating, if empty array, avgRating = 0
+  computeAvgRating(courseID) {
+    return Course.aggregate([
+      {$match: {_id: courseID}},
+      {
+        $lookup: {
+          from: "Rating",
+          localField: "list_rating",
+          foreignField: "_id",
+          as: "list_rating_info"
+        }
+      },
+      {$project: { list_rating_info: 1}},
+      {$unwind: "$list_rating_info"},
+      {$group: {_id: "$_id", avgRating: {$avg: '$list_rating_info.rating'}}}
+    ]);
   },
 
   // add ratingID to list_rating
