@@ -64,6 +64,9 @@ module.exports = {
       .lean();
   },
   
+  findCoursePurchased(studentID) {
+    return Course.find({list_student: {$all : [mongoose.Types.ObjectId(studentID)]}}).lean();
+  },
   // return a document nested in array have field avgRating, if empty array, avgRating = 0
   computeAvgRating(courseID) {
     return Course.aggregate([

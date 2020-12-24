@@ -3,6 +3,7 @@ const studentModel = require('../models/student.model');
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
 const { email } = require('../config/main.config');
+const courseModel = require('../models/course.model');
 
 module.exports = {
     login: function (req, res) {
@@ -126,10 +127,13 @@ module.exports = {
         res.redirect(url);
     },
 
-    profile: function (req, res) {
+    profile: async function (req, res) {
         var status = req.query.status;
+        const PurchasedCourse = await courseModel.findCoursePurchased(req.user._id);
+        console.log(PurchasedCourse);
         res.render('user/profile', {
             status: status,
+            PurchasedCourse: PurchasedCourse,
         });
     },
 

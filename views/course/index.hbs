@@ -26,7 +26,8 @@
           {{/with}}
           <div class="rating">
             <div class="rateYo" data-rateyo-rating="{{this.avgRating}}" data-rateyo-star-width="30px"></div>
-            <p class="mt-2">{{this.avgRating}} average based on {{this.totalRating}} ratings ({{amountStudent}} students).</p>
+            <p class="mt-2">{{this.avgRating}} average based on {{this.totalRating}} ratings ({{amountStudent}}
+              students).</p>
             <p>Created by {{this.course.teacher.fullname}}</p>
             <p>Last updated</p>
           </div>
@@ -44,9 +45,9 @@
           <img src="/public/static/images/involve2.jpg" alt="course-img">
         </div>
         {{#if isMember}}
-          
+
         {{else}}
-          <div class="card-text">
+        <div class="card-text">
           <p>
             <strong class="card-price">
               {{#with this.course}}
@@ -169,34 +170,41 @@
       {{/if}}
     </div>
 
-    <div class="student-feedback mt-5">
-      <div class="testimonial">
-        {{#each this.course.list_rating}}
-        <div class="card-body card-testimonial">
-          <div class="avatar">
-            <figure class="testimonial__shape">
-              <img src="{{this.student.avatar}}" class="testimonial__img" alt="photo1">
-              <figcaption class="testimonial__caption">
-                {{this.student.fullname}}
-              </figcaption>
-            </figure>
-          </div>
-          <div class="testimonial__text mt-2">
-            <h3 class="heading-tertiary u-margin-bottom-small">
-              {{this.student.fullname}}
-            </h3>
-            <div class="feedback">
-              <div class="rateYo mt-1 mb-1" data-rateyo-rating={{this.rating}} data-rateyo-star-width="25px"></div>
+    <div>
+      <div class="card bg-white mt-5">
+        <b class="mb-2" id="flip">Reviews</b>
+        <div class="student-feedback mt-2" id="panel">
+          <div class="testimonial">
+            {{#each this.course.list_rating}}
+            <div class="card-body card-testimonial">
+              <div class="avatar">
+                <figure class="testimonial__shape">
+                  <img src="{{this.student.avatar}}" class="testimonial__img" alt="photo1">
+                  <figcaption class="testimonial__caption">
+                    {{this.student.fullname}}
+                  </figcaption>
+                </figure>
+              </div>
+              <div class="testimonial__text mt-2">
+                <h3 class="heading-tertiary u-margin-bottom-small">
+                  {{this.student.fullname}}
+                </h3>
+                <div class="feedback">
+                  <div class="rateYo mt-1 mb-1" data-rateyo-rating={{this.rating}} data-rateyo-star-width="25px"></div>
+                </div>
+                <p>
+                  {{this.description}}
+                </p>
+              </div>
             </div>
-            <p>
-              {{this.description}}
-            </p>
+            <hr style="border:3px solid #f1f1f1; margin: 0;">
+            {{/each}}
           </div>
         </div>
-        <hr style="border:3px solid #f1f1f1; margin: 0;">
-        {{/each}}
       </div>
     </div>
+
+
   </div>
 </div>
 
@@ -232,5 +240,13 @@
     });
   });
 
+</script>
+
+<script>
+  $(document).ready(function () {
+    $("#flip").click(function () {
+      $("#panel").slideToggle("slow");
+    });
+  });
 </script>
 {{/section}}
