@@ -17,9 +17,11 @@ module.exports = {
       name: req.body.title,
       short_description: req.body.shortDesciption,
       description: req.body.description,
-      thumbnail: req.file.path,
       price: req.body.price,
       category: req.body.category,
+    }
+    if (req.file) {
+      course.thumbnail = '\\' + req.file.path;
     }
     console.log(req.body);
     await courseModel.addCourse(course);
