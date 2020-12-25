@@ -33,9 +33,9 @@
       </div>
     </div>
 
-    <div class="progress-course" id="flip">
+    <div class="progress-course">
 
-      <div>
+      <div id="flip">
         <h3>
           <i class="fa fa-list" aria-hidden="true"></i>
           Purchased courses
@@ -47,7 +47,7 @@
         <div class="d-flex justify-content-left flex-wrap">
           {{#each PurchasedCourse}}
           <div class="card m-2" style="width: 13rem;">
-            <img src="/{{this.thumbnail}}" class="card-img-top" alt="thumbnail" style="height: 8rem;">
+            <img src="{{this.thumbnail}}" class="card-img-top" alt="thumbnail" style="height: 8rem;">
             <div class="card-body">
               <h5 class="card-title">{{this.name}}</h5>
               <p class="card-text">{{this.short_description}}</p>

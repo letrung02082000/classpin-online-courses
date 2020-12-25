@@ -31,6 +31,10 @@ module.exports = {
     res.render('home');
   },
   course: async function (req, res) {
+    var msg = "";
+    if(req.query.status) {
+      msg = req.query.status;
+    }
     const courseID = req.params.id;
     const matchedCourse = await courseModel.findAllRatingOfCourse(courseID);
     //checkout user was a member in course
@@ -54,12 +58,14 @@ module.exports = {
     if(matchedCourse.list_rating) {
       totalRating = matchedCourse.list_rating.length;
     }
+
     res.render('course/index', {
       course: matchedCourse,
       isMember: isMember,
       avgRating: Math.round(avgRating * 100) / 100, // value of avgRating
       totalRating: totalRating,
       amountStudent: matchedCourse.list_student.length,
+      msg: msg,
     })
   },
   rating: function (req, res) {
@@ -122,5 +128,15 @@ module.exports = {
       path: req.path,
       query: `q=${req.query.q}`
     });
+  },
+
+  addToWishList: async function(req, res) {
+    const courseID = req.body.courseID;
+
+    // add idcourse to wish list
+    await studentModel.addCourseToWishList(courseID, req.user._id);
+    console.log(req.header.referer);
+    var msg = encodeURIComponent('addtowishlist');
+    res.redirect('/course/' + courseID + '/?status=' + msg);
   }
 }

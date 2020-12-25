@@ -9,7 +9,7 @@ const schema = new Schema({
   email: String,
   date_of_birth: String,
   avatar: String,
-  wishlist: Array, // ObjectId khoa hoc
+  wishlist: [{type: Schema.Types.ObjectId, ref: 'Course'}], // ObjectId khoa hoc
 });
 
 const Student = mongoose.model('Student', schema, 'Student');
@@ -47,6 +47,10 @@ module.exports = {
 
   findByNameloginOrEmail(value) {
     return Student.findOne({$or: [{namelogin: value}, {email: value}]});
+  },
+
+  addCourseToWishList(courseID, studentID) {
+    return Student.updateOne({_id: studentID}, {$addToSet: {wishlist: mongoose.Types.ObjectId(courseID)}});
   }
   ///
 }
