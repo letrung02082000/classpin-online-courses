@@ -35,7 +35,7 @@
 
     <div class="progress-course">
 
-      <div id="flip">
+      <div class="flip">
         <h3>
           <i class="fa fa-list" aria-hidden="true"></i>
           Purchased courses
@@ -43,7 +43,7 @@
       </div>
 
       <hr>
-      <div id="panel">
+      <div class="panel">
         <div class="d-flex justify-content-left flex-wrap">
           {{#each PurchasedCourse}}
           <div class="card m-2" style="width: 13rem;">
@@ -60,10 +60,27 @@
 
     </div>
     <div class="progress-course">
-      <h3>
-        <i class="fa fa-list" aria-hidden="true"></i>
-        WishList
-      </h3>
+      <div class="flip">
+        <h3>
+          <i class="fa fa-list" aria-hidden="true"></i>
+          WishList
+        </h3>
+      </div>
+      <hr>
+      <div class="panel">
+        <div class="d-flex justify-content-left flex-wrap">
+          {{#each wishList}}
+          <div class="card m-2" style="width: 13rem;">
+            <img src="{{this.thumbnail}}" class="card-img-top" alt="thumbnail" style="height: 8rem;">
+            <div class="card-body">
+              <h5 class="card-title">{{this.name}}</h5>
+              <p class="card-text">{{this.short_description}}</p>
+              <a href="/course/{{this._id}}" class="btn btn-primary">Detail</a>
+            </div>
+          </div>
+          {{/each}}
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -84,9 +101,9 @@
 </script>
 
 <script>
-  $(document).ready(function () {
-    $("#flip").click(function () {
-      $("#panel").slideToggle("slow");
+  $(document).ready(function() {
+    $('.flip').click(function(){
+      $(this).parent().children('.panel').slideToggle("slow");
     });
   });
 </script>

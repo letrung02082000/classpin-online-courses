@@ -33,6 +33,15 @@
           </div>
         </div>
 
+        {{#if isInWishList}}
+        <form action="/course/unwishlist" method="POST">
+          <input type="hidden" name="courseID" value="{{course._id}}">
+          <button class="btn btn-outline-primary" id="btnWishlist" type="submit">
+            Wishlisted
+            <i class="fas fa-heart ml-1 wishlisted"></i>
+          </button>
+        </form>
+        {{else}}
         <form action="/course/wishlist" method="POST">
           <input type="hidden" name="courseID" value="{{course._id}}">
           <button class="btn btn-outline-primary" id="btnWishlist" type="submit">
@@ -40,6 +49,7 @@
             <i class="far fa-heart"></i>
           </button>
         </form>
+        {{/if}}
       </div>
     </div>
     <div class="buy-card">
@@ -262,7 +272,15 @@
     Swal.fire({
       position: 'top-end',
       icon: 'success',
-      title: 'Add to wish list success!',
+      title: 'Add to wishlist success!',
+      showConfirmButton: false,
+      timer: 1500
+    })
+  } else if(msg === "unwishlist") {
+    Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      title: 'remove from wishlist success!',
       showConfirmButton: false,
       timer: 1500
     })

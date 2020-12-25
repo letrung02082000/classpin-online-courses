@@ -46,14 +46,23 @@ module.exports = {
       }
     }
     
+    // check course in wishlist
+    let isInWishList = false;
+    if(req.user) {
+      const checkwishlist = await studentModel.checkCourseInWishList(courseID, req.user._id);
+      if(checkwishlist) {
+        isInWishList = true;
+      }
+    }
+    
     // compute avg rating
     const avg = await courseModel.computeAvgRating(matchedCourse._id);
-    console.log(avg);
     let avgRating = 0;
     if(avg[0]) {
       avgRating = avg[0].avgRating;
     }
-
+    
+    // total ratings
     let totalRating = 0;
     if(matchedCourse.list_rating) {
       totalRating = matchedCourse.list_rating.length;
@@ -66,6 +75,7 @@ module.exports = {
       totalRating: totalRating,
       amountStudent: matchedCourse.list_student.length,
       msg: msg,
+      isInWishList: isInWishList,
     })
   },
   rating: function (req, res) {
@@ -137,6 +147,13 @@ module.exports = {
     await studentModel.addCourseToWishList(courseID, req.user._id);
     console.log(req.header.referer);
     var msg = encodeURIComponent('addtowishlist');
+    res.redirect('/course/' + courseID + '/?status=' + msg);
+  },
+
+  unWishList: async function(req, res) {
+    const courseID = req.body.courseID;
+    await studentModel.unWishList(courseID, req.user._id);
+    var msg = encodeURIComponent('unwishlist');
     res.redirect('/course/' + courseID + '/?status=' + msg);
   }
 }

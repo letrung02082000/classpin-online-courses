@@ -51,6 +51,18 @@ module.exports = {
 
   addCourseToWishList(courseID, studentID) {
     return Student.updateOne({_id: studentID}, {$addToSet: {wishlist: mongoose.Types.ObjectId(courseID)}});
+  },
+
+  unWishList(courseID, studentID) {
+    return Student.updateOne({_id: studentID}, {$pull: {wishlist: mongoose.Types.ObjectId(courseID)}});
+  },
+
+  findWishList(studentID) {
+    return Student.findOne({_id: studentID}, {wishlist: 1, _id: 0}).populate('wishlist').lean();
+  },
+
+  checkCourseInWishList(courseID, studentID) {
+    return Student.findOne({_id: studentID, wishlist: {$all: [mongoose.Types.ObjectId(courseID)]}}).lean();
   }
   ///
 }

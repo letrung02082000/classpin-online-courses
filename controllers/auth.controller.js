@@ -130,10 +130,11 @@ module.exports = {
     profile: async function (req, res) {
         var status = req.query.status;
         const PurchasedCourse = await courseModel.findCoursePurchased(req.user._id);
-        console.log(PurchasedCourse);
+        const ObjWl = await studentModel.findWishList(req.user._id);
         res.render('user/profile', {
             status: status,
             PurchasedCourse: PurchasedCourse,
+            wishList: ObjWl.wishlist,
         });
     },
 
