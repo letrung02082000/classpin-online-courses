@@ -89,6 +89,29 @@ module.exports = {
   pushRatingIDToCourse(courseID, ratingID) {
     return Course.updateOne({_id: courseID}, {$addToSet : {list_rating : ratingID}});
   },
+  
+  countRatingsByLevel(courseID) {
+    return Course.aggregate([
+      {$match: {_id: courseID}},
+      {
+        $lookup: {
+          from: "Rating",
+          localField: "list_rating",
+          foreignField: "_id",
+          as: "list_rating_info"
+        }
+      },
+      // {$project: { list_rating_info: 1}},
+      // {$unwind: "$list_rating_info"},
+      // {$match: {'list_rating_info.rating': level}},
+      // {$count: 'count'}
+      {$project: { list_rating_info: 1}},
+      {$unwind: "$list_rating_info"},
+      {$group: {_id: "$list_rating_info.rating", count: {$sum: 1}}}
+
+      // {$group: {_id: "$_id", countRating: {$count: '$list_rating_info'}}}
+    ])
+  },
 
   //return course if exists student
   async checkStudentInCourse(studentId, courseId) {

@@ -55,7 +55,7 @@
     <div class="buy-card">
       <div class="cardbody">
         <div class="img">
-          <img src="/public/static/images/involve2.jpg" alt="course-img">
+          <img src="{{course.thumbnail}}" alt="course-img">
         </div>
         {{#if isMember}}
 
@@ -122,57 +122,73 @@
           <div class="rateYo" data-rateyo-rating="{{this.avgRating}}"></div>
           <p class="mt-2">{{this.avgRating}} average based on {{this.totalRating}} ratings.</p>
         </div>
+      </div>
+      <div class="row">
+        <div class="side">
+          <div>5 star</div>
+        </div>
         <div class="middle">
           <div class="bar-container">
-            <div class="bar-5"></div>
+            <div class="bar-5" style="width: {{this.percent.level_5}}%;"></div>
           </div>
         </div>
         <div class="side right">
-          <div>150</div>
+          <div>{{this.ratingList.level_5}}</div>
         </div>
         <div class="side">
           <div>4 star</div>
         </div>
         <div class="middle">
           <div class="bar-container">
-            <div class="bar-4"></div>
+            <div class="bar-4" style="width: {{this.percent.level_4}}%;"></div>
           </div>
         </div>
         <div class="side right">
-          <div>63</div>
+          <div>{{this.ratingList.level_4}}</div>
         </div>
         <div class="side">
           <div>3 star</div>
         </div>
         <div class="middle">
           <div class="bar-container">
-            <div class="bar-3"></div>
+            <div class="bar-3" style="width: {{this.percent.level_3}}%;"></div>
           </div>
         </div>
         <div class="side right">
-          <div>15</div>
+          <div>{{this.ratingList.level_3}}</div>
         </div>
         <div class="side">
           <div>2 star</div>
         </div>
         <div class="middle">
           <div class="bar-container">
-            <div class="bar-2"></div>
+            <div class="bar-2" style="width: {{this.percent.level_2}}%;"></div>
           </div>
         </div>
         <div class="side right">
-          <div>6</div>
+          <div>{{this.ratingList.level_2}}</div>
         </div>
         <div class="side">
           <div>1 star</div>
         </div>
         <div class="middle">
           <div class="bar-container">
-            <div class="bar-1"></div>
+            <div class="bar-1" style="width: {{this.percent.level_1}}%;"></div>
           </div>
         </div>
         <div class="side right">
-          <div>20</div>
+          <div>{{this.ratingList.level_1}}</div>
+        </div>
+        <div class="side">
+          <div>0 star</div>
+        </div>
+        <div class="middle">
+          <div class="bar-container">
+            <div class="bar-0" style="width: {{this.percent.level_0}}%;"></div>
+          </div>
+        </div>
+        <div class="side right">
+          <div>{{this.ratingList.level_0}}</div>
         </div>
       </div>
       {{#if isMember}}
