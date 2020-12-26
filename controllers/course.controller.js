@@ -107,15 +107,15 @@ module.exports = {
 
     // percent score
     const percent = {
-      level_1: ratingObj.level_1*100/totalRating,
-      level_2: ratingObj.level_2*100/totalRating,
-      level_3: ratingObj.level_3*100/totalRating,
-      level_4: ratingObj.level_4*100/totalRating,
-      level_5: ratingObj.level_5*100/totalRating,
-      level_0: ratingObj.level_0*100/totalRating,
+      level_1: ratingObj.level_1*100/totalRating || 0,
+      level_2: ratingObj.level_2*100/totalRating || 0,
+      level_3: ratingObj.level_3*100/totalRating || 0,
+      level_4: ratingObj.level_4*100/totalRating || 0,
+      level_5: ratingObj.level_5*100/totalRating || 0,
+      level_0: ratingObj.level_0*100/totalRating || 0,
     }
 
-    console.log(percent);
+    console.log(percent); 
     res.render('course/index', {
       course: matchedCourse,
       isMember: isMember,

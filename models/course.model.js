@@ -15,6 +15,7 @@ const schema = new Schema({
     teacher: { type: mongoose.Schema.Types.ObjectId, ref: 'Teacher' },
     category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' }, // id category
     date_created: { type: Date, default: Date.now },
+    last_updated: { type: Date, default: Date.now}
 });
 
 schema.index({ '$**': 'text' });
@@ -125,7 +126,7 @@ module.exports = {
           .populate('teacher', 'fullname')
           .populate('category', 'name')
           .sort({ date_created: 1 })
-          .limit(10);
+          .limit(10).lean();
   },
 }
 

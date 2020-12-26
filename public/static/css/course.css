@@ -21,7 +21,7 @@ body{
 }
 
 .row{
-  padding: 40px 10%;
+  padding: 20px 10%;
 }
 
 .heading-primary{
@@ -215,8 +215,7 @@ body{
 
 .heading-tertiary {
   font-size: 16px;
-  font-weight: 700;
-  text-transform: uppercase; 
+  font-weight: 700; 
 }
 
 .card-list-rating {
@@ -230,10 +229,16 @@ body{
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
 
-#panel {
+.panel {
   display: none;
 }
 
 .wishlisted{
   color: red;
+}
+
+.time{
+  font-size: 12px;
+  font-weight: 200;
+  text-transform: lowercase;
 }

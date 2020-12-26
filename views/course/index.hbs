@@ -29,7 +29,7 @@
             <p class="mt-2">{{this.avgRating}} average based on {{this.totalRating}} ratings ({{amountStudent}}
               students).</p>
             <p>Created by {{this.course.teacher.fullname}}</p>
-            <p>Last updated</p>
+            <p>Last updated {{fromNow this.course.last_updated}}</p>
           </div>
         </div>
 
@@ -81,30 +81,64 @@
 
 <div class="row">
   <div class="col-7 container-content">
-    <b class="mb-2">Description</b>
     <div class="card-description mb-5">
+      
       <div class="description">
-
+        <b class="mb-2">Description</b>
         <p>
           {{{course.description}}}
         </p>
       </div>
     </div>
 
-    <b class="mb-2">Course content</b>
     <div class="card-body card-table-content">
+      <b class="mb-2">Course content</b>
       <div class="description">
-
-        <p>
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dignissimos earum quam eius itaque nam vitae rem
-          possimus rerum sunt quo voluptatem temporibus vero minus explicabo assumenda, iure cupiditate laboriosam
-          placeat voluptas dolor quidem tempora quaerat aspernatur. Ratione id error, voluptatem ipsam laboriosam porro
-          illo quo consectetur cupiditate? Rem facilis eum quod accusamus! Quidem, architecto eligendi quisquam quo
-          commodi iusto voluptatem quam facere? Voluptates necessitatibus ab quaerat veritatis accusantium recusandae
-          distinctio unde tenetur officia dicta animi optio inventore placeat dolorem ad rerum minima, quia ut
-          voluptatibus officiis ea! Itaque adipisci cumque, tempora laboriosam tempore quaerat aliquam? Sed delectus
-          eius in natus!
-        </p>
+        <div class="card mt-2">
+          <div class="card-header flip">
+            Header
+          </div>
+          <div class="card-body panel">
+            <h4 class="card-title">Title</h4>
+            <p class="card-text">Text</p>
+          </div>
+        </div>
+        <div class="card mt-2">
+          <div class="card-header flip">
+            Header
+          </div>
+          <div class="card-body panel">
+            <h4 class="card-title">Title</h4>
+            <p class="card-text">Text</p>
+          </div>
+        </div>
+        <div class="card mt-2">
+          <div class="card-header flip">
+            Header
+          </div>
+          <div class="card-body panel">
+            <h4 class="card-title">Title</h4>
+            <p class="card-text">Text</p>
+          </div>
+        </div>
+        <div class="card mt-2">
+          <div class="card-header flip">
+            Header
+          </div>
+          <div class="card-body panel">
+            <h4 class="card-title">Title</h4>
+            <p class="card-text">Text</p>
+          </div>
+        </div>
+        <div class="card mt-2">
+          <div class="card-header flip">
+            Header
+          </div>
+          <div class="card-body panel">
+            <h4 class="card-title">Title</h4>
+            <p class="card-text">Text</p>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -112,11 +146,9 @@
     <br>
     <b class="mb-2">Instructor</b>
     <br>
-    <b class="mb-2">Student feedback</b>
-
-
 
     <div class="card-body card-list-rating">
+      <b class="mb-1">Student feedback</b>
       <div class="row">
         <div class="rating">
           <div class="rateYo" data-rateyo-rating="{{this.avgRating}}"></div>
@@ -194,7 +226,7 @@
       {{#if isMember}}
       <div class="feedback text-center">
         <a href="/course/{{course._id}}/rating" class="btn btn-outline-info"
-          style="padding: 7px 28px; font-weight: 600;">Rate</a>
+          style="padding: 7px 28px; font-weight: 600;">Feedback</a>
       </div>
       {{/if}}
     </div>
@@ -202,8 +234,8 @@
 
     <div>
       <div class="card-header bg-white mt-5">
-        <b class="mb-2" id="flip" style="cursor: pointer;">Reviews</b>
-        <div class="student-feedback mt-2" id="panel">
+        <b class="mb-2 flip" style="cursor: pointer;">Reviews</b>
+        <div class="student-feedback mt-2 panel">
           <div class="testimonial">
             {{#each this.course.list_rating}}
             <div class="card-body card-testimonial">
@@ -218,9 +250,11 @@
               <div class="testimonial__text mt-2">
                 <h3 class="heading-tertiary u-margin-bottom-small">
                   {{this.student.fullname}}
+                  <span class="time">{{fromNow this.date_rating}}</span>
                 </h3>
                 <div class="feedback">
-                  <div class="rateYo mt-1 mb-1" data-rateyo-rating={{this.rating}} data-rateyo-star-width="25px"></div>
+                  <div class="rateYo mt-1 mb-1" data-rateyo-rating={{this.rating}} data-rateyo-star-width="25px">
+                  </div>
                 </div>
                 <p>
                   {{this.description}}
@@ -274,9 +308,9 @@
 </script>
 
 <script>
-  $(document).ready(function () {
-    $("#flip").click(function () {
-      $("#panel").slideToggle("slow");
+  $(document).ready(function() {
+    $('.flip').click(function(){
+      $(this).parent().children('.panel').slideToggle("slow");
     });
   });
 </script>
