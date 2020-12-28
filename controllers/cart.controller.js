@@ -32,8 +32,6 @@ module.exports = {
             mongoose.mongo.ObjectId(courseId)
         );
 
-        console.log(course.list_student);
-
         for (student of course.list_student) {
             if (student == studentId) {
                 return res.redirect(req.headers.referer);
@@ -42,18 +40,13 @@ module.exports = {
 
         var cartArr = req.session.cart;
 
-        if (typeof cartArr == 'undefined') {
-            req.session.cart = [];
-            cartArr = req.session.cart;
-        }
-
         for (ci of cartArr) {
             if (ci.courseId === courseId)
                 return res.redirect(req.headers.referer);
         }
 
         req.session.cart = [...req.session.cart, { courseId }];
-        res.redirect(req.headers.referer);
+        return res.redirect(req.headers.referer);
     },
 
     getCheckout: async function (req, res) {
@@ -104,13 +97,14 @@ module.exports = {
     },
     delFromCart: function (req, res) {
         const courseId = req.body.courseId;
-        console.log(courseId);
+
         if (req.session.cart) {
-            console.log(req.session.cart);
             req.session.cart = req.session.cart.filter(
                 (course) => course.courseId != courseId
             );
         }
-        return res.redirect('/cart');
+
+        console.log(req.session.cart);
+        res.redirect(req.headers.referer);
     },
 };

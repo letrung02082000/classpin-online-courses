@@ -38,7 +38,7 @@ app.use(
         cookie: {
             //secure: true
         },
-        store: new mongoStore({ mongooseConnection: mongoose.connection }),
+        //store: new mongoStore({ mongooseConnection: mongoose.connection }),
     })
 );
 app.use(connectFlash());

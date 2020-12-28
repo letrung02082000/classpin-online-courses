@@ -1,4 +1,8 @@
 module.exports.localsUser = function (req, res, next) {
+    if (typeof req.session.cart === 'undefined') {
+        req.session.cart = [];
+    }
+
     if (
         typeof req.session.cart === 'undefined' ||
         req.session.cart.length == 0
