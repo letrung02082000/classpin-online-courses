@@ -4,7 +4,11 @@ const mongoose = require('mongoose');
 module.exports = {
     getCart: async function (req, res) {
         const cartArr = req.session.cart;
-        console.log(cartArr);
+
+        if (typeof cartArr == 'undefined') {
+            return res.render('cart/cart', { isEmpty: true });
+        }
+
         var viewCartArr = [];
 
         for (ci of cartArr) {
@@ -13,13 +17,17 @@ module.exports = {
             var course = await courseModel.findById(id);
             viewCartArr = [...viewCartArr, course];
         }
-        console.log(viewCartArr);
-        res.render('checkout/cart', { viewCartArr: viewCartArr });
+        res.render('cart/cart', { viewCartArr: viewCartArr, isEmpty: false });
     },
     addToCart: function (req, res) {
         const courseId = req.body.courseId;
 
-        const cartArr = req.session.cart;
+        var cartArr = req.session.cart;
+
+        if (typeof cartArr == 'undefined') {
+            req.session.cart = [];
+            cartArr = req.session.cart;
+        }
 
         for (ci of cartArr) {
             if (ci.courseId === courseId)
@@ -28,10 +36,9 @@ module.exports = {
 
         req.session.cart = [...req.session.cart, { courseId }];
         res.redirect(req.headers.referer);
-        console.log(req.session.cart);
     },
 
     getCheckout: function (req, res) {
-        res.render('checkout/checkout.hbs');
+        res.render('cart/checkout.hbs');
     },
 };

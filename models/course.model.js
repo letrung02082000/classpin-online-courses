@@ -64,7 +64,10 @@ module.exports = {
         Course.collection.insertMany(arr);
     },
     findById(courseId) {
-        return Course.findById(courseId).lean();
+        return Course.findById(courseId)
+            .populate('teacher', 'fullname')
+            .populate('category', 'name')
+            .lean();
     },
 
     // return rating embeded in list_rating of course

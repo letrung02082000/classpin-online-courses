@@ -36,7 +36,20 @@
 
 
             </div>
+
             <ul class="navbar-nav justify-content-end">
+                <li class="nav-item mr-3 cart-item">
+                    <a class="nav-link" href="/cart"><i class="fas fa-shopping-cart"></i>
+                        {{#if isEmptyCart}}
+                        <span></span>
+                        {{else}}
+                        <span class="badge badge-pill badge-danger float-right">
+                            {{cartCount}}
+                        </span>
+                    </a>
+                    {{/if}}
+
+                </li>
                 {{#if isAuth}}
                 <li class="nav-item dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
@@ -53,9 +66,7 @@
                 </li>
 
                 {{else}}
-                <li class="nav-item mr-3">
-                    <a class="nav-link" href="/cart"><i class="fas fa-shopping-cart"></i></a>
-                </li>
+
                 <li class="nav-item">
                     <a class="btn btn-info me-3" href="/account/login">Log in | Sign up</a>
                 </li>
