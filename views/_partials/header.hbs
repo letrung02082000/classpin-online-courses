@@ -38,16 +38,16 @@
             </div>
 
             <ul class="navbar-nav justify-content-end">
-                <li class="nav-item mr-3 cart-item">
+                <li class="nav-item mr-3">
                     <a class="nav-link" href="/cart"><i class="fas fa-shopping-cart"></i>
                         {{#if isEmptyCart}}
-                        <span></span>
                         {{else}}
                         <span class="badge badge-pill badge-danger float-right">
                             {{cartCount}}
                         </span>
+                        {{/if}}
                     </a>
-                    {{/if}}
+
 
                 </li>
                 {{#if isAuth}}

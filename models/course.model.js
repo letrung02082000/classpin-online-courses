@@ -119,4 +119,15 @@ module.exports = {
             .sort({ view_count: -1 })
             .limit(10);
     },
+
+    async addStudentToManyCourses(courseArr, studentId) {
+        const course = await Course.find(
+            { _id: { $in: courseArr } },
+            function (err, doc) {
+                if (err) return console.log(err);
+            }
+        );
+
+        course.forEach(function (doc) {});
+    },
 };
