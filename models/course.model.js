@@ -120,15 +120,15 @@ module.exports = {
             .limit(10);
     },
 
-    async addStudentToManyCourses(courseArr, studentId) {
-        const course = await Course.find(
-            { _id: { $in: courseArr } },
+    async addStudentCourse(courseId, studentId) {
+        const course = await Course.updateOne(
+            { _id: mongoose.mongo.ObjectId(courseId) },
+            { $addToSet: { list_student: mongoose.mongo.ObjectId(studentId) } },
             function (err, doc) {
-                if (err) return console.log(err);
+                if (err) return console.err(err);
+                return console.log(doc);
             }
         );
-
-        course.forEach(function (doc) {});
     },
 
     async findCoursesByStudent(studentId) {

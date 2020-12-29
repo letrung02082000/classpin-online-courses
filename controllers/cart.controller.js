@@ -128,14 +128,9 @@ module.exports = {
         }
 
         if (typeof cartArr != 'undefined' && cartArr.length > 0) {
-            const userId = mongoose.mongo.ObjectId(req.user._id);
-            var courseArr = [];
-
             for (ci of cartArr) {
-                courseArr.push(mongoose.mongo.ObjectId(ci.courseId));
+                await courseModel.addStudentCourse(ci.courseId, req.user._id);
             }
-
-            courseModel.addStudentToManyCourses(courseArr, userId);
         }
 
         return res.render('cart/successCheckout', { isSuccessful: true });
