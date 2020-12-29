@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate-v2');
 const { findRatingById } = require('./rating.model');
 const Schema = mongoose.Schema;
+//trung
+const { getMonday } = require('../utils/getMonday');
 
 const schema = new Schema({
     _id: mongoose.ObjectId,
@@ -17,6 +19,8 @@ const schema = new Schema({
     category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' }, // id category
     date_created: { type: Date, default: Date.now },
     view_count: { type: Number, default: 0 },
+    last_view: { type: Date, default: Date.now },
+    week_count: { type: Number, default: 0 },
 });
 
 schema.index({ '$**': 'text' });
@@ -103,7 +107,7 @@ module.exports = {
             .limit(10);
     },
 
-    //count view
+    //trung
     async increaseCourseView(courseId) {
         const course = await Course.findById(courseId, function (err, doc) {
             if (err) return console.log(err);
@@ -126,7 +130,6 @@ module.exports = {
             { $addToSet: { list_student: mongoose.mongo.ObjectId(studentId) } },
             function (err, doc) {
                 if (err) return console.err(err);
-                return console.log(doc);
             }
         );
     },
@@ -143,5 +146,43 @@ module.exports = {
             .populate('teacher', 'fullname')
             .populate('category', 'name')
             .lean();
+    },
+
+    async updateWeekView(courseId) {
+        const course = await Course.findById(
+            mongoose.mongo.ObjectId(courseId),
+            function (err) {
+                if (err) throw Error(err);
+            }
+        );
+
+        course.week_count += 1;
+        course.last_view = Date.now();
+        await course.save();
+    },
+
+    async resetWeekView(courseId) {
+        const course = await Course.findById(
+            mongoose.mongo.ObjectId(courseId),
+            function (err) {
+                if (err) throw Error(err);
+            }
+        );
+
+        course.week_count = 0;
+        course.last_view = Date.now();
+        await course.save();
+    },
+
+    async getWeeklyCourse() {
+        const mondayDate = getMonday();
+        const now = Date.now();
+        return await Course.find({
+            last_view: { $gte: mondayDate, $lte: now },
+        })
+            .populate('teacher', 'fullname')
+            .populate('category', 'name')
+            .sort({ week_count: -1 })
+            .limit(4);
     },
 };

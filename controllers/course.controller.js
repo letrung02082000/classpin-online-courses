@@ -1,5 +1,8 @@
-const { insertExample, increaseCourseView } = require('../models/course.model');
-const toObject = require('../utils/toobject');
+const {
+    updateWeekView,
+    increaseCourseView,
+} = require('../models/course.model');
+const { getMonday } = require('../utils/getMonday');
 const courseModel = require('../models/course.model');
 const studentModel = require('../models/student.model');
 const ratingModel = require('../models/rating.model');
@@ -32,8 +35,19 @@ module.exports = {
     },
     course: async function (req, res) {
         const courseID = req.params.id;
-
+        //trung calculate view
         await increaseCourseView(courseID);
+        const course = await courseModel.findById(courseID);
+        var lastView = new Date(course.last_view);
+        const mondayDate = getMonday();
+
+        if (lastView < mondayDate) {
+            await courseModel.resetWeekView(courseID);
+            await updateWeekView(courseID);
+        } else {
+            await updateWeekView(courseID);
+        }
+        //
 
         const matchedCourse = await courseModel.findAllRatingOfCourse(courseID);
         //checkout user was a member in course

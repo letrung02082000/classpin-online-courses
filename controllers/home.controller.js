@@ -1,6 +1,7 @@
 const {
     LoadTenNewestCourses,
     loadTenViewCourses,
+    getWeeklyCourse,
 } = require('../models/course.model');
 const { multipleMongooseToObj, mongooseToObj } = require('../utils/toobject');
 const { Mongoose } = require('mongoose');
@@ -25,14 +26,19 @@ module.exports = {
             var tenViewCourses = await loadTenViewCourses();
 
             tenViewCourses = multipleMongooseToObj(tenViewCourses);
+
+            var fourWeeklyCourses = await getWeeklyCourse();
+
+            fourWeeklyCourses = multipleMongooseToObj(fourWeeklyCourses);
         } catch (error) {
-            console.log(error);
+            throw Error(error);
         }
 
         res.render('home', {
             tenNewestCourses: tenNewestCourses,
             allCategories,
             tenViewCourses,
+            fourWeeklyCourses,
         });
     },
 };
