@@ -57,7 +57,7 @@ module.exports = {
 
     // rating list
     const ratingListQuery = await courseModel.countRatingsByLevel(matchedCourse._id);
-    console.log(ratingListQuery);
+    //console.log(ratingListQuery);
     const ratingObj = {
       level_1: 0,
       level_2: 0,
@@ -89,7 +89,7 @@ module.exports = {
 
     
 
-    console.log(ratingObj);
+    //console.log(ratingObj);
     
     // compute avg rating
     const avg = await courseModel.computeAvgRating(matchedCourse._id);
@@ -115,7 +115,7 @@ module.exports = {
       level_0: ratingObj.level_0*100/totalRating || 0,
     }
 
-    console.log(percent); 
+    //console.log(percent); 
     res.render('course/index', {
       course: matchedCourse,
       isMember: isMember,

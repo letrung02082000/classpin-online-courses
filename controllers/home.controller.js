@@ -15,7 +15,7 @@ module.exports = {
         allCategories = multipleMongooseToObj(allCategories);
 
         var tenNewestCourses = await LoadTenNewestCourses();
-        console.log(tenNewestCourses);
+        //console.log(tenNewestCourses);
         //tenNewestCourses = multipleMongooseToObj(tenNewestCourses);
         for( i of tenNewestCourses) {
             const avg = await courseModel.computeAvgRating(i._id);
@@ -23,7 +23,7 @@ module.exports = {
                 if(avg[0]) {
                 avgRating = avg[0].avgRating;
             }
-            console.log(avgRating);
+            //console.log(avgRating);
             i.avgRating = avgRating;
         }
         //console.log(tenNewestCourses);
