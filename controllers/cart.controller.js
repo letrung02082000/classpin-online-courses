@@ -5,51 +5,96 @@ module.exports = {
     getCart: async function (req, res) {
         const cartArr = req.session.cart;
 
-        if (typeof cartArr == 'undefined') {
+        if (typeof cartArr == 'undefined' || cartArr.length === 0) {
             return res.render('cart/cart', { isEmpty: true });
         }
 
         var viewCartArr = [];
         var totalPrice = 0;
 
-        for (ci of cartArr) {
-            const id = mongoose.mongo.ObjectId(ci.courseId);
-            var course = await courseModel.findById(id);
-            viewCartArr = [...viewCartArr, course];
-            totalPrice += course.price;
+        if (!req.user) {
+            for (ci of cartArr) {
+                const id = mongoose.mongo.ObjectId(ci.courseId);
+                var course = await courseModel.findById(id);
+                viewCartArr = [...viewCartArr, course];
+                totalPrice += course.price;
+            }
+
+            res.render('cart/cart', {
+                viewCartArr: viewCartArr,
+                isEmpty: viewCartArr.length == 0 ? true : false,
+                totalPrice,
+            });
+        } else {
+            var studentCourse = await courseModel.findCoursesByStudent(
+                req.user._id
+            );
+
+            var studentIdArr = studentCourse.map((doc) => doc._id.toString());
+
+            for (const ci of cartArr) {
+                if (!studentIdArr.includes(ci.courseId)) {
+                    const courseId = mongoose.mongo.ObjectId(ci.courseId);
+                    var cartCourse = await courseModel.findById(courseId);
+                    viewCartArr = [...viewCartArr, cartCourse];
+                    totalPrice += cartCourse.price;
+                }
+            }
+            res.locals.cartCount = viewCartArr.length;
+            res.render('cart/cart', {
+                viewCartArr: viewCartArr,
+                isEmpty: false,
+                totalPrice,
+            });
         }
-        res.render('cart/cart', {
-            viewCartArr: viewCartArr,
-            isEmpty: false,
-            totalPrice,
-        });
     },
     addToCart: async function (req, res) {
         const courseId = req.body.courseId;
-        const studentId = mongoose.mongo.ObjectId(req.user._id);
 
-        const course = await courseModel.findById(
-            mongoose.mongo.ObjectId(courseId)
-        );
+        if (!req.user) {
+            const course = await courseModel.findById(
+                mongoose.mongo.ObjectId(courseId)
+            );
 
-        for (student of course.list_student) {
-            if (student == studentId) {
+            var cartArr = req.session.cart;
+
+            for (ci of cartArr) {
+                if (ci.courseId === courseId)
+                    return res.redirect(req.headers.referer);
+            }
+
+            req.session.cart = [...req.session.cart, { courseId }];
+            return res.redirect(req.headers.referer);
+        } else {
+            var studentCourse = await courseModel.findCoursesByStudent(
+                req.user._id
+            );
+
+            var studentCourseId = studentCourse.map((doc) =>
+                doc._id.toString()
+            );
+
+            if (studentCourseId.includes(courseId)) {
                 return res.redirect(req.headers.referer);
             }
+
+            var cartArr = req.session.cart;
+
+            for (ci of cartArr) {
+                if (ci.courseId === courseId)
+                    return res.redirect(req.headers.referer);
+            }
+
+            req.session.cart = [...req.session.cart, { courseId }];
+            return res.redirect(req.headers.referer);
         }
-
-        var cartArr = req.session.cart;
-
-        for (ci of cartArr) {
-            if (ci.courseId === courseId)
-                return res.redirect(req.headers.referer);
-        }
-
-        req.session.cart = [...req.session.cart, { courseId }];
-        return res.redirect(req.headers.referer);
     },
 
     getCheckout: async function (req, res) {
+        if (!req.user) {
+            return res.redirect('/account/login');
+        }
+
         const cartArr = req.session.cart;
 
         if (typeof cartArr == 'undefined') {
@@ -104,7 +149,6 @@ module.exports = {
             );
         }
 
-        console.log(req.session.cart);
-        res.redirect(req.headers.referer);
+        res.redirect('/cart');
     },
 };

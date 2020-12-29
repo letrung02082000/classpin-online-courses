@@ -130,4 +130,18 @@ module.exports = {
 
         course.forEach(function (doc) {});
     },
+
+    async findCoursesByStudent(studentId) {
+        return await Course.find(
+            {
+                list_student: mongoose.mongo.ObjectId(studentId),
+            },
+            function (err, doc) {
+                if (err) return console.log(err);
+            }
+        )
+            .populate('teacher', 'fullname')
+            .populate('category', 'name')
+            .lean();
+    },
 };

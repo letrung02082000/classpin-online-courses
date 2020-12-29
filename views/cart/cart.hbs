@@ -3,7 +3,11 @@
 {{/section}}
 
 <div class="container-fluid">
-    <h1>Your cart</h1>
+
+    {{#if isEmpty}}
+    <h1>Your cart is empty!</h1>
+    <h3>Continue to browse course> <a href="/">Home</a></h3>
+    {{else}}
     <section>
 
         <!--Grid row-->
@@ -12,10 +16,7 @@
             <!--Grid column-->
             <div class="col-lg-8">
                 <div class="cart">
-                    {{#if isEmpty}}
-                    <h1>Your cart is empty!</h1>
-                    <h3>Continue to browse course> <a href="/">Home</a></h3>
-                    {{else}}
+                    <h1>Your cart</h1>
                     {{#each viewCartArr}}
                     <div class="card mb-3 d-flex flex-row">
                         <div class="course-thumbnail"><img src="{{thumbnail}}" class="card-img-top"
@@ -36,13 +37,12 @@
                         <div>
                             <form action="/cart/del" method="post">
                                 <input type="hidden" value="{{_id}}" name="courseId" />
-                                <input type="submit" value="Delete" />
+                                <input type="submit" value="Remove" />
                             </form>
                         </div>
                         <div class="card-text">$ {{price}}</div>
                     </div>
                     {{/each}}
-                    {{/if}}
                 </div>
 
             </div>
@@ -93,4 +93,6 @@
         </div>
         <!-- Grid row -->
     </section>
+    {{/if}}
+
 </div>
