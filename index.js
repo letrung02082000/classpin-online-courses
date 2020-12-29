@@ -17,6 +17,7 @@ const courseRoutes = require('./routes/course.route');
 const homeRoutes = require('./routes/home.route');
 
 const cartRoutes = require('./routes/cart.route');
+const adminRoutes = require('./routes/admin.route');
 
 const teacherRoutes = require('./routes/teacher.route');
 const categoryRoutes = require('./routes/category.route');
@@ -84,6 +85,8 @@ app.use('/teacher', teacherRoutes);
 app.use('/category', categoryRoutes);
 
 app.use('/cart', cartRoutes);
+
+app.use('/admin', adminRoutes);
 
 app.use('/', homeRoutes);
 
