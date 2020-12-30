@@ -9,11 +9,18 @@ module.exports = {
     postLogin: async function (req, res) {
         const username = req.body.username;
         const password = req.body.password;
+    },
 
-        // const admin = {
-        //     namelogin: username,
-        //     password: bcrypt.hashSync(password, 10),
-        // };
-        // await adminModel.addAdmin(admin);
+    getDashboard: function (req, res) {
+        res.render('admin/dashboard', { layout: false });
+    },
+    getCourses: function (req, res) {
+        res.render('admin/courses', { layout: false });
+    },
+    getUsers: function (req, res) {
+        res.render('admin/users', { layout: false });
+    },
+    getCategories: function (req, res) {
+        res.render('admin/categories', { layout: false });
     },
 };
