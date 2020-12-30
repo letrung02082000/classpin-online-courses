@@ -9,7 +9,6 @@ var session = require('express-session');
 const mongoStore = require('connect-mongo')(session);
 const mongoose = require('mongoose');
 const connectFlash = require('connect-flash');
-const mongoose = require('mongoose');
 const moment = require('moment');
 const passportSetup = require('./config/passport-setup');
 var express_handlebars_sections = require('express-handlebars-sections');
@@ -19,7 +18,6 @@ const courseRoutes = require('./routes/course.route');
 const homeRoutes = require('./routes/home.route');
 const adminRoutes = require('./routes/admin.route');
 const cartRoutes = require('./routes/cart.route');
-const adminRoutes = require('./routes/admin.route');
 
 const teacherRoutes = require('./routes/teacher.route');
 const categoryRoutes = require('./routes/category.route');
@@ -64,13 +62,10 @@ app.engine(
         partialsDir: 'views/_partials',
         helpers: {
             section: express_handlebars_sections(),
-<<<<<<< HEAD
             ifCond: require('./helpers/ifCond.helper').ifCond,
-=======
-            fromNow: function(date) {
+            fromNow: function (date) {
                 return moment(date).fromNow();
             },
->>>>>>> cf7e7fdc004c2e6317d08cb1085ca0b0bcdf3a56
         },
     })
 );

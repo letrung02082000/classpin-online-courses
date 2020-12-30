@@ -19,7 +19,7 @@ const Category = mongoose.model('Category', schema, 'Category');
 
 module.exports = {
     async loadAllCategories() {
-        return await Category.find({});
+        return await Category.find({}).lean();
     },
 
     findById(categoryId) {
@@ -49,5 +49,5 @@ module.exports = {
     },
     deleteOneCategory(id) {
         return Category.deleteOne({ _id: id });
-    }
+    },
 };

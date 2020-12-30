@@ -3,7 +3,7 @@ const {
     loadTenViewCourses,
     getWeeklyCourse,
 } = require('../models/course.model');
-const { multipleMongooseToObj, mongooseToObj } = require('../utils/toobject');
+
 const { Mongoose } = require('mongoose');
 const mongoose = require('mongoose');
 const { insertExample, loadAllTeachers } = require('../models/teacher.model');
@@ -18,19 +18,11 @@ module.exports = {
         try {
             var allCategories = await loadAllCategories();
 
-            allCategories = multipleMongooseToObj(allCategories);
-
             var tenNewestCourses = await LoadTenNewestCourses();
-
-            tenNewestCourses = multipleMongooseToObj(tenNewestCourses);
 
             var tenViewCourses = await loadTenViewCourses();
 
-            tenViewCourses = multipleMongooseToObj(tenViewCourses);
-
             var fourWeeklyCourses = await getWeeklyCourse();
-
-            fourWeeklyCourses = multipleMongooseToObj(fourWeeklyCourses);
 
             for (i of tenNewestCourses) {
                 const avg = await courseModel.computeAvgRating(i._id);
@@ -41,7 +33,6 @@ module.exports = {
                 //console.log(avgRating);
                 i.avgRating = avgRating;
             }
-            //console.log(tenNewestCourses);
         } catch (error) {
             throw Error(error);
         }
@@ -51,7 +42,6 @@ module.exports = {
             allCategories,
             tenViewCourses,
             fourWeeklyCourses,
-            avgRating,
         });
     },
 };

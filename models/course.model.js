@@ -172,7 +172,8 @@ module.exports = {
             .populate('teacher', 'fullname')
             .populate('category', 'name')
             .sort({ view_count: -1 })
-            .limit(10);
+            .limit(10)
+            .lean();
     },
 
     async addStudentCourse(courseId, studentId) {
@@ -234,6 +235,7 @@ module.exports = {
             .populate('teacher', 'fullname')
             .populate('category', 'name')
             .sort({ week_count: -1 })
-            .limit(4);
+            .limit(4)
+            .lean();
     },
 };
