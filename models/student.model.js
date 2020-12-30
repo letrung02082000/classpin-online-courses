@@ -3,50 +3,62 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const schema = new Schema({
-  namelogin: String,
-  fullname: String,
-  password: String,
-  email: String,
-  date_of_birth: String,
-  avatar: String,
-  wishlist: Array, // ObjectId khoa hoc
+    namelogin: String,
+    fullname: String,
+    password: String,
+    email: String,
+    date_of_birth: String,
+    avatar: String,
+    wishlist: Array, // ObjectId khoa hoc
 });
 
 const Student = mongoose.model('Student', schema, 'Student');
 
 module.exports = {
-  insertOne(student) {
-    return Student.create(student);
-  },
+    insertOne(student) {
+        return Student.create(student);
+    },
 
-  findByEmail(email) {
-    return Student.findOne({email : email});
-  },
+    findByEmail(email) {
+        return Student.findOne({ email: email });
+    },
 
-  findByNameLogin(username) {
-    return Student.findOne({namelogin: username});
-  },
+    findByNameLogin(username) {
+        return Student.findOne({ namelogin: username });
+    },
 
-  findByGoogleID(googleID) {
-    return Student.findOne({googleID: googleID});
-  },
+    findByGoogleID(googleID) {
+        return Student.findOne({ googleID: googleID });
+    },
 
-  findByFacebookID(facebookID) {
-    return Student.findOne({facebookID: facebookID});
-  },
+    findByFacebookID(facebookID) {
+        return Student.findOne({ facebookID: facebookID });
+    },
 
-  findById(id) {
-    return Student.findById(id).lean();
-  },
+    findById(id) {
+        return Student.findById(id).lean();
+    },
 
-  findOneAndUpdate(filter, update) {
-    return Student.findOneAndUpdate(filter, update, {
-      new: true,
-    })
-  },
+    findOneAndUpdate(filter, update) {
+        return Student.findOneAndUpdate(filter, update, {
+            new: true,
+        });
+    },
 
-  findByNameloginOrEmail(value) {
-    return Student.findOne({$or: [{namelogin: value}, {email: value}]});
-  }
-  ///
-}
+    findByNameloginOrEmail(value) {
+        return Student.findOne({
+            $or: [{ namelogin: value }, { email: value }],
+        });
+    },
+
+    getStudent: async function (perPage, page) {
+        return await Student.find({})
+            .skip(perPage * (page - 1))
+            .limit(perPage)
+            .lean();
+    },
+
+    countStudent: async function () {
+        return await Student.countDocuments({});
+    },
+};
