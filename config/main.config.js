@@ -19,6 +19,10 @@ module.exports = {
     clientID: process.env.LINKEDIN_KEY,
     clientSecret: process.env.LINKEDIN_SECRET,
   },
+  github: {
+    GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID,
+    GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET,
+  },
   email: {
     account: process.env.EMAIL_ACCOUNT,
     password: process.env.EMAIL_PASS,

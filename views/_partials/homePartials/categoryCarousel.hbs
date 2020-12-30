@@ -10,12 +10,8 @@
                             <div class="card__title">{{name}}</div>
                             <div class="card_teacher">{{teacher.fullname}}</div>
                             <div class="card__category">{{category.name}}</div>
-                            <div class="rating">
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star"></span>
-                                <span class="fa fa-star"></span>
+                            <div class="rating mb-2">
+                                <div class="rateYo" data-rateyo-rating="{{avgRating}}" data-rateyo-star-width="20px"></div>
                             </div>
                             <div class="card__price">$ {{price}}</div>
                         </div>

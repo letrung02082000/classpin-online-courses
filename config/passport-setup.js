@@ -2,6 +2,7 @@ const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20');
 const LocalStrategy = require('passport-local').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
+const GitHubStrategy = require('passport-github2').Strategy;
 const TwitterStrategy = require('passport-twitter').Strategy;
 const LinkedInStrategy  = require('passport-linkedin-oauth2').Strategy;
 
@@ -93,6 +94,31 @@ passport.use(
     }
   })
 );
+
+passport.use(new GitHubStrategy({
+  clientID: keys.github.GITHUB_CLIENT_ID,
+  clientSecret: keys.github.GITHUB_CLIENT_SECRET,
+  callbackURL: "/account/github/redirect"
+}, async (accessToken, refreshToken, profile, done) => {
+  //passport callback function
+  console.log(profile);
+  //console.log(email);
+  // check user exist
+  const user = await studentModel.findByEmail(profile.emails[0].value);
+  if(user) {
+    console.log('user already exist');
+    done(null, user);
+  } else {
+    const newStudent = {
+      fullname: profile.displayName,
+      avatar: profile.photos[0].value,
+      email: profile.emails[0].value,
+      wishlist: [],
+    }
+    const result = await studentModel.insertOne(newStudent);
+    done(null, result);
+  }
+}));
 
 
 // passport.use(

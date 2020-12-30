@@ -125,6 +125,10 @@ body{
 #panel, #flip {
 }
 
-#panel {
+.flip{
+  cursor: pointer;
+}
+
+.panel {
   display: none;
 }

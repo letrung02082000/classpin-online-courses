@@ -28,6 +28,13 @@ router.get('/facebook/login', passport.authenticate('facebook', {
 }));
 
 router.get('/facebook/redirect', passport.authenticate('facebook', {successRedirect: '/', failureRedirect: '/account/login'}));
+//login with github
+router.get('/github/login', passport.authenticate('github', {
+  scope: [ 'user:email' ]
+}))
+
+router.get('/github/redirect', passport.authenticate('github', {failureRedirect: '/account/login', successRedirect: '/'}));
+
 
 router.post('/postSignUp', controller.postSignUp);
 router.get('/is-available', controller.isAvailable);
