@@ -16,7 +16,7 @@
           <h4>No category available</h4>
           {{else}}
           {{#each categories}}
-          <form action="/admin/delete" method="POST">
+          <form action="/admin/category/delete" method="POST">
             <input type="hidden" name="categoryId" value="{{this._id}}">
             <tr id="{{this._id}}">
               <td>{{this.name}}</td>
