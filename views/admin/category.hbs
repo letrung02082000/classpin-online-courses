@@ -1,0 +1,38 @@
+<div class="container" style="min-height: 600px;">
+  <div class="card">
+    <div class="card-body">
+      <a class="btn btn-primary" href="/admin/category/AddTopCategory" role="button">Create top category</a>
+      <a class="btn btn-primary" href="/admin/category/AddSubCategory" role="button">Create sub category</a>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Sub_category</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#if empty}}
+          <h4>No category available</h4>
+          {{else}}
+          {{#each categories}}
+          <form action="/admin/category/delete" method="POST">
+            <input type="hidden" name="categoryId" value="{{this._id}}">
+            <tr id="{{this._id}}">
+              <td>{{this.name}}</td>
+              <td>{{this.description}}</td>
+              <td>{{#each this.sub_category}}
+                <a href="#{{this._id}}">{{this.name}}</a>
+                {{/each}}
+              </td>
+              <td><button type="submit" class="btn btn-primary"><i class="fa fa-trash" aria-hidden="true"></i></button>
+              </td>
+            </tr>
+          </form>
+          {{/each}}
+          {{/if}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

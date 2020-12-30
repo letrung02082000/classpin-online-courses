@@ -15,7 +15,7 @@ const passport = require('passport');
 const authRoutes = require('./routes/auth.route');
 const courseRoutes = require('./routes/course.route');
 const homeRoutes = require('./routes/home.route');
-
+const adminRoutes = require('./routes/admin.route');
 const cartRoutes = require('./routes/cart.route');
 
 const teacherRoutes = require('./routes/teacher.route');
@@ -86,6 +86,8 @@ app.use('/teacher', teacherRoutes);
 app.use('/category', categoryRoutes);
 
 app.use('/cart', cartRoutes);
+
+app.use('/admin', adminRoutes);
 
 app.use('/', homeRoutes);
 

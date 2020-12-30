@@ -4,9 +4,9 @@ const Schema = mongoose.Schema;
 
 const schema = new Schema({
   _id: mongoose.ObjectId,
-  namelogin: {String , required},
-  fullname: {String, required},
-  password: {String, required},
+  namelogin: { type: String, required: true },
+  fullname: { String },
+  password: { type: String, required: true },
   email: String,
   phone: String,
   avatar: String,
@@ -17,6 +17,6 @@ const Admin = mongoose.model('Admin', schema, 'Admin');
 
 module.exports = {
   load() {
-    
-  }     
+
+  }
 }
