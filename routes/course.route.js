@@ -11,6 +11,7 @@ router.get('/search', controller.search);
 router.get('/:id', controller.course);
 router.get('/:id/rating', requireUser.requireUser, controller.rating);
 router.post('/:id/rating', requireUser.requireUser, controller.postRating);
-
+router.post('/wishlist', requireUser.requireUser, controller.addToWishList);
+router.post('/unwishlist', requireUser.requireUser, controller.unWishList);
 
 module.exports = router;

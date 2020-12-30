@@ -9,13 +9,15 @@ var session = require('express-session');
 const mongoStore = require('connect-mongo')(session);
 const mongoose = require('mongoose');
 const connectFlash = require('connect-flash');
+const mongoose = require('mongoose');
+const moment = require('moment');
 const passportSetup = require('./config/passport-setup');
 var express_handlebars_sections = require('express-handlebars-sections');
 const passport = require('passport');
 const authRoutes = require('./routes/auth.route');
 const courseRoutes = require('./routes/course.route');
 const homeRoutes = require('./routes/home.route');
-
+const adminRoutes = require('./routes/admin.route');
 const cartRoutes = require('./routes/cart.route');
 const adminRoutes = require('./routes/admin.route');
 
@@ -23,7 +25,9 @@ const teacherRoutes = require('./routes/teacher.route');
 const categoryRoutes = require('./routes/category.route');
 
 const localmdw = require('./middlewares/locals.middleware');
+const courseModel = require('./models/course.model');
 const key = require('./config/main.config');
+
 const { port, mongo_url, secret_session } = key;
 const db = require('./db');
 const { requireUser } = require('./middlewares/requireUserLogin.middleware');
@@ -60,7 +64,13 @@ app.engine(
         partialsDir: 'views/_partials',
         helpers: {
             section: express_handlebars_sections(),
+<<<<<<< HEAD
             ifCond: require('./helpers/ifCond.helper').ifCond,
+=======
+            fromNow: function(date) {
+                return moment(date).fromNow();
+            },
+>>>>>>> cf7e7fdc004c2e6317d08cb1085ca0b0bcdf3a56
         },
     })
 );

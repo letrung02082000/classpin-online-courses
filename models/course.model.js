@@ -21,6 +21,7 @@ const schema = new Schema({
     view_count: { type: Number, default: 0 },
     last_view: { type: Date, default: Date.now },
     week_count: { type: Number, default: 0 },
+    last_updated: { type: Date, default: Date.now },
 });
 
 schema.index({ '$**': 'text' });
@@ -68,25 +69,66 @@ module.exports = {
         Course.collection.insertMany(arr);
     },
     findById(courseId) {
-        return Course.findById(courseId)
-            .populate('teacher', 'fullname')
-            .populate('category', 'name')
-            .lean();
+        return Course.findById(courseId).lean();
     },
 
     // return rating embeded in list_rating of course
     findAllRatingOfCourse(courseID) {
         return Course.findById(courseID)
             .populate([{ path: 'list_rating', populate: { path: 'student' } }])
+            .populate({ path: 'teacher' })
             .lean();
     },
 
-    // add ratingID to list_rating
-    pushRatingIDToCourse(courseID, ratingID) {
-        return Course.updateOne(
-            { _id: courseID },
-            { $addToSet: { list_rating: ratingID } }
-        );
+    findCoursePurchased(studentID) {
+        return Course.find({
+            list_student: { $all: [mongoose.Types.ObjectId(studentID)] },
+        }).lean();
+    },
+    // return a document nested in array have field avgRating, if empty array, avgRating = 0
+    computeAvgRating(courseID) {
+        return Course.aggregate([
+            { $match: { _id: courseID } },
+            {
+                $lookup: {
+                    from: 'Rating',
+                    localField: 'list_rating',
+                    foreignField: '_id',
+                    as: 'list_rating_info',
+                },
+            },
+            { $project: { list_rating_info: 1 } },
+            { $unwind: '$list_rating_info' },
+            {
+                $group: {
+                    _id: '$_id',
+                    avgRating: { $avg: '$list_rating_info.rating' },
+                },
+            },
+        ]);
+    },
+
+    countRatingsByLevel(courseID) {
+        return Course.aggregate([
+            { $match: { _id: courseID } },
+            {
+                $lookup: {
+                    from: 'Rating',
+                    localField: 'list_rating',
+                    foreignField: '_id',
+                    as: 'list_rating_info',
+                },
+            },
+            // {$project: { list_rating_info: 1}},
+            // {$unwind: "$list_rating_info"},
+            // {$match: {'list_rating_info.rating': level}},
+            // {$count: 'count'}
+            { $project: { list_rating_info: 1 } },
+            { $unwind: '$list_rating_info' },
+            { $group: { _id: '$list_rating_info.rating', count: { $sum: 1 } } },
+
+            // {$group: {_id: "$_id", countRating: {$count: '$list_rating_info'}}}
+        ]);
     },
 
     //return course if exists student
@@ -104,7 +146,16 @@ module.exports = {
             .populate('teacher', 'fullname')
             .populate('category', 'name')
             .sort({ date_created: 1 })
-            .limit(10);
+            .limit(10)
+            .lean();
+    },
+
+    // add ratingID to list_rating
+    pushRatingIDToCourse(courseID, ratingID) {
+        return Course.updateOne(
+            { _id: courseID },
+            { $addToSet: { list_rating: ratingID } }
+        );
     },
 
     //trung

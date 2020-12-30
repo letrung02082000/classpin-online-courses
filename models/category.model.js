@@ -36,4 +36,18 @@ module.exports = {
             .lean()
             .populate('sub_category');
     },
+    addCategory(category) {
+        return Category.create(category);
+    },
+    async addSubCategory(subId, topId) {
+        let category = await Category.findById(topId);
+        if (!category.sub_category) {
+            cetegory.sub_category = [];
+        }
+        category.sub_category.push(subId);
+        return await category.save();
+    },
+    deleteOneCategory(id) {
+        return Category.deleteOne({ _id: id });
+    }
 };

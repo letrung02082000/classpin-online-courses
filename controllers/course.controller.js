@@ -33,8 +33,14 @@ module.exports = {
         await courseModel.insertExample();
         res.render('home');
     },
+
     course: async function (req, res) {
+        var msg = '';
+        if (req.query.status) {
+            msg = req.query.status;
+        }
         const courseID = req.params.id;
+
         //trung calculate view
         await increaseCourseView(courseID);
         const course = await courseModel.findById(courseID);
@@ -47,7 +53,6 @@ module.exports = {
         } else {
             await updateWeekView(courseID);
         }
-        //
 
         const matchedCourse = await courseModel.findAllRatingOfCourse(courseID);
         //checkout user was a member in course
@@ -62,9 +67,89 @@ module.exports = {
             }
         }
 
+        // check course in wishlist
+        let isInWishList = false;
+        if (req.user) {
+            const checkwishlist = await studentModel.checkCourseInWishList(
+                courseID,
+                req.user._id
+            );
+            if (checkwishlist) {
+                isInWishList = true;
+            }
+        }
+
+        // rating list
+        const ratingListQuery = await courseModel.countRatingsByLevel(
+            matchedCourse._id
+        );
+        //console.log(ratingListQuery);
+        const ratingObj = {
+            level_1: 0,
+            level_2: 0,
+            level_3: 0,
+            level_4: 0,
+            level_5: 0,
+            level_0: 0,
+        };
+        for (i of ratingListQuery) {
+            if (i._id === 5) {
+                ratingObj.level_5 = i.count;
+            }
+            if (i._id === 4) {
+                ratingObj.level_4 = i.count;
+            }
+            if (i._id === 3) {
+                ratingObj.level_3 = i.count;
+            }
+            if (i._id === 2) {
+                ratingObj.level_2 = i.count;
+            }
+            if (i._id === 1) {
+                ratingObj.level_1 = i.count;
+            }
+            if (i._id === 0) {
+                ratingObj.level_0 = i.count;
+            }
+        }
+
+        //console.log(ratingObj);
+
+        // compute avg rating
+        const avg = await courseModel.computeAvgRating(matchedCourse._id);
+
+        let avgRating = 0;
+        if (avg[0]) {
+            avgRating = avg[0].avgRating;
+        }
+
+        // total ratings
+        let totalRating = 0;
+        if (matchedCourse.list_rating) {
+            totalRating = matchedCourse.list_rating.length;
+        }
+
+        // percent score
+        const percent = {
+            level_1: (ratingObj.level_1 * 100) / totalRating || 0,
+            level_2: (ratingObj.level_2 * 100) / totalRating || 0,
+            level_3: (ratingObj.level_3 * 100) / totalRating || 0,
+            level_4: (ratingObj.level_4 * 100) / totalRating || 0,
+            level_5: (ratingObj.level_5 * 100) / totalRating || 0,
+            level_0: (ratingObj.level_0 * 100) / totalRating || 0,
+        };
+
+        //console.log(percent);
         res.render('course/index', {
             course: matchedCourse,
             isMember: isMember,
+            avgRating: Math.round(avgRating * 100) / 100, // value of avgRating
+            totalRating: totalRating,
+            amountStudent: matchedCourse.list_student.length,
+            msg: msg,
+            isInWishList: isInWishList,
+            ratingList: ratingObj,
+            percent: percent,
         });
     },
     rating: function (req, res) {
@@ -83,14 +168,17 @@ module.exports = {
             idCourse
         );
         console.log(matchedCourse);
-
+        let r = 0;
+        if (req.body.rating) {
+            r = req.body.rating;
+        }
         if (!matchedCourse) {
             throw Error('No permission');
         } else {
             const newRating = {
                 student: req.user._id,
                 description: req.body.description,
-                rating: +req.body.rating,
+                rating: +r,
             };
 
             // insert new rating to MONGODB
@@ -138,5 +226,22 @@ module.exports = {
             path: req.path,
             query: `q=${req.query.q}`,
         });
+    },
+
+    addToWishList: async function (req, res) {
+        const courseID = req.body.courseID;
+
+        // add idcourse to wish list
+        await studentModel.addCourseToWishList(courseID, req.user._id);
+        console.log(req.header.referer);
+        var msg = encodeURIComponent('addtowishlist');
+        res.redirect('/course/' + courseID + '/?status=' + msg);
+    },
+
+    unWishList: async function (req, res) {
+        const courseID = req.body.courseID;
+        await studentModel.unWishList(courseID, req.user._id);
+        var msg = encodeURIComponent('unwishlist');
+        res.redirect('/course/' + courseID + '/?status=' + msg);
     },
 };

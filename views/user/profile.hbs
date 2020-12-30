@@ -1,6 +1,7 @@
 {{#section 'css'}}
-  <link rel="stylesheet" href="/public/static/css/profile.css">
-  <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/public/static/css/home/categoryCarousel.css">
+<link rel="stylesheet" href="/public/static/css/profile.css">
+<link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900&display=swap" rel="stylesheet">
 {{/section}}
 
 <div class="profile-section">
@@ -21,10 +22,10 @@
           </a>
         </div>
       </div>
-      
+
       <h4 id="fullname">
-          <span>{{authUser.fullname}}</span>
-        </h4>
+        <span>{{authUser.fullname}}</span>
+      </h4>
       <div class="text-infomation">
         <p><strong>Email:</strong> {{authUser.email}}</p>
         <p><strong>Date of birth:</strong> {{authUser.date_of_birth}}</p>
@@ -32,33 +33,78 @@
       </div>
     </div>
 
-    <div class="progress">
-      <h3>
-        <i class="fa fa-list" aria-hidden="true"></i>
-        Purchased courses
-      </h3>
+    <div class="progress-course">
+
+      <div class="flip">
+        <h3>
+          <i class="fa fa-list" aria-hidden="true"></i>
+          Purchased courses
+        </h3>
+      </div>
+
+      <hr>
+      <div class="panel">
+        <div class="d-flex justify-content-left flex-wrap">
+          {{#each PurchasedCourse}}
+          <div class="card m-2" style="width: 13rem;">
+            <img src="{{this.thumbnail}}" class="card-img-top" alt="thumbnail" style="height: 8rem;">
+            <div class="card-body">
+              <h5 class="card-title">{{this.name}}</h5>
+              <p class="card-text">{{this.short_description}}</p>
+              <a href="/course/{{this._id}}" class="btn btn-primary">Detail</a>
+            </div>
+          </div>
+          {{/each}}
+        </div>
+      </div>
+
     </div>
-    <div class="progress">
-      <h3>
-        <i class="fa fa-list" aria-hidden="true"></i>
-        WishList
-      </h3>
+    <div class="progress-course">
+      <div class="flip">
+        <h3>
+          <i class="fa fa-list" aria-hidden="true"></i>
+          WishList
+        </h3>
+      </div>
+      <hr>
+      <div class="panel">
+        <div class="d-flex justify-content-left flex-wrap">
+          {{#each wishList}}
+          <div class="card m-2" style="width: 13rem;">
+            <img src="{{this.thumbnail}}" class="card-img-top" alt="thumbnail" style="height: 8rem;">
+            <div class="card-body">
+              <h5 class="card-title">{{this.name}}</h5>
+              <p class="card-text">{{this.short_description}}</p>
+              <a href="/course/{{this._id}}" class="btn btn-primary">Detail</a>
+            </div>
+          </div>
+          {{/each}}
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
 {{#section 'js'}}
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-  <script>
-    const status = '{{status}}';
-    if(status === "updatesuccess") {
-      Swal.fire({
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script>
+  const status = '{{status}}';
+  if (status === "updatesuccess") {
+    Swal.fire({
       position: 'top-end',
       icon: 'success',
       title: 'Saved',
       showConfirmButton: false,
       timer: 1500
-      })
-    }
-  </script>
+    })
+  }
+</script>
+
+<script>
+  $(document).ready(function() {
+    $('.flip').click(function(){
+      $(this).parent().children('.panel').slideToggle("slow");
+    });
+  });
+</script>
 {{/section}}

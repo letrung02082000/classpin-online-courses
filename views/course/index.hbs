@@ -21,31 +21,46 @@
             {{name}}
           </h1>
           <p>
-            {{description}}
+            {{short_description}}
           </p>
           {{/with}}
           <div class="rating">
-            <div class="rateYo" data-rateyo-rating="4.5" data-rateyo-star-width="30px"></div>
-            <p class="mt-2">4.1 average based on 254 reviews.</p>
+            <div class="rateYo" data-rateyo-rating="{{this.avgRating}}" data-rateyo-star-width="30px"></div>
+            <p class="mt-2">{{this.avgRating}} average based on {{this.totalRating}} ratings ({{amountStudent}}
+              students).</p>
+            <p>Created by {{this.course.teacher.fullname}}</p>
+            <p>Last updated {{fromNow this.course.last_updated}}</p>
           </div>
         </div>
-        <p>Created by Le Quoc Dat</p>
 
-        <a href="#" class="btn btn-outline-primary" id="btnWishlist">
-          Wishlist
-          <i class="far fa-heart"></i>
-        </a>
+        {{#if isInWishList}}
+        <form action="/course/unwishlist" method="POST">
+          <input type="hidden" name="courseID" value="{{course._id}}">
+          <button class="btn btn-outline-primary" id="btnWishlist" type="submit">
+            Wishlisted
+            <i class="fas fa-heart ml-1 wishlisted"></i>
+          </button>
+        </form>
+        {{else}}
+        <form action="/course/wishlist" method="POST">
+          <input type="hidden" name="courseID" value="{{course._id}}">
+          <button class="btn btn-outline-primary" id="btnWishlist" type="submit">
+            Wishlist
+            <i class="far fa-heart"></i>
+          </button>
+        </form>
+        {{/if}}
       </div>
     </div>
     <div class="buy-card">
       <div class="cardbody">
         <div class="img">
-          <img src="/public/static/images/involve2.jpg" alt="course-img">
+          <img src="{{course.thumbnail}}" alt="course-img">
         </div>
         {{#if isMember}}
-          
+
         {{else}}
-          <div class="card-text">
+        <div class="card-text">
           <p>
             <strong class="card-price">
               {{#with this.course}}
@@ -66,30 +81,64 @@
 
 <div class="row">
   <div class="col-7 container-content">
-    <b class="mb-2">Description</b>
     <div class="card-description mb-5">
+      
       <div class="description">
-
+        <b class="mb-2">Description</b>
         <p>
           {{{course.description}}}
         </p>
       </div>
     </div>
 
-    <b class="mb-2">Course content</b>
     <div class="card-body card-table-content">
+      <b class="mb-2">Course content</b>
       <div class="description">
-
-        <p>
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dignissimos earum quam eius itaque nam vitae rem
-          possimus rerum sunt quo voluptatem temporibus vero minus explicabo assumenda, iure cupiditate laboriosam
-          placeat voluptas dolor quidem tempora quaerat aspernatur. Ratione id error, voluptatem ipsam laboriosam porro
-          illo quo consectetur cupiditate? Rem facilis eum quod accusamus! Quidem, architecto eligendi quisquam quo
-          commodi iusto voluptatem quam facere? Voluptates necessitatibus ab quaerat veritatis accusantium recusandae
-          distinctio unde tenetur officia dicta animi optio inventore placeat dolorem ad rerum minima, quia ut
-          voluptatibus officiis ea! Itaque adipisci cumque, tempora laboriosam tempore quaerat aliquam? Sed delectus
-          eius in natus!
-        </p>
+        <div class="card mt-2">
+          <div class="card-header flip">
+            Header
+          </div>
+          <div class="card-body panel">
+            <h4 class="card-title">Title</h4>
+            <p class="card-text">Text</p>
+          </div>
+        </div>
+        <div class="card mt-2">
+          <div class="card-header flip">
+            Header
+          </div>
+          <div class="card-body panel">
+            <h4 class="card-title">Title</h4>
+            <p class="card-text">Text</p>
+          </div>
+        </div>
+        <div class="card mt-2">
+          <div class="card-header flip">
+            Header
+          </div>
+          <div class="card-body panel">
+            <h4 class="card-title">Title</h4>
+            <p class="card-text">Text</p>
+          </div>
+        </div>
+        <div class="card mt-2">
+          <div class="card-header flip">
+            Header
+          </div>
+          <div class="card-body panel">
+            <h4 class="card-title">Title</h4>
+            <p class="card-text">Text</p>
+          </div>
+        </div>
+        <div class="card mt-2">
+          <div class="card-header flip">
+            Header
+          </div>
+          <div class="card-body panel">
+            <h4 class="card-title">Title</h4>
+            <p class="card-text">Text</p>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -97,107 +146,129 @@
     <br>
     <b class="mb-2">Instructor</b>
     <br>
-    <b class="mb-2">Student feedback</b>
-
-
 
     <div class="card-body card-list-rating">
+      <b class="mb-1">Student feedback</b>
       <div class="row">
         <div class="rating">
-          <div class="rateYo" data-rateyo-rating="4.5"></div>
+          <div class="rateYo" data-rateyo-rating="{{this.avgRating}}"></div>
+          <p class="mt-2">{{this.avgRating}} average based on {{this.totalRating}} ratings.</p>
         </div>
+      </div>
+      <div class="row">
         <div class="side">
           <div>5 star</div>
         </div>
         <div class="middle">
           <div class="bar-container">
-            <div class="bar-5"></div>
+            <div class="bar-5" style="width: {{this.percent.level_5}}%;"></div>
           </div>
         </div>
         <div class="side right">
-          <div>150</div>
+          <div>{{this.ratingList.level_5}}</div>
         </div>
         <div class="side">
           <div>4 star</div>
         </div>
         <div class="middle">
           <div class="bar-container">
-            <div class="bar-4"></div>
+            <div class="bar-4" style="width: {{this.percent.level_4}}%;"></div>
           </div>
         </div>
         <div class="side right">
-          <div>63</div>
+          <div>{{this.ratingList.level_4}}</div>
         </div>
         <div class="side">
           <div>3 star</div>
         </div>
         <div class="middle">
           <div class="bar-container">
-            <div class="bar-3"></div>
+            <div class="bar-3" style="width: {{this.percent.level_3}}%;"></div>
           </div>
         </div>
         <div class="side right">
-          <div>15</div>
+          <div>{{this.ratingList.level_3}}</div>
         </div>
         <div class="side">
           <div>2 star</div>
         </div>
         <div class="middle">
           <div class="bar-container">
-            <div class="bar-2"></div>
+            <div class="bar-2" style="width: {{this.percent.level_2}}%;"></div>
           </div>
         </div>
         <div class="side right">
-          <div>6</div>
+          <div>{{this.ratingList.level_2}}</div>
         </div>
         <div class="side">
           <div>1 star</div>
         </div>
         <div class="middle">
           <div class="bar-container">
-            <div class="bar-1"></div>
+            <div class="bar-1" style="width: {{this.percent.level_1}}%;"></div>
           </div>
         </div>
         <div class="side right">
-          <div>20</div>
+          <div>{{this.ratingList.level_1}}</div>
+        </div>
+        <div class="side">
+          <div>0 star</div>
+        </div>
+        <div class="middle">
+          <div class="bar-container">
+            <div class="bar-0" style="width: {{this.percent.level_0}}%;"></div>
+          </div>
+        </div>
+        <div class="side right">
+          <div>{{this.ratingList.level_0}}</div>
         </div>
       </div>
       {{#if isMember}}
       <div class="feedback text-center">
         <a href="/course/{{course._id}}/rating" class="btn btn-outline-info"
-          style="padding: 7px 28px; font-weight: 600;">Rate</a>
+          style="padding: 7px 28px; font-weight: 600;">Feedback</a>
       </div>
       {{/if}}
     </div>
 
-    <div class="student-feedback mt-5">
-      <div class="testimonial">
-        {{#each this.course.list_rating}}
-        <div class="card-body card-testimonial">
-          <div class="avatar">
-            <figure class="testimonial__shape">
-              <img src="{{this.student.avatar}}" class="testimonial__img" alt="photo1">
-              <figcaption class="testimonial__caption">
-                {{this.student.fullname}}
-              </figcaption>
-            </figure>
-          </div>
-          <div class="testimonial__text mt-2">
-            <h3 class="heading-tertiary u-margin-bottom-small">
-              {{this.student.fullname}}
-            </h3>
-            <div class="feedback">
-              <div class="rateYo mt-1 mb-1" data-rateyo-rating={{this.rating}} data-rateyo-star-width="25px"></div>
+
+    <div>
+      <div class="card-header bg-white mt-5">
+        <b class="mb-2 flip" style="cursor: pointer;">Reviews</b>
+        <div class="student-feedback mt-2 panel">
+          <div class="testimonial">
+            {{#each this.course.list_rating}}
+            <div class="card-body card-testimonial">
+              <div class="avatar">
+                <figure class="testimonial__shape">
+                  <img src="{{this.student.avatar}}" class="testimonial__img" alt="photo1">
+                  <figcaption class="testimonial__caption">
+                    {{this.student.fullname}}
+                  </figcaption>
+                </figure>
+              </div>
+              <div class="testimonial__text mt-2">
+                <h3 class="heading-tertiary u-margin-bottom-small">
+                  {{this.student.fullname}}
+                  <span class="time">{{fromNow this.date_rating}}</span>
+                </h3>
+                <div class="feedback">
+                  <div class="rateYo mt-1 mb-1" data-rateyo-rating={{this.rating}} data-rateyo-star-width="25px">
+                  </div>
+                </div>
+                <p>
+                  {{this.description}}
+                </p>
+              </div>
             </div>
-            <p>
-              {{this.description}}
-            </p>
+            <hr style="border:3px solid #f1f1f1; margin: 0;">
+            {{/each}}
           </div>
         </div>
-        <hr style="border:3px solid #f1f1f1; margin: 0;">
-        {{/each}}
       </div>
     </div>
+
+
   </div>
 </div>
 
@@ -208,6 +279,7 @@
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script src="/public/static/js/jquery.waypoints.min.js"></script>
 <script>
   $(document).ready(
@@ -233,5 +305,35 @@
     });
   });
 
+</script>
+
+<script>
+  $(document).ready(function() {
+    $('.flip').click(function(){
+      $(this).parent().children('.panel').slideToggle("slow");
+    });
+  });
+</script>
+
+<script>
+  const msg = '{{this.msg}}';
+  console.log(msg);
+  if(msg === "addtowishlist") {
+    Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      title: 'Add to wishlist success!',
+      showConfirmButton: false,
+      timer: 1500
+    })
+  } else if(msg === "unwishlist") {
+    Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      title: 'remove from wishlist success!',
+      showConfirmButton: false,
+      timer: 1500
+    })
+  }
 </script>
 {{/section}}
