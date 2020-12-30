@@ -5,6 +5,18 @@ const nodemailer = require('nodemailer');
 const { email } = require('../config/main.config');
 const courseModel = require('../models/course.model');
 
+
+function makeid(length) {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+       result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+ }
+
+
 module.exports = {
     login: function (req, res) {
         if (req.headers.referer && req.headers.referer !== "http://localhost:3000/account/login") {
@@ -28,36 +40,11 @@ module.exports = {
         let url = req.session.retURL || '/';
         console.log(url);
         res.redirect(url);
-        // const username = req.body.namelogin;
-        // const password = req.body.password;
-        // const user = await studentModel.findByNameLogin(username);
-        // if(!user) {
-        //   res.render('auth/login', {
-        //     layout: false,
-        //     msg: "User does not exist!",
-        //   });
-        //   return;
-        // }
-        // if(bcrypt.hashSync(password, user.password)) {
-        //   req.session.isAuth = true;
-        //   req.session.authUser = user;
-
-        //   console.log(req.session.isAuth);
-
-        //   let url = req.session.retURL || '/';
-
-        //   res.redirect(url);
-        //   return;
-        // } else {
-        //   res.render('auth/login', {
-        //     layout: false,
-        //     msg: "Wrong password !",
-        //   });
-        //   return;
-        // }
+        
     },
 
     postSignUp: async function (req, res) {
+        const verify_key = makeid(50);
         const newStudent = {
             //_id: mongoose.Types.ObjectId(),
             namelogin: req.body.namelogin,
@@ -67,7 +54,13 @@ module.exports = {
             date_of_birth: req.body.date_of_birth,
             avatar: '/public/static/images/unnamed.png',
             wishlist: [],
+            verify_key: verify_key, //key verify email
         };
+
+        const createdStudent = await studentModel.insertOne(newStudent);
+
+        
+
         // create reusable transporter object using the default SMTP transport
         let transporter = nodemailer.createTransport({
             host: 'smtp.gmail.com',
@@ -86,9 +79,9 @@ module.exports = {
         let info = await transporter.sendMail({
             from: '"OnlineCourse" <foo@example.com>', // sender address
             to: newStudent.email, // list of receivers
-            subject: 'Hello, welcome to OnlineCourse', // Subject line
+            subject: 'Verify your email', // Subject line
             text: '', // plain text body
-            html: '<b>Hello world?</b>', // html body
+            html: `<b>Click this link to verify your email! </b><a href="http://localhost:3000/verify/?clientId=${createdStudent._id}&key=${verify_key}">verify</a>`, // html body
         });
 
         console.log('Message sent: %s', info.messageId);
@@ -98,7 +91,7 @@ module.exports = {
         console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
         // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
 
-        await studentModel.insertOne(newStudent);
+        
         var msg = encodeURIComponent('success');
         res.redirect('/account/login/?status=' + msg);
     },

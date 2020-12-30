@@ -9,6 +9,8 @@ const schema = new Schema({
     email: String,
     date_of_birth: String,
     avatar: String,
+    verify: {type: Boolean, default: false},
+    verify_key: String,
     wishlist: [{ type: Schema.Types.ObjectId, ref: 'Course' }], // ObjectId khoa hoc
 });
 
