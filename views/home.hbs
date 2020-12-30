@@ -1,7 +1,12 @@
 {{#section 'css'}}
 <link rel="stylesheet" type="text/css" href="/public/static/css/home/home.css">
+
+<link rel="stylesheet" href="/public/static/css/home/newestCarousel.css">
+<link rel="stylesheet" href="/public/static/css/home/mostViewCarousel.css">
+
 <link rel="stylesheet" href="/public/static/css/home/categoryCarousel.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.css">
+
 <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900&display=swap" rel="stylesheet">
 <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/carousel/">
 <style>
@@ -23,16 +28,21 @@
 {{/section}}
 
 {{#section 'js'}}
+
+<script type="text/javascript" src="/public/static/js/home/newestCarousel.js"></script>
+<script type="text/javascript" src="/public/static/js/home/mostViewCarousel.js"></script>
+
 <script type="text/javascript" src="/public/static/js/home/categoryCarousel.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
 <script>
-   $(function () {
+  $(function () {
     $(".rateYo").rateYo({
       halfStar: true,
       readOnly: true
     });
   });
 </script>
+
 {{/section}}
 
 <main>
@@ -43,7 +53,12 @@
     <hr class="featurette-divider">
 
     <h2>New courses</h2>
-    {{>homePartials/categoryCarousel}}
+    {{>homePartials/newestCarousel}}
+
+    <hr class="featurette-divider">
+
+    <h2>Most view courses</h2>
+    {{>homePartials/mostViewCarousel}}
 
     <hr class="featurette-divider">
 

@@ -1,0 +1,49 @@
+<div class="category-carousel2">
+    <div class="carousel-container2">
+        <div class="carousel-inner">
+            <div class="track2">
+                {{#each tenViewCourses}}
+                <div class="card-container">
+                    <div class="card">
+                        <div class="img">Images</div>
+                        <div class="info">
+                            <div class="card__title">{{name}}</div>
+                            <div class="card_teacher">{{teacher.fullname}}</div>
+                            <div class="card__category">{{category.name}}</div>
+                            <div class="rating">
+                                <span class="fa fa-star {{#ifCond rating '>=' 1}} checked {{else}} {{/ifCond}} "></span>
+                                <span class="fa fa-star {{#ifCond rating '>=' 1}} checked {{else}} {{/ifCond}} "></span>
+                                <span class="fa fa-star {{#ifCond rating '>=' 1}} checked {{else}} {{/ifCond}} "></span>
+                                <span class="fa fa-star {{#ifCond rating '>=' 1}} checked {{else}} {{/ifCond}} "></span>
+                                <span class="fa fa-star {{#ifCond rating '>=' 1}} checked {{else}} {{/ifCond}} "></span>
+                            </div>
+                            <div class="card__price">$ {{price}}</div>
+                        </div>
+                        <div class="card-button">
+                            <a class="btn btn-primary mr-3 card-button__details" href="/course/{{_id}}">
+                                Details</a>
+                            <form method="POST" action="/cart/add">
+                                <input type="hidden" value="{{_id}}" name="courseId" />
+                                <button class="btn btn-success card-button__cart" type="submit">Add to cart</button>
+                            </form>
+                            <a </a>
+                        </div>
+                    </div>
+
+
+                </div>
+                {{/each}}
+
+
+            </div>
+        </div>
+        <div class="nav2">
+            <button class="prev2">
+                <i class="fa fa-arrow-circle-left " aria-hidden="true"></i>
+            </button>
+            <button class="next2">
+                <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+</div>
