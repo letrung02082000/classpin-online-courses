@@ -1,0 +1,36 @@
+<div class="container" style="min-height: 600px;">
+  <form action="/admin/category/AddTopCategory" method="POST">
+    <div class="form-group">
+      <label for="inputName" class="col-sm-1-12 col-form-label">Category name: </label>
+      <div class="col-sm-1-12">
+        <input type="text" class="form-control" name="name" id="inputName" placeholder="Name" required>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputDescription" class="col-sm-1-12 col-form-label">Description: </label>
+      <div class="col-sm-1-12">
+        <input type="text" class="form-control" name="description" id="inputDescription" placeholder="Description">
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <h4>Create sub-category</h4>
+      </div>
+      <div class="card-body">
+        <div class="form-group">
+          <label for="subName" class="col-sm-1-12 col-form-label">Name: </label>
+          <div class="col-sm-1-12">
+            <input type="text" class="form-control" name="subName" id="subName" placeholder="Name" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="subDescription" class="col-sm-1-12 col-form-label">Description: </label>
+          <div class="col-sm-1-12">
+            <input type="text" class="form-control" name="subDescription" id="subDescription" placeholder="Description">
+          </div>
+        </div>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+  </form>
+</div>
