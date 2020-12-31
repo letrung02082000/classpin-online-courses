@@ -112,7 +112,7 @@ module.exports = {
             return;
         }
         const checkemail = await studentModel.findByEmail(email);
-        if (checkemail) {
+        if (checkemail && checkemail.verify === true) {
             res.json({ isvalid: false, msg: 'Email already exist.' });
             return;
         }

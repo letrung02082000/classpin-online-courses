@@ -90,4 +90,7 @@ module.exports = {
     countStudent: async function () {
         return await Student.countDocuments({});
     },
+    findOne(filter) {
+        return Student.findOne(filter);
+    }
 };

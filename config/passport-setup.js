@@ -41,6 +41,7 @@ passport.use(
         avatar: profile.photos[0].value,
         email: profile.emails[0].value,
         wishlist: [],
+        verify: true
       }
       const result = await studentModel.insertOne(newStudent);
       done(null, result);
@@ -91,6 +92,7 @@ passport.use(
         avatar: profile.photos[0].value,
         email: profile.emails[0].value,
         wishlist: [],
+        verify: true
       }
       const result = await studentModel.insertOne(newStudent);
       done(null, result);
@@ -117,6 +119,7 @@ passport.use(new GitHubStrategy({
       avatar: profile.photos[0].value,
       email: profile.emails[0].value,
       wishlist: [],
+      verify: true
     }
     const result = await studentModel.insertOne(newStudent);
     done(null, result);

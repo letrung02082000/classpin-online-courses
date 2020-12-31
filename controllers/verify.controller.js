@@ -18,6 +18,7 @@ module.exports = {
     const userID = req.query.clientId;
     const key = req.query.key;
     const matchedUser = await studentModel.findById(userID);
+    
     if(matchedUser) {
       if(matchedUser.verify_key === key) {
         // verified
@@ -43,6 +44,19 @@ module.exports = {
   postResendEmail: async function(req, res) {
     const userEmail = req.body.email;
     const userID = req.body.userID;
+
+    //check email already existed
+    const anotherUser = await studentModel.findOne({email: userEmail, verify: true});
+    if(anotherUser.verify === true) {
+      res.render('verify', {
+        title: "Failure",
+        subject: "Verification",
+        description: "this email is being used, please create another account with new email!",
+      })
+      return;
+    }
+    // end check
+
 
     const verify_key = makeid(50);
     const filter = {_id: userID};
