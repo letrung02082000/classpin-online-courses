@@ -9,7 +9,35 @@ var upload = multer({ dest: 'public/uploads/' })
 
 
 router.get('/login', controller.login);
-router.post('/login', passport.authenticate('local', {failureRedirect: '/account/login', failureFlash: true}), controller.postLogin);
+// router.post('/login', passport.authenticate('local', {failureRedirect: '/account/login', failureFlash: true}), controller.postLogin);
+
+router.post('/login', function(req, res, next) {
+  passport.authenticate('local', function(err, user, info) {
+    console.log(info);
+    if(err) {
+      return next(err);
+    }
+    if(info && info.message === 'check your email for verification!') {
+      //console.log(info.email, info.userID);
+      return res.render('resend', {
+        layout: false,
+        email: info.email,
+        userID: info.userID,
+      });
+    }
+    if(!user) {
+      return res.render('auth/login', {
+        layout: false,
+        msg : info
+      });
+    }
+    req.logIn(user, function(err) {
+      if (err) { return next(err); }
+      let url = req.session.retURL || '/';
+      return res.redirect(url);
+    });
+  })(req, res, next);
+});
 
 //login with google
 router.get('/google/login', passport.authenticate('google', {

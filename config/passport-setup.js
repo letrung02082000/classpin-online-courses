@@ -58,13 +58,13 @@ passport.use(
     if(!user) {
       return done(null, false, {message: 'Incorrect username.'});
     }
-    if(user.verify === false) {
-      return done(null, false, {message: 'check your email for verification!'});
-    }
     if(!bcrypt.compareSync(password, user.password)) {
       return done(null, false, {message: 'Incorrect password.'});
     }
-
+    if(user.verify === false) {
+      return done(null, false, {message: 'check your email for verification!', email: user.email, userID: user._id});
+    }
+    
     return done(null, user);
   })
 );

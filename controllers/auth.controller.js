@@ -19,7 +19,7 @@ function makeid(length) {
 
 module.exports = {
     login: function (req, res) {
-        if (req.headers.referer && req.headers.referer !== "http://localhost:3000/account/login") {
+        if (req.headers.referer && req.headers.referer !== "http://localhost:3000/account/login" && req.headers.referer !=="http://localhost:3000/account/login/?status=success") {
             req.session.retURL = req.headers.referer;
         }
         console.log(req.session.retURL);
@@ -29,18 +29,25 @@ module.exports = {
             res.redirect(url);
             return;
         }
+        var msg = req.flash().error;
+        // if(msg && msg.includes('check your email for verification!')) {
+        //     res.render('resend', {
+        //         layout: false,
+        //     });
+        //     return;
+        // }
+        console.log(msg);
         res.render('auth/login', {
             layout: false,
             status: status,
-            msg: req.flash(),
+            msg: msg,
         });
     },
 
     postLogin: async function (req, res) {
         let url = req.session.retURL || '/';
-        console.log(url);
+        console.log(req.flash());
         res.redirect(url);
-        
     },
 
     postSignUp: async function (req, res) {
