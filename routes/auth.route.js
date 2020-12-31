@@ -70,6 +70,7 @@ router.post('/logout', controller.postLogout);
 router.get('/profile', requireUser.requireUser, controller.profile);
 router.get('/editprofile', requireUser.requireUser, controller.editProfile);
 router.post('/editprofile', requireUser.requireUser, upload.single('avatar'), controller.postEditProfile);
-
+router.get('/changepass', requireUser.requireUser, controller.changePass);
+router.post('/changepass', requireUser.requireUser, controller.postChangePass);
 
 module.exports = router;

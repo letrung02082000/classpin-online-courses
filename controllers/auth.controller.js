@@ -165,4 +165,26 @@ module.exports = {
     googleRedirect: function (req, res) {
         res.redirect('/');
     },
+
+    changePass: function(req, res) {
+        res.render('user/changePass', {
+        });
+    },
+
+    postChangePass: async function(req, res) {
+        const password = req.body.password;
+        const newPassword = req.body.newPassword;
+        
+        if(bcrypt.compareSync(password, req.user.password)) {
+            const filter = {_id: req.user._id};
+            const update = {password: bcrypt.hashSync(newPassword, 10)};
+            await studentModel.findOneAndUpdate(filter, update);
+            console.log('success');
+            res.redirect('/account/profile');
+        } else {
+            res.render('user/changePass', {
+                msg: 'Wrong password'
+            })
+        }
+    }
 };

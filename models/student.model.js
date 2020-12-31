@@ -92,5 +92,9 @@ module.exports = {
     },
     findOne(filter) {
         return Student.findOne(filter);
+    },
+
+    updateOne(filter, update) {
+        return Student.findOneAndUpdate(filter, update);
     }
 };

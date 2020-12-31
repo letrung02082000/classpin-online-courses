@@ -1,0 +1,89 @@
+{{#section 'css'}}
+
+
+{{/section}}
+
+
+<div class="container mt-3">
+  <div class="card">
+    <div class="card-header">
+      <h2 class="text-center">Change password</h2>
+    </div>
+    <div class="card-body">
+      <form id="frmChangePass" action="/account/changepass" method="POST">
+        <div class="form-group">
+          <label for="password">Current password</label>
+          <input type="password" name="password" id="password" class="form-control" placeholder=""
+            aria-describedby="helpId">
+        </div>
+        <div class="form-group">
+          <label for="newPassword">New password</label>
+          <input type="password" name="newPassword" id="newPassword" class="form-control" placeholder="" aria-describedby="helpId" maxlength="30" minlength="8">
+        </div>
+        <div class="form-group">
+          <label for="confirm">Retype</label>
+          <input type="password" id="confirm" class="form-control" placeholder="" aria-describedby="helpId" maxlength="30" minlength="8">
+        </div>
+      </form>
+
+    </div>
+    <div class="card-footer text-muted ">
+      <div class="d-flex justify-content-center">
+        <div>
+          <a class="btn btn-outline-info mr-2" href="/account/profile">
+            <i class="fa fa-backward" aria-hidden="true"></i>
+            Back
+          </a>
+        </div>
+        <div>
+          <a class="btn btn-info" href="javascript: $('#frmChangePass').submit()">Confirm</a>
+        </div>
+      </div>
+      <div class="text-center mt-2">
+        <p class="text-danger ">{{msg}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{#section 'js'}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script>
+  $('#frmChangePass').on('submit', function (e) {
+    e.preventDefault();
+    const newPassword = $('#newPassword').val();
+    const confirm = $('#confirm').val();
+    if(newPassword.length < 8 || newPassword > 30) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: "invalid new password",
+      })
+      return; 
+    }
+    if (newPassword !== confirm) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: "new password didn't match.",
+      })
+      return;
+    }
+
+    Swal.fire({
+      title: 'Do you want to save the changes?',
+      showDenyButton: true,
+      confirmButtonText: `Save`,
+      denyButtonText: `Don't save`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        $('#frmChangePass').off('submit').submit();
+      } else if (result.isDenied) {
+        Swal.fire('Changes are not saved', '', 'info')
+      }
+    })
+
+  }) 
+</script>
+{{/section}}
