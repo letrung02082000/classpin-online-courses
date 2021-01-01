@@ -2,26 +2,26 @@ const express = require('express');
 const passport = require('passport');
 
 const controller = require('../controllers/admin.controller');
+const requireAdmin = require('../middlewares/requireAdmin.mdw');
 const router = express.Router();
 
 router.get('/login', controller.getLogin);
 
 router.post('/login', passport.authenticate('admin-local', {failureRedirect: '/admin/login', failureFlash: true}), controller.postLogin);
 
-router.get('/dashboard', controller.getDashboard);
+router.get('/dashboard', requireAdmin.isAdmin, controller.getDashboard);
 
-router.get('/users', controller.getUsers);
-router.get('/users/:page', controller.getUsers);
+router.get('/users', requireAdmin.isAdmin, controller.getUsers);
+router.get('/users/:page', requireAdmin.isAdmin, controller.getUsers);
 
-router.get('/courses', controller.getCourses);
+router.get('/courses', requireAdmin.isAdmin, controller.getCourses);
 
-router.get('/category/AddTopCategory', controller.addTopCategory);
-router.get('/category/AddSubCategory', controller.addSubCategory);
-router.post('/category/AddTopCategory', controller.postAddTopCategory);
-router.post('/category/AddSubCategory', controller.postAddSubCategory);
-router.post('/category/delete', controller.deleteCategory);
-router.get('/category', controller.showCategory);
-
-module.exports = router;
+router.get('/category/AddTopCategory', requireAdmin.isAdmin, controller.addTopCategory);
+router.get('/category/AddSubCategory', requireAdmin.isAdmin, controller.addSubCategory);
+router.post('/category/AddTopCategory', requireAdmin.isAdmin, controller.postAddTopCategory);
+router.post('/category/AddSubCategory', requireAdmin.isAdmin, controller.postAddSubCategory);
+router.post('/category/delete', requireAdmin.isAdmin, controller.deleteCategory);
+router.get('/category', requireAdmin.isAdmin, controller.showCategory);
 
 module.exports = router;
+

@@ -4,10 +4,14 @@ const studentModel = require('../models/student.model');
 const categoryModel = require('../models/category.model');
 const mongoose = require('mongoose');
 
+function isAdmin(id) {
+    
+}
+
 module.exports = {
     getLogin: function (req, res) {
-        console.log(req.user);
-        if(req.isAuthenticated()) {
+        //console.log(req.user);
+        if(req.isAuthenticated() && req.user.type === 1 ) { // check if admin already login
             res.redirect('/admin/dashboard');
             return;
         }

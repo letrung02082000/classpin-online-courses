@@ -20,10 +20,12 @@ passport.deserializeUser(async (id, done) => {
   const user = await studentModel.findById(id);
   if(user) {
     done(null, user);
+    return;
   }
   const admin = await adminModel.findById(id);
   if(admin) {
     done(null, admin);
+    return;
   } else {
     done(null, false);
   }
@@ -37,7 +39,7 @@ passport.use(
     clientSecret: keys.google.clientSecret,
   }, async (accessToken, refreshToken, profile, done) => {
     //passport callback function
-    console.log(profile);
+    //console.log(profile);
     //console.log(email);
     // check user exist
     const user = await studentModel.findByEmail(profile.emails[0].value);
@@ -64,7 +66,7 @@ passport.use('student-local',
     passwordField: 'password'
   }, async (namelogin, password, done) => {
     const user = await studentModel.findByNameloginOrEmail(namelogin);
-    console.log(user);
+    //console.log(user);
     if(!user) {
       return done(null, false, {message: 'Incorrect username.'});
     }
@@ -86,7 +88,7 @@ passport.use('admin-local',
     passwordField: 'password'
   }, async (namelogin, password, done) => {
     const admin = await adminModel.findByNameloginOrEmail(namelogin);
-    console.log(admin);
+    //console.log(admin);
     if(!admin) {
       return done(null, false, {message: 'Incorrect username.'});
     }
@@ -105,7 +107,7 @@ passport.use(
     profileFields: ['id', 'displayName', 'photos', 'email'],
   }, async (accessToken, refreshToken, profile, done) => {
     //passport callback function
-    console.log(profile);
+    //console.log(profile);
     //console.log(email);
     // check user exist
     const user = await studentModel.findByEmail(profile.emails[0].value);
@@ -132,7 +134,7 @@ passport.use(new GitHubStrategy({
   callbackURL: "/account/github/redirect"
 }, async (accessToken, refreshToken, profile, done) => {
   //passport callback function
-  console.log(profile);
+  //console.log(profile);
   //console.log(email);
   // check user exist
   const user = await studentModel.findByEmail(profile.emails[0].value);
