@@ -12,7 +12,7 @@ router.get('/login', controller.login);
 // router.post('/login', passport.authenticate('local', {failureRedirect: '/account/login', failureFlash: true}), controller.postLogin);
 
 router.post('/login', function(req, res, next) {
-  passport.authenticate('local', function(err, user, info) {
+  passport.authenticate('student-local', function(err, user, info) {
     console.log(info);
     if(err) {
       return next(err);

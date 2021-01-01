@@ -10,6 +10,7 @@ const LinkedInStrategy  = require('passport-linkedin-oauth2').Strategy;
 const bcrypt = require('bcryptjs');
 const keys = require('./main.config');
 const studentModel = require('../models/student.model');
+const adminModel = require('../models/admin.model');
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
@@ -17,7 +18,15 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (id, done) => {
   const user = await studentModel.findById(id);
-  done(null, user);
+  if(user) {
+    done(null, user);
+  }
+  const admin = await adminModel.findById(id);
+  if(admin) {
+    done(null, admin);
+  } else {
+    done(null, false);
+  }
 });
 
 passport.use(
@@ -49,7 +58,7 @@ passport.use(
   })
 );
 
-passport.use(
+passport.use('student-local',
   new LocalStrategy({
     usernameField: 'namelogin',
     passwordField: 'password'
@@ -70,6 +79,23 @@ passport.use(
   })
 );
 
+
+passport.use('admin-local', 
+  new LocalStrategy({
+    usernameField: 'namelogin',
+    passwordField: 'password'
+  }, async (namelogin, password, done) => {
+    const admin = await adminModel.findByNameloginOrEmail(namelogin);
+    console.log(admin);
+    if(!admin) {
+      return done(null, false, {message: 'Incorrect username.'});
+    }
+    if(!bcrypt.compareSync(password, admin.password)) {
+      return done(null, false, {message: 'Incorrect password.'});
+    }
+    return done(null, admin);
+  })  
+)
 
 passport.use(
   new FacebookStrategy({

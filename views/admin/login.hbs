@@ -34,7 +34,7 @@
         <form class="form-signin" method="POST" action="/admin/login">
             <h1 class="h3 mb-3 font-weight-normal text-center">Admin login</h1>
             <label for="inputUsername" class="sr-only">Email address</label>
-            <input type="text" id="inputUsername" name="username" class="form-control" placeholder="Username" required
+            <input type="text" id="inputUsername" name="namelogin" class="form-control" placeholder="Username" required
                 autofocus>
             <label for="inputPassword" class="sr-only">Password</label>
             <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password"
@@ -44,8 +44,11 @@
                     <input type="checkbox" value="remember-me"> Remember me
                 </label>
             </div>
+            {{#each msg}}
+                <p class="text-danger">{{this}}</p>
+            {{/each}}
             <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-            <p class="mt-5 mb-3 text-muted">&copy; 2017-2020</p>
+            {{!-- <p class="mt-5 mb-3 text-muted">&copy; 2017-2020</p> --}}
         </form>
     </div>
 

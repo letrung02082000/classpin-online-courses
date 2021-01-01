@@ -6,12 +6,19 @@ const mongoose = require('mongoose');
 
 module.exports = {
     getLogin: function (req, res) {
-        res.render('admin/login', { layout: false });
+        console.log(req.user);
+        if(req.isAuthenticated()) {
+            res.redirect('/admin/dashboard');
+            return;
+        }
+        res.render('admin/login', {
+            layout: false,
+            msg : req.flash(),
+        });
     },
 
-    postLogin: async function (req, res) {
-        const username = req.body.username;
-        const password = req.body.password;
+    postLogin: function (req, res) {
+        res.redirect('/admin/dashboard');
     },
 
     getDashboard: function (req, res) {

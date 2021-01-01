@@ -1,10 +1,12 @@
 const express = require('express');
+const passport = require('passport');
+
 const controller = require('../controllers/admin.controller');
 const router = express.Router();
 
 router.get('/login', controller.getLogin);
 
-router.post('/login', controller.postLogin);
+router.post('/login', passport.authenticate('admin-local', {failureRedirect: '/admin/login', failureFlash: true}), controller.postLogin);
 
 router.get('/dashboard', controller.getDashboard);
 

@@ -20,4 +20,15 @@ module.exports = {
             if (err) throw Error(err);
         });
     },
+    findOne(filter) {
+        return Admin.findOne(filter).lean();
+    },
+    findByNameloginOrEmail(value) {
+        return Admin.findOne({
+            $or: [{ namelogin: value }, { email: value }],
+        });
+    },
+    findById(id) {
+        return Admin.findById(id);
+    }
 };
