@@ -104,18 +104,48 @@
             </nav>
 
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
-                <div
-                    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h2">Categories</h1>
-                    <div class="btn-toolbar mb-2 mb-md-0">
-                        <div class="btn-group mr-2">
-                            <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+                <div class="container" style="min-height: 600px;">
+                    <div class="card">
+                        <div class="card-body">
+                            <a class="btn btn-primary" href="/admin/category/AddTopCategory" role="button">Create top
+                                category</a>
+                            <a class="btn btn-primary" href="/admin/category/AddSubCategory" role="button">Create sub
+                                category</a>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Description</th>
+                                        <th>Sub_category</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{#if empty}}
+                                    <h4>No category available</h4>
+                                    {{else}}
+                                    {{#each categories}}
+                                    <form action="/admin/category/delete" method="POST">
+                                        <input type="hidden" name="categoryId" value="{{this._id}}">
+                                        <tr id="{{this._id}}">
+                                            <td>{{this.name}}</td>
+                                            <td>{{this.description}}</td>
+                                            <td>{{#each this.sub_category}}
+                                                <a href="#{{this._id}}">{{this.name}}</a>
+                                                {{/each}}
+                                            </td>
+                                            <td><a class="btn btn-secondary"
+                                                    href="{{#if sub_category}}/admin/category/changeTopCategory/{{this._id}}{{else}}/admin/category/changeSubCategory/{{this._id}}{{/if}}"
+                                                    role="button"><i class="fas fa-pencil-alt"></i></a></td>
+                                            <td><button type="submit" class="btn btn-danger"><i class="fa fa-trash"
+                                                        aria-hidden="true"></i></button>
+                                            </td>
+                                        </tr>
+                                    </form>
+                                    {{/each}}
+                                    {{/if}}
+                                </tbody>
+                            </table>
                         </div>
-                        <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-                            <span data-feather="calendar"></span>
-                            This week
-                        </button>
                     </div>
                 </div>
             </main>
