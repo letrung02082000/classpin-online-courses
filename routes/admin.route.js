@@ -7,21 +7,60 @@ const router = express.Router();
 
 router.get('/login', controller.getLogin);
 
-router.post('/login', passport.authenticate('admin-local', {failureRedirect: '/admin/login', failureFlash: true}), controller.postLogin);
+router.post(
+    '/login',
+    passport.authenticate('admin-local', {
+        failureRedirect: '/admin/login',
+        failureFlash: true,
+    }),
+    controller.postLogin
+);
 
 router.get('/dashboard', requireAdmin.isAdmin, controller.getDashboard);
 
-router.get('/users', requireAdmin.isAdmin, controller.getUsers);
-router.get('/users/:page', requireAdmin.isAdmin, controller.getUsers);
+router.get('/students/:page', requireAdmin.isAdmin, controller.getStudents);
+router.get('/students', requireAdmin.isAdmin, controller.getStudents);
+
+router.get(
+    '/teachers/create',
+    requireAdmin.isAdmin,
+    controller.getCreateTeacher
+);
+router.post(
+    '/teachers/create',
+    requireAdmin.isAdmin,
+    controller.postCreateTeacher
+);
+
+router.get('/teachers', requireAdmin.isAdmin, controller.getTeachers);
 
 router.get('/courses', requireAdmin.isAdmin, controller.getCourses);
 
-router.get('/category/AddTopCategory', requireAdmin.isAdmin, controller.addTopCategory);
-router.get('/category/AddSubCategory', requireAdmin.isAdmin, controller.addSubCategory);
-router.post('/category/AddTopCategory', requireAdmin.isAdmin, controller.postAddTopCategory);
-router.post('/category/AddSubCategory', requireAdmin.isAdmin, controller.postAddSubCategory);
-router.post('/category/delete', requireAdmin.isAdmin, controller.deleteCategory);
+router.get(
+    '/category/AddTopCategory',
+    requireAdmin.isAdmin,
+    controller.addTopCategory
+);
+router.get(
+    '/category/AddSubCategory',
+    requireAdmin.isAdmin,
+    controller.addSubCategory
+);
+router.post(
+    '/category/AddTopCategory',
+    requireAdmin.isAdmin,
+    controller.postAddTopCategory
+);
+router.post(
+    '/category/AddSubCategory',
+    requireAdmin.isAdmin,
+    controller.postAddSubCategory
+);
+router.post(
+    '/category/delete',
+    requireAdmin.isAdmin,
+    controller.deleteCategory
+);
 router.get('/category', requireAdmin.isAdmin, controller.showCategory);
 
 module.exports = router;
-

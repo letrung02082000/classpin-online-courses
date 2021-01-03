@@ -4,7 +4,6 @@ const { findById, insertExample } = require('./course.model');
 const Schema = mongoose.Schema;
 
 const schema = new Schema({
-    _id: mongoose.ObjectId,
     namelogin: { type: String, required: true },
     fullname: { type: String, required: true },
     password: { type: String, required: true },
@@ -18,7 +17,13 @@ const Teacher = mongoose.model('Teacher', schema, 'Teacher');
 
 module.exports = {
     async loadAllTeachers() {
-        return await Teacher.find({});
+        return await Teacher.find({}).lean();
+    },
+
+    async addTeacher(teacher) {
+        return await Teacher.create(teacher).catch(function (err) {
+            throw Error(err);
+        });
     },
 
     findById(teacherId) {

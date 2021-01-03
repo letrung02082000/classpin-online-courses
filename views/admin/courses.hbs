@@ -32,9 +32,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-        {{>header}}
-    </nav>
+    {{>adminPartials/adminNavBar}}
 
     <div class="container-fluid">
         <div class="row">
@@ -60,9 +58,15 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/admin/users">
+                            <a class="nav-link" href="/admin/students">
                                 <i class="fa fa-user pr-2" aria-hidden="true"></i>
-                                Users
+                                Students
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/teachers">
+                                <i class="fa fa-user pr-2" aria-hidden="true"></i>
+                                Teachers
                             </a>
                         </li>
                     </ul>
@@ -107,7 +111,7 @@
                 <div
                     class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2">Courses</h1>
-                    <div class="btn-toolbar mb-2 mb-md-0">
+                    {{!-- <div class="btn-toolbar mb-2 mb-md-0">
                         <div class="btn-group mr-2">
                             <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
                             <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
@@ -116,8 +120,30 @@
                             <span data-feather="calendar"></span>
                             This week
                         </button>
-                    </div>
+                    </div> --}}
                 </div>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Course Id</th>
+                            <th scope="col">Course title</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each courses}}
+                        <tr>
+                            <td>{{_id}}</td>
+                            <td>{{name}}</td>
+                            <td><a class="btn btn-success" href="#">Detail</a></td>
+                            <td><a class="btn btn-danger" href="#">Delete</a></td>
+                        </tr>
+                        {{/each}}
+
+                    </tbody>
+                </table>
 
 
             </main>

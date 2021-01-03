@@ -32,9 +32,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-        {{>header}}
-    </nav>
+    {{>adminPartials/adminNavBar}}
 
     <div class="container-fluid">
         <div class="row">
@@ -59,10 +57,16 @@
                                 Courses
                             </a>
                         </li>
-                        <li class="nav-item active">
-                            <a class="nav-link" href="/admin/users">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/admin/students">
                                 <i class="fa fa-user pr-2" aria-hidden="true"></i>
-                                Users
+                                Students
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/teachers">
+                                <i class="fa fa-user pr-2" aria-hidden="true"></i>
+                                Teachers
                             </a>
                         </li>
                     </ul>

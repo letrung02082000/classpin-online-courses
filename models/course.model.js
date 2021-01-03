@@ -33,9 +33,15 @@ module.exports = {
     async count() {
         return await Course.collection.countDocuments();
     },
+
+    async loadAllCourses() {
+        return await Course.find({}).lean();
+    },
+
     async loadCourses(query) {
         return await Course.find(query);
     },
+
     async loadLimitedCourses(perPage, page, query = {}, option = {}) {
         //return await Course.find().limit(perPage).skip((page - 1) * perPage);
         return await Course.paginate(query, {
