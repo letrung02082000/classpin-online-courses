@@ -10,6 +10,7 @@ const schema = new Schema({
     email: String,
     phone: String,
     avatar: String,
+    type: {type: Number, default: 2},
     date_created: { type: Date, default: Date.now },
 });
 

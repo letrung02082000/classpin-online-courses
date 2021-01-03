@@ -24,7 +24,7 @@ module.exports = {
         }
         console.log(req.session.retURL);
         const status = req.query.status;
-        if (req.user) {
+        if (req.user && req.user.type !== 1 && req.user.type !== 2) {
             let url = req.session.retURL || '/';
             res.redirect(url);
             return;

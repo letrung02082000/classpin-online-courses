@@ -32,7 +32,7 @@ module.exports.localsUser = async function (req, res, next) {
         res.locals.cartCount = newCartArr.length;
     }
 
-    if (typeof req.user === 'undefined') {
+    if (typeof req.user === 'undefined' || req.user.type === 1 || req.user.type === 2) {
         res.locals.isAuth = false;
     } else {
         res.locals.isAuth = true;
