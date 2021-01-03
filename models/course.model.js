@@ -13,8 +13,10 @@ const schema = new Schema({
     thumbnail: String,
     price: Number,
     discount: Number,
+    done: {type: Boolean, default: false},
     list_student: [{ type: Schema.Types.ObjectId, ref: 'Student' }],
     list_rating: [{ type: Schema.Types.ObjectId, ref: 'Rating' }],
+    list_chapter: [{type: Schema.Types.ObjectId, ref: 'Chapter'}],
     teacher: { type: mongoose.Schema.Types.ObjectId, ref: 'Teacher' },
     category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' }, // id category
     date_created: { type: Date, default: Date.now },

@@ -30,6 +30,11 @@ module.exports = {
   },
 
   getLogin: function(req, res) {
+    if (req.isAuthenticated() && req.user.type === 2) { // check if teacher already login
+      res.redirect('/teacher/dashboard');
+      return;
+    }
+
     res.render('teacher/login', {
       layout: false,
       msg: req.flash(),
@@ -37,6 +42,10 @@ module.exports = {
   },
 
   postLogin: function(req, res) {
-    res.redirect('/');
+    res.redirect('/teacher/dashboard');
+  },
+
+  getDashboard: function(req, res) {
+    res.send("Dashboard");
   }
 }
