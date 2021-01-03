@@ -20,6 +20,7 @@ router.get('/dashboard', requireAdmin.isAdmin, controller.getDashboard);
 
 router.get('/students/:page', requireAdmin.isAdmin, controller.getStudents);
 router.get('/students', requireAdmin.isAdmin, controller.getStudents);
+router.post('/students/del', requireAdmin.isAdmin, controller.deleteStudent);
 
 router.get(
     '/teachers/create',
@@ -30,6 +31,12 @@ router.post(
     '/teachers/create',
     requireAdmin.isAdmin,
     controller.postCreateTeacher
+);
+
+router.post(
+    '/teachers/del',
+    requireAdmin.isAdmin,
+    controller.postDeleteTeacher
 );
 
 router.get('/teachers', requireAdmin.isAdmin, controller.getTeachers);

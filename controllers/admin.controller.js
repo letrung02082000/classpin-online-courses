@@ -50,6 +50,11 @@ module.exports = {
         });
     },
 
+    deleteStudent: async function (req, res) {
+        await studentModel.deleteStudent(req.body.studentId);
+        res.redirect('/admin/student');
+    },
+
     getTeachers: async function (req, res) {
         const teachers = await teacherModel.loadAllTeachers();
 
@@ -71,6 +76,11 @@ module.exports = {
         };
 
         await teacherModel.addTeacher(teacher);
+        res.redirect('/admin/teachers');
+    },
+
+    postDeleteTeacher: async function (req, res) {
+        await teacherModel.deleteTeacher(req.body.teacherId);
         res.redirect('/admin/teachers');
     },
 

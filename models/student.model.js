@@ -9,7 +9,7 @@ const schema = new Schema({
     email: String,
     date_of_birth: String,
     avatar: String,
-    verify: {type: Boolean, default: false},
+    verify: { type: Boolean, default: false },
     verify_key: String,
     wishlist: [{ type: Schema.Types.ObjectId, ref: 'Course' }], // ObjectId khoa hoc
 });
@@ -90,11 +90,21 @@ module.exports = {
     countStudent: async function () {
         return await Student.countDocuments({});
     },
+
+    deleteStudent: async function (id) {
+        return await Student.findByIdAndRemove(
+            mongoose.mongo.ObjectId(id),
+            (err) => {
+                if (err) throw Error(err);
+            }
+        );
+    },
+
     findOne(filter) {
         return Student.findOne(filter);
     },
 
     updateOne(filter, update) {
         return Student.findOneAndUpdate(filter, update);
-    }
+    },
 };

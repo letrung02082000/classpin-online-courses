@@ -25,7 +25,12 @@
             <td>{{namelogin}}</td>
             <td>{{fullname}}</td>
             <td>{{email}}</td>
-            <td><a class="btn btn-danger" href="#">Delete</a></td>
+            <td>
+                <form action="/admin/students/del" method="POST">
+                    <input type="hidden" value="{{_id}}" name="studentId">
+                    <button class="btn btn-danger" type="submit">Delete</button>
+                </form>
+            </td>
         </tr>
         {{/each}}
     </table>

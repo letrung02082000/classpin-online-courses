@@ -26,6 +26,15 @@ module.exports = {
         });
     },
 
+    async deleteTeacher(id) {
+        return await Teacher.findByIdAndRemove(
+            mongoose.mongo.ObjectId(id),
+            (err) => {
+                if (err) throw Error(err);
+            }
+        );
+    },
+
     findById(teacherId) {
         return Teacher.findById(teacherId).lean();
     },
