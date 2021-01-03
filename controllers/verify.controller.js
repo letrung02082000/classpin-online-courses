@@ -47,7 +47,7 @@ module.exports = {
 
     //check email already existed
     const anotherUser = await studentModel.findOne({email: userEmail, verify: true});
-    if(anotherUser.verify === true) {
+    if(anotherUser && anotherUser.verify === true) {
       res.render('verify', {
         title: "Failure",
         subject: "Verification",

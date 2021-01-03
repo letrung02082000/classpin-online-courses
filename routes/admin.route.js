@@ -7,7 +7,9 @@ const router = express.Router();
 
 router.get('/login', controller.getLogin);
 
-router.post('/login', passport.authenticate('admin-local', { failureRedirect: '/admin/login', failureFlash: true }), controller.postLogin);
+
+router.post('/login', passport.authenticate('admin-local', {failureRedirect: '/admin/login', failureMessage: true}), controller.postLogin);
+
 
 router.get('/dashboard', requireAdmin.isAdmin, controller.getDashboard);
 

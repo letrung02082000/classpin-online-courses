@@ -18,4 +18,7 @@ module.exports = {
     findMany(filter) {
         return Rating.find(filter);
     },
+    deleteMany(filter) {
+        return Rating.deleteMany(filter);
+    }
 };
