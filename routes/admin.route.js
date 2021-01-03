@@ -6,15 +6,7 @@ const requireAdmin = require('../middlewares/requireAdmin.mdw');
 const router = express.Router();
 
 router.get('/login', controller.getLogin);
-
-router.post(
-    '/login',
-    passport.authenticate('admin-local', {
-        failureRedirect: '/admin/login',
-        failureFlash: true,
-    }),
-    controller.postLogin
-);
+router.post('/login', passport.authenticate('admin-local', {failureRedirect: '/admin/login', failureMessage: true}), controller.postLogin);
 
 router.get('/dashboard', requireAdmin.isAdmin, controller.getDashboard);
 
@@ -69,5 +61,9 @@ router.post(
     controller.deleteCategory
 );
 router.get('/category', requireAdmin.isAdmin, controller.showCategory);
+router.get('/category/ChangeTopCategory/:id', requireAdmin.isAdmin, controller.changeTopCategory);
+router.get('/category/ChangeSubCategory/:id', requireAdmin.isAdmin, controller.changeSubCategory);
+router.post('/category/ChangeTopCategory/:id', requireAdmin.isAdmin, controller.postChangeTopCategory);
+router.post('/category/ChangeSubCategory/:id', requireAdmin.isAdmin, controller.postChangeSubCategory);
 
 module.exports = router;

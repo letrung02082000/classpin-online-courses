@@ -30,12 +30,6 @@ module.exports = {
             return;
         }
         var msg = req.flash().error;
-        // if(msg && msg.includes('check your email for verification!')) {
-        //     res.render('resend', {
-        //         layout: false,
-        //     });
-        //     return;
-        // }
         console.log(msg);
         res.render('auth/login', {
             layout: false,
@@ -112,7 +106,7 @@ module.exports = {
             return;
         }
         const checkemail = await studentModel.findByEmail(email);
-        if (checkemail && checkemail.verify === true) {
+        if (checkemail /*&& checkemail.verify === true*/) {
             res.json({ isvalid: false, msg: 'Email already exist.' });
             return;
         }

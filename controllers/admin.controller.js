@@ -3,16 +3,14 @@ const adminModel = require('../models/admin.model');
 const studentModel = require('../models/student.model');
 const categoryModel = require('../models/category.model');
 const teacherModel = require('../models/teacher.model');
-const mongoose = require('mongoose');
 const courseModel = require('../models/course.model');
-
-function isAdmin(id) {}
+const ratingModel = require('../models/rating.model');
+const mongoose = require('mongoose');
 
 module.exports = {
     getLogin: function (req, res) {
         //console.log(req.user);
-        if (req.isAuthenticated() && req.user.type === 1) {
-            // check if admin already login
+        if (req.isAuthenticated() && req.user.type === 1) { // check if admin already login
             res.redirect('/admin/dashboard');
             return;
         }
@@ -156,9 +154,70 @@ module.exports = {
 
     async showCategory(req, res) {
         let cat = await categoryModel.loadAll();
-        res.render('admin/category', {
+        res.render('admin/categories', {
             categories: cat,
             empty: cat.length === 0,
+            layout: false
         });
+    },
+    async postChangeTopCategory(req, res) {
+        let categoryId = req.params.id;
+        let category = await categoryModel.findById(categoryId);
+        if (!category) {
+            return;
+        }
+        categoryModel.changeCategory(categoryId, { name: req.body.name, description: req.body.description });
+        res.redirect('/admin/category');
+    },
+    async postChangeSubCategory(req, res) {
+        let categoryId = req.params.id;
+        let category = await categoryModel.findById(categoryId);
+        if (!category) {
+            return;
+        }
+        categoryModel.changeCategory(categoryId, { name: req.body.name, description: req.body.description });
+        let topCat = await categoryModel.findTopCategory(categoryId);
+        if (topCat) {
+            if (topCat._id !== req.body.topCategoryId) {
+                await categoryModel.changeSubCategory(categoryId, topCat._id, req.body.topCategoryId);
+            }
+        }
+        res.redirect('/admin/category');
+    },
+    async changeTopCategory(req, res) {
+        let categoryId = req.params.id;
+        let category = await categoryModel.findById(categoryId);
+        if (!category) {
+            return;
+        }
+        res.render('admin/changeTopCategory', {
+            category: category
+        });
+    },
+
+    async changeSubCategory(req, res) {
+        let categoryId = req.params.id;
+        let category = await categoryModel.findById(categoryId);
+        if (!category) {
+            return;
+        }
+        let categories = await categoryModel.loadTopCategory();
+        res.render('admin/changeSubCategory', {
+            category: category,
+            categories: categories
+        });
+    },
+
+    deleteCourse: async function(req, res) {
+        const courseID = req.body.courseID;
+        const matchedCourse = await courseModel.findById(courseID);
+        // delete rating of course
+        const filter = {_id: {$in: matchedCourse.list_rating}};
+        await ratingModel.deleteMany(filter);
+        // delete course
+        await courseModel.deleteOneCourse(courseID);
+
+        // redirect
+
     },
 };

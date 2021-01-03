@@ -44,4 +44,7 @@ module.exports = {
             fourWeeklyCourses,
         });
     },
+    videoTest: function (req, res) {
+        res.render('videotest');
+    }
 };
