@@ -11,6 +11,7 @@ const bcrypt = require('bcryptjs');
 const keys = require('./main.config');
 const studentModel = require('../models/student.model');
 const adminModel = require('../models/admin.model');
+const teacherModel = require('../models/teacher.model');
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
@@ -26,7 +27,12 @@ passport.deserializeUser(async (id, done) => {
   if(admin) {
     done(null, admin);
     return;
-  } else {
+  } 
+  const teacher = await teacherModel.findById(id);
+  if(teacher) {
+    done(null, teacher);
+  }
+  else {
     done(null, false);
   }
 });
@@ -97,6 +103,23 @@ passport.use('admin-local',
     }
     return done(null, admin);
   })  
+)
+
+passport.use('teacher-local', 
+  new LocalStrategy({
+    usernameField: 'namelogin',
+    passwordField: 'password'
+  }, async (namelogin, password, done) => {
+    const teacher = await teacherModel.findByNameloginOrEmail(namelogin);
+    if(!teacher) {
+      return done(null, false, {message: 'Incorrect username.'});
+    }
+    if(!bcrypt.compareSync(password, teacher.password)) {
+      return done(null, false, {message: 'Incorrect password.'});
+    }
+
+    return done(null, teacher);
+  })
 )
 
 passport.use(

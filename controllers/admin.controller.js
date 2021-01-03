@@ -2,11 +2,10 @@ const bcrypt = require('bcryptjs');
 const adminModel = require('../models/admin.model');
 const studentModel = require('../models/student.model');
 const categoryModel = require('../models/category.model');
+const courseModel = require('../models/course.model');
+const ratingModel = require('../models/rating.model');
 const mongoose = require('mongoose');
 
-function isAdmin(id) {
-    
-}
 
 module.exports = {
     getLogin: function (req, res) {
@@ -117,4 +116,16 @@ module.exports = {
             empty: cat.length === 0,
         });
     },
+
+    deleteCourse: async function(req, res) {
+        const courseID = req.body.courseID;
+        const matchedCourse = await courseModel.findById(courseID);
+        // delete rating of course
+        const filter = {_id: {$in: matchedCourse.list_rating}};
+        await ratingModel.deleteMany(filter);
+        // delete course
+        await courseModel.deleteOneCourse(courseID);
+
+        // redirect
+    }
 };

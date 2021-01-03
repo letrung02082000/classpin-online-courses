@@ -238,4 +238,8 @@ module.exports = {
             .limit(4)
             .lean();
     },
+
+    deleteOneCourse(courseID) {
+        return Course.deleteOne({_id: courseID});
+    }
 };
