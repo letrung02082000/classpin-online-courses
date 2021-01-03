@@ -25,6 +25,12 @@ module.exports = {
         return Teacher.findById(teacherId).lean();
     },
 
+    findByNameloginOrEmail(value) {
+        return Teacher.findOne({
+            $or: [{ namelogin: value }, { email: value }],
+        });
+    },
+
     async insertExample() {
         let arr = [
             {

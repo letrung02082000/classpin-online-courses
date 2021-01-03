@@ -27,5 +27,16 @@ module.exports = {
     await courseModel.addCourse(course);
     console.log(course);
     res.redirect('/course');
+  },
+
+  getLogin: function(req, res) {
+    res.render('teacher/login', {
+      layout: false,
+      msg: req.flash(),
+    });
+  },
+
+  postLogin: function(req, res) {
+    res.redirect('/');
   }
 }
