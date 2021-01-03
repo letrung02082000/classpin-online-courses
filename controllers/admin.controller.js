@@ -10,13 +10,13 @@ const mongoose = require('mongoose');
 module.exports = {
     getLogin: function (req, res) {
         //console.log(req.user);
-        if(req.isAuthenticated() && req.user.type === 1 ) { // check if admin already login
+        if (req.isAuthenticated() && req.user.type === 1) { // check if admin already login
             res.redirect('/admin/dashboard');
             return;
         }
         res.render('admin/login', {
             layout: false,
-            msg : req.flash(),
+            msg: req.flash(),
         });
     },
 
@@ -111,9 +111,57 @@ module.exports = {
     },
     async showCategory(req, res) {
         let cat = await categoryModel.loadAll();
-        res.render('admin/category', {
+        res.render('admin/categories', {
             categories: cat,
             empty: cat.length === 0,
+            layout: false
+        });
+    },
+    async postChangeTopCategory(req, res) {
+        let categoryId = req.params.id;
+        let category = await categoryModel.findById(categoryId);
+        if (!category) {
+            return;
+        }
+        categoryModel.changeCategory(categoryId, { name: req.body.name, description: req.body.description });
+        res.redirect('/admin/category');
+    },
+    async postChangeSubCategory(req, res) {
+        let categoryId = req.params.id;
+        let category = await categoryModel.findById(categoryId);
+        if (!category) {
+            return;
+        }
+        categoryModel.changeCategory(categoryId, { name: req.body.name, description: req.body.description });
+        let topCat = await categoryModel.findTopCategory(categoryId);
+        if (topCat) {
+            if (topCat._id !== req.body.topCategoryId) {
+                await categoryModel.changeSubCategory(categoryId, topCat._id, req.body.topCategoryId);
+            }
+        }
+        res.redirect('/admin/category');
+    },
+    async changeTopCategory(req, res) {
+        let categoryId = req.params.id;
+        let category = await categoryModel.findById(categoryId);
+        if (!category) {
+            return;
+        }
+        res.render('admin/changeTopCategory', {
+            category: category
+        });
+    },
+
+    async changeSubCategory(req, res) {
+        let categoryId = req.params.id;
+        let category = await categoryModel.findById(categoryId);
+        if (!category) {
+            return;
+        }
+        let categories = await categoryModel.loadTopCategory();
+        res.render('admin/changeSubCategory', {
+            category: category,
+            categories: categories
         });
     },
 
@@ -127,5 +175,6 @@ module.exports = {
         await courseModel.deleteOneCourse(courseID);
 
         // redirect
-    }
+
+    },
 };
