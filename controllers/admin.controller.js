@@ -2,10 +2,10 @@ const bcrypt = require('bcryptjs');
 const adminModel = require('../models/admin.model');
 const studentModel = require('../models/student.model');
 const categoryModel = require('../models/category.model');
+const teacherModel = require('../models/teacher.model');
 const courseModel = require('../models/course.model');
 const ratingModel = require('../models/rating.model');
 const mongoose = require('mongoose');
-
 
 module.exports = {
     getLogin: function (req, res) {
@@ -27,15 +27,17 @@ module.exports = {
     getDashboard: function (req, res) {
         res.render('admin/dashboard', { layout: false });
     },
-    getCourses: function (req, res) {
-        res.render('admin/courses', { layout: false });
+
+    getCourses: async function (req, res) {
+        const courses = await courseModel.loadAllCourses();
+        res.render('admin/courses', { layout: false, courses });
     },
-    getUsers: async function (req, res) {
+
+    getStudents: async function (req, res) {
         const perPage = 10;
         const page = req.params.page || 1;
 
         const students = await studentModel.getStudent(perPage, page);
-        console.log(students);
         const studentCount = await studentModel.countStudent();
 
         res.render('admin/student', {
@@ -45,12 +47,49 @@ module.exports = {
             pages: Math.ceil(studentCount / perPage),
         });
     },
+
+    deleteStudent: async function (req, res) {
+        await studentModel.deleteStudent(req.body.studentId);
+        res.redirect('/admin/student');
+    },
+
+    getTeachers: async function (req, res) {
+        const teachers = await teacherModel.loadAllTeachers();
+
+        res.render('admin/teacher', {
+            layout: false,
+            teacherList: teachers,
+        });
+    },
+
+    getCreateTeacher: function (req, res) {
+        res.render('admin/createTeacher', { layout: false });
+    },
+
+    postCreateTeacher: async function (req, res) {
+        const teacher = {
+            namelogin: req.body.username,
+            fullname: req.body.fullname,
+            password: bcrypt.hashSync(req.body.password, 10),
+        };
+
+        await teacherModel.addTeacher(teacher);
+        res.redirect('/admin/teachers');
+    },
+
+    postDeleteTeacher: async function (req, res) {
+        await teacherModel.deleteTeacher(req.body.teacherId);
+        res.redirect('/admin/teachers');
+    },
+
     getCategories: function (req, res) {
         res.render('admin/categories', { layout: false });
     },
+
     addTopCategory(req, res) {
         res.render('admin/addTopCategory');
     },
+
     async postAddTopCategory(req, res) {
         if (!req.body.name) return;
         let newCategory = {
@@ -70,12 +109,14 @@ module.exports = {
         await categoryModel.addCategory(newCategory);
         res.redirect('/admin/category');
     },
+
     async addSubCategory(req, res) {
         let cat = await categoryModel.loadTopCategory();
         res.render('admin/addSubCategory', {
             categories: cat,
         });
     },
+
     async postAddSubCategory(req, res) {
         if (!req.body.name) return;
         let newCategory = {
@@ -91,6 +132,7 @@ module.exports = {
         );
         res.redirect('/admin/category');
     },
+
     async deleteCategory(req, res) {
         let cat = await categoryModel.selectFromOneId(req.body.categoryId);
         if (!cat) return;
@@ -109,6 +151,7 @@ module.exports = {
         await categoryModel.deleteOneCategory(req.body.categoryId);
         res.redirect('/admin/category');
     },
+
     async showCategory(req, res) {
         let cat = await categoryModel.loadAll();
         res.render('admin/categories', {

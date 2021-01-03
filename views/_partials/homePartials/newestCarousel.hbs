@@ -5,7 +5,9 @@
                 {{#each tenNewestCourses}}
                 <div class="card-container">
                     <div class="card">
-                        <div class="img">Images</div>
+                        <div class="img">
+                            <img src="{{thumbnail}}" alt="course_image">
+                        </div>
                         <div class="info">
                             <div class="card__title">{{name}}</div>
                             <div class="card_teacher">{{teacher.fullname}}</div>
@@ -25,7 +27,6 @@
                                 <input type="hidden" value="{{_id}}" name="courseId" />
                                 <button class="btn btn-success card-button__cart" type="submit">Add to cart</button>
                             </form>
-                            <a </a>
                         </div>
                     </div>
 

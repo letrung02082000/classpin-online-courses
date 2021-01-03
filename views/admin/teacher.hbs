@@ -46,13 +46,13 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/admin/category">
+                            <a class="nav-link" href="/admin/categories">
                                 <i class="fa fa-list-alt pr-2" aria-hidden="true"></i>
                                 Categories
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="/admin/courses">
+                            <a class="nav-link" href="/admin/courses">
                                 <i class="fa fa-address-book pr-2" aria-hidden="true"></i>
                                 Courses
                             </a>
@@ -64,7 +64,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/admin/teachers">
+                            <a class="nav-link active" href="/admin/teachers">
                                 <i class="fa fa-user pr-2" aria-hidden="true"></i>
                                 Teachers
                             </a>
@@ -106,47 +106,8 @@
                     </ul>
                 </div>
             </nav>
+            {{>adminPartials/teacherPartial}}
 
-            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
-                <div
-                    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h2">Courses</h1>
-                    {{!-- <div class="btn-toolbar mb-2 mb-md-0">
-                        <div class="btn-group mr-2">
-                            <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
-                        </div>
-                        <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-                            <span data-feather="calendar"></span>
-                            This week
-                        </button>
-                    </div> --}}
-                </div>
-
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Course Id</th>
-                            <th scope="col">Course title</th>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {{#each courses}}
-                        <tr>
-                            <td>{{_id}}</td>
-                            <td>{{name}}</td>
-                            <td><a class="btn btn-success" href="#">Detail</a></td>
-                            <td><a class="btn btn-danger" href="#">Delete</a></td>
-                        </tr>
-                        {{/each}}
-
-                    </tbody>
-                </table>
-
-
-            </main>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"

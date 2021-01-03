@@ -71,6 +71,10 @@
     font-size: 30px;
     height: 150px;
 }
+
+.card img {
+    width: 100%;
+}
 .card .info {
     flex-basis: 40px;
     background: #333;
