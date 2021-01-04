@@ -21,6 +21,7 @@ router.post('/logout', requireTeacher.isTeacher, controller.postLogout);
 router.get('/dashboard', requireTeacher.isTeacher, controller.getDashboard);
 router.get('/profile', requireTeacher.isTeacher, controller.getProfile);
 
-router.post('/profile', upload.single('avatar'), controller.postProfile);
+router.post('/profile', requireTeacher.isTeacher, upload.single('avatar'), controller.postProfile);
+router.get('/courses', requireTeacher.isTeacher, controller.allCourse);
 
 module.exports = router;

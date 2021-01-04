@@ -10,7 +10,8 @@ module.exports = {
     let categories = await categoryModel.loadTopCategory();
     console.log(categories);
     res.render('teacher/addCourse', {
-      categories: categories
+      categories: categories,
+      layout: 'teacher',
     });
   },
   async postAddCourse(req, res) {
@@ -29,7 +30,7 @@ module.exports = {
     console.log(req.body);
     await courseModel.addCourse(course);
     console.log(course);
-    res.redirect('/course');
+    res.redirect('/teacher/courses');
   },
 
   getLogin: function(req, res) {
@@ -79,6 +80,13 @@ module.exports = {
   getDashboard: function(req, res) {
     res.render('teacher/dashboard', {
       layout: 'teacher'
+    })
+  },
+  allCourse: async function(req, res) {
+    const courseList = await courseModel.findCourseOfTeacher(req.user._id);
+    res.render('teacher/allCourse', {
+      layout: 'teacher',
+      courseList: courseList,
     })
   }
 }
