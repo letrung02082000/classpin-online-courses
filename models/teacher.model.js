@@ -9,7 +9,8 @@ const schema = new Schema({
     password: { type: String, required: true },
     email: String,
     phone: String,
-    avatar: String,
+    about: String,
+    avatar: { type: String, default: '/public/static/images/unnamed.png'},
     type: {type: Number, default: 2},
     date_created: { type: Date, default: Date.now },
 });
@@ -43,6 +44,12 @@ module.exports = {
     findByNameloginOrEmail(value) {
         return Teacher.findOne({
             $or: [{ namelogin: value }, { email: value }],
+        });
+    },
+
+    updateOne(filter, update) {
+        return Teacher.findOneAndUpdate(filter, update, {
+            new: true,
         });
     },
 

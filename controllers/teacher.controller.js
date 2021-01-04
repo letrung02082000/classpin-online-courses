@@ -1,6 +1,9 @@
 const categoryModel = require('../models/category.model');
 const mongoose = require('mongoose');
 const courseModel = require('../models/course.model');
+const multer = require('multer');
+const teacherModel = require('../models/teacher.model');
+
 
 module.exports = {
   async addCourse(req, res) {
@@ -43,6 +46,29 @@ module.exports = {
 
   postLogin: function(req, res) {
     res.redirect('/teacher/dashboard');
+  },
+
+  getProfile: function(req, res) {
+    res.render('teacher/profile', {
+      layout: 'teacher',
+      authUser: req.user,
+    });
+  },
+
+  postProfile: async function(req, res) {
+    const filter = {_id: req.user._id};
+    const update = {
+      fullname: req.body.fullname,
+      email : req.body.email,
+      phone: req.body.phone,
+      about: req.body.about
+    }
+    console.log(update);
+    if(req.file) {
+      update.avatar = '\\' + req.file.path;
+    }
+    await teacherModel.updateOne(filter, update);
+    res.redirect('/teacher/profile');
   },
 
   postLogout: function(req, res) {
