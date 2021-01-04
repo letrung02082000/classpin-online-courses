@@ -21,53 +21,60 @@
 </script>
 {{/section}}
 
-<div class="container">
-  <form method="POST" action="/teacher/addCourse" enctype="multipart/form-data">
-    <div class="card mt-5">
-      <h5 class="card-header">Add course</h5>
-      <div class="card-body">
-        <div class="form-group">
-          <label for="course-title">Title</label>
-          <input type="text" name="title" class="form-control" id="course-title" placeholder="Enter title" required>
-        </div>
-        <div class="form-group">
-          <label for="course-category">Category</label>
-          <select class="form-control" name="category" id="course-category">
-            {{#each categories}}
-            <optgroup label="{{this.name}}">
-              {{#each sub_category}}
-              <option value="{{this._id}}">{{this.name}}</option>
+
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Courses</h1>
+  </div>
+
+  <div class="container">
+    <form method="POST" action="/teacher/addCourse" enctype="multipart/form-data">
+      <div class="card mt-5">
+        <h5 class="card-header">Add course</h5>
+        <div class="card-body">
+          <div class="form-group">
+            <label for="course-title">Title</label>
+            <input type="text" name="title" class="form-control" id="course-title" placeholder="Enter title" required>
+          </div>
+          <div class="form-group">
+            <label for="course-category">Category</label>
+            <select class="form-control" name="category" id="course-category">
+              {{#each categories}}
+              <optgroup label="{{this.name}}">
+                {{#each sub_category}}
+                <option value="{{this._id}}">{{this.name}}</option>
+                {{/each}}
+              </optgroup>
               {{/each}}
-            </optgroup>
-            {{/each}}
-          </select>
-          <div class="form-group">
-            <label for="short-desciption">Short description</label>
-            <textarea class="form-control" name="shortDesciption" id="short-desciption" rows="3"></textarea>
+            </select>
+            <div class="form-group">
+              <label for="short-desciption">Short description</label>
+              <textarea class="form-control" name="shortDesciption" id="short-desciption" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="description">Description</label>
+              <textarea rows="20" id="description" name="description"> </textarea>
+            </div>
+            <div class="form-group">
+              <label for="course-price">Price</label>
+              <input min="0" type="number" class="form-control" name="price" id="course-price" aria-describedby="helpId"
+                placeholder="Price">
+              <small id="helpId" class="form-text text-muted">Price in VND</small>
+            </div>
+            <div class="form-group">
+              <label for="course-discount">Discount</label>
+              <input min="0" max="100" type="number" class="form-control" name="discount" id="course-discount"
+                aria-describedby="helpId" placeholder="Discount">
+            </div>
+            <div class="form-group">
+              <label for="thumbnail">Thumbnail: </label>
+              <input type="file" class="form-control-file" name="thumbnail" id="thumbnail" placeholder="Select"
+                aria-describedby="fileHelpId">
+              <small id="fileHelpId" class="form-text text-muted">PNG,JPG</small>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
           </div>
-          <div class="form-group">
-            <label for="description">Description</label>
-            <textarea rows="20" id="description" name="description"> </textarea>
-          </div>
-          <div class="form-group">
-            <label for="course-price">Price</label>
-            <input min="0" type="number" class="form-control" name="price" id="course-price" aria-describedby="helpId"
-              placeholder="Price">
-            <small id="helpId" class="form-text text-muted">Price in VND</small>
-          </div>
-          <div class="form-group">
-            <label for="course-discount">Discount</label>
-            <input min="0" max="100" type="number" class="form-control" name="discount" id="course-discount"
-              aria-describedby="helpId" placeholder="Discount">
-          </div>
-          <div class="form-group">
-            <label for="thumbnail">Thumbnail: </label>
-            <input type="file" class="form-control-file" name="thumbnail" id="thumbnail" placeholder="Select"
-              aria-describedby="fileHelpId">
-            <small id="fileHelpId" class="form-text text-muted">PNG,JPG</small>
-          </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
         </div>
-      </div>
-  </form>
-</div>
+    </form>
+  </div>
+</main>

@@ -255,5 +255,9 @@ module.exports = {
         return Course.findById(courseID)
             .populate([{path: 'list_chapter', populate: {path: 'list_lesson' } }])
             .lean();
+    },
+
+    findCourseOfTeacher(teacherID) {
+        return Course.find({teacher: mongoose.Types.ObjectId(teacherID)}).lean();
     }
 };
