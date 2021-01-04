@@ -233,4 +233,9 @@ module.exports = {
         // redirect
         res.redirect('/admin/courses');
     },
+
+    postLogout: function(req, res) {
+        req.logout();
+        res.redirect('/admin/login');
+    }
 };

@@ -46,6 +46,8 @@ module.exports = {
   },
 
   getDashboard: function(req, res) {
-    res.send("Dashboard");
+    res.render('teacher/dashboard', {
+      layout: 'teacher'
+    })
   }
 }

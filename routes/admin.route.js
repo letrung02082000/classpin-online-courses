@@ -8,6 +8,8 @@ const router = express.Router();
 router.get('/login', controller.getLogin);
 router.post('/login', passport.authenticate('admin-local', {failureRedirect: '/admin/login', failureMessage: true}), controller.postLogin);
 
+router.post('/logout',requireAdmin.isAdmin, controller.postLogout)
+
 router.get('/dashboard', requireAdmin.isAdmin, controller.getDashboard);
 
 router.get('/students/:page', requireAdmin.isAdmin, controller.getStudents);
