@@ -11,5 +11,5 @@ const schema = new Schema({
 const Chapter = mongoose.model('Chapter', schema, 'Chapter');
 
 module.exports = {
-
+  
 }

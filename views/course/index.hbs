@@ -94,51 +94,37 @@
     <div class="card-body card-table-content">
       <b class="mb-2">Course content</b>
       <div class="description">
+        {{#each chapterList}}
         <div class="card mt-2">
-          <div class="card-header flip">
-            Header
+          <div class="card-header flip" style="cursor: pointer;">
+            <div class="d-flex justify-content-between">
+              <strong>{{title}}</strong>
+              <i class="fas fa-angle-down"></i>
+            </div>
           </div>
           <div class="card-body panel">
-            <h4 class="card-title">Title</h4>
-            <p class="card-text">Text</p>
+            <table class="table">
+              {{#each list_lesson}}
+              <tr>
+                <td>
+                  <div class="d-flex justify-content-between">
+                    <div>
+                      <i class="fas fa-play-circle"></i>
+                      <a href="/videotest"><span class="card-text">{{title}}</span></a>
+                    </div>
+                    <div>
+                      {{#if isFree}}
+                      <img src="../../public/static/images/free.png" alt="free">
+                      {{/if}}
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              {{/each}}
+            </table>
           </div>
         </div>
-        <div class="card mt-2">
-          <div class="card-header flip">
-            Header
-          </div>
-          <div class="card-body panel">
-            <h4 class="card-title">Title</h4>
-            <p class="card-text">Text</p>
-          </div>
-        </div>
-        <div class="card mt-2">
-          <div class="card-header flip">
-            Header
-          </div>
-          <div class="card-body panel">
-            <h4 class="card-title">Title</h4>
-            <p class="card-text">Text</p>
-          </div>
-        </div>
-        <div class="card mt-2">
-          <div class="card-header flip">
-            Header
-          </div>
-          <div class="card-body panel">
-            <h4 class="card-title">Title</h4>
-            <p class="card-text">Text</p>
-          </div>
-        </div>
-        <div class="card mt-2">
-          <div class="card-header flip">
-            Header
-          </div>
-          <div class="card-body panel">
-            <h4 class="card-title">Title</h4>
-            <p class="card-text">Text</p>
-          </div>
-        </div>
+        {{/each}}
       </div>
     </div>
 

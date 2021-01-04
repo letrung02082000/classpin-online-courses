@@ -5,6 +5,8 @@ const {
 const { getMonday } = require('../utils/getMonday');
 const courseModel = require('../models/course.model');
 const studentModel = require('../models/student.model');
+const chapterModel = require('../models/chapter.model');
+const LessonModel = require('../models/lesson.model');
 const ratingModel = require('../models/rating.model');
 const paging = require('../utils/pagingOption');
 
@@ -117,7 +119,6 @@ module.exports = {
 
         // compute avg rating
         const avg = await courseModel.computeAvgRating(matchedCourse._id);
-
         let avgRating = 0;
         if (avg[0]) {
             avgRating = avg[0].avgRating;
@@ -140,6 +141,10 @@ module.exports = {
         };
 
         //console.log(percent);
+        // list chapter in course
+        const returnCourse = await courseModel.findAllChapterInCourse(matchedCourse._id);
+        console.log(returnCourse.list_chapter);
+
         res.render('course/index', {
             course: matchedCourse,
             isMember: isMember,
@@ -150,6 +155,7 @@ module.exports = {
             isInWishList: isInWishList,
             ratingList: ratingObj,
             percent: percent,
+            chapterList: returnCourse.list_chapter,
         });
     },
     rating: function (req, res) {

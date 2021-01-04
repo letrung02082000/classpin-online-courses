@@ -7,6 +7,7 @@ const schema = new Schema({
   description: String,
   thumbnail: String,
   video: String,
+  isFree: {type: Boolean, default: false},
 })
 
 const Lesson = mongoose.model('Lesson', schema, 'Lesson');
