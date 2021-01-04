@@ -4,7 +4,7 @@ const multer = require('multer');
 const passport = require('passport');
 const requireTeacher = require('../middlewares/requireTeacher.mdw');
 
-var upload = multer({ dest: 'public/uploads/courses/' })
+var upload = multer({ dest: 'public/uploads/teacher/'});
 
 
 const router = express.Router();
@@ -19,5 +19,8 @@ router.post('/login', passport.authenticate('teacher-local', {failureRedirect: '
 router.post('/logout', requireTeacher.isTeacher, controller.postLogout);
 
 router.get('/dashboard', requireTeacher.isTeacher, controller.getDashboard);
+router.get('/profile', requireTeacher.isTeacher, controller.getProfile);
+
+router.post('/profile', upload.single('avatar'), controller.postProfile);
 
 module.exports = router;

@@ -1,0 +1,99 @@
+{{#section 'css'}}
+<style>
+  .profile-pic {
+    width: 200px;
+    height: 200px;
+    max-height: 200px;
+    margin: 0 auto;
+    border-radius: 50%;
+  }
+</style>
+{{/section}}
+
+
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Profile</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card card-body">
+        <a class="btn btn-warning" href="/teacher/dashboard"> &#8592; Back to dashboard</a>
+        <hr>
+        <h3 style="text-align: center">Account Settings</h3>
+        <hr>
+        <img class="profile-pic" src="{{authUser.avatar}}" alt="avatar">
+
+      </div>
+    </div>
+    <div class="col-md-8">
+      <div class="card card-body">
+
+        <form id="frmProfile" method="POST" action="" enctype="multipart/form-data">
+          {{#with authUser}}
+          <div class="form-group">
+            <label class="font-weight-bold" for="fullname">Fullname</label>
+            <input type="text" name="fullname" id="fullname" class="form-control" placeholder="" aria-describedby="helpId" value="{{fullname}}">
+          </div>
+          <div class="form-group">
+            <label class="font-weight-bold" for="email">Email</label>
+            <input type="email" name="email" id="email" class="form-control" placeholder="" aria-describedby="helpId" value="{{email}}">
+          </div>
+          <div class="form-group">
+            <label class="font-weight-bold" for="phone">Phone</label>
+            <input type="text" name="phone" id="phone" class="form-control" placeholder="" aria-describedby="helpId" value="{{phone}}">
+          </div>
+          <div class="form-group">
+            <label class="font-weight-bold" for="exampleFormControlTextarea1">About me</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" name="about">
+              {{about}}
+            </textarea>
+          </div>
+          <div class="form-group">
+            <label class="font-weight-bold" for="avatar">Avatar</label>
+            <input type="file" name="avatar" id="avatar" class="form-control-file" placeholder="" aria-describedby="helpId" value="{{phone}}">
+          </div>
+          {{/with}}
+          <input class="btn btn-primary" type="submit" name="Update Information" value="Submit">
+        </form>
+      </div>
+    </div>
+  </div>
+</main>
+
+{{#section 'js'}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script>
+  $('#frmProfile').on('submit', function(e) {
+    e.preventDefault();
+    const fullname = $('#fullname').val();
+    const email = $('#email').val();
+    const phone = $('#phone').val();
+    if(fullname.length === 0 || email.length === 0 || phone.length === 0) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Invalid data input!',
+      })
+      return;
+    }
+    Swal.fire({
+      title: 'Do you want to save the changes?',
+      showDenyButton: true,
+      confirmButtonText: `Save`,
+      denyButtonText: `Don't save`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        $('#frmProfile').off('submit').submit();
+      } else if (result.isDenied) {
+        Swal.fire('Changes are not saved', '', 'info')
+      }
+    })
+  })
+</script>
+{{/section}}
