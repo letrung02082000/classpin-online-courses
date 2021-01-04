@@ -11,5 +11,7 @@ const schema = new Schema({
 const Chapter = mongoose.model('Chapter', schema, 'Chapter');
 
 module.exports = {
-  
+  deleteManyByListID(list_chapterID) {
+    return Chapter.deleteMany({_id: {$in: list_chapterID}});
+  }
 }

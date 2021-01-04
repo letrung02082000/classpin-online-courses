@@ -37,7 +37,7 @@ module.exports = {
     },
 
     async loadAllCourses() {
-        return await Course.find({}).lean();
+        return await Course.find({}).populate({path: 'teacher'}).lean();
     },
 
     async loadCourses(query) {
