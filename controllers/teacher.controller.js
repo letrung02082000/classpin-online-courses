@@ -45,6 +45,11 @@ module.exports = {
     res.redirect('/teacher/dashboard');
   },
 
+  postLogout: function(req, res) {
+    req.logout();
+    res.redirect('/teacher/login');
+  },
+
   getDashboard: function(req, res) {
     res.render('teacher/dashboard', {
       layout: 'teacher'
