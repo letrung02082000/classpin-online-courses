@@ -88,7 +88,9 @@ module.exports = {
     },
 
     addTopCategory(req, res) {
-        res.render('admin/addTopCategory');
+        res.render('admin/addTopCategory', {
+            layout: 'admin'
+        });
     },
 
     async postAddTopCategory(req, res) {
@@ -115,6 +117,7 @@ module.exports = {
         let cat = await categoryModel.loadTopCategory();
         res.render('admin/addSubCategory', {
             categories: cat,
+            layout: 'admin',
         });
     },
 

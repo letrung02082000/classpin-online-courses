@@ -18,14 +18,12 @@
         <tr>
             <th>Username</th>
             <th>Fullname</th>
-            <th>Password</th>
-            <th></th>
+            <th>&nbsp;</th>
         </tr>
         {{#each teacherList}}
         <tr>
             <td>{{namelogin}}</td>
             <td>{{fullname}}</td>
-            <td>{{password}}</td>
             <td>
                 <form action="/admin/teachers/del" method="POST">
                     <input type="hidden" value="{{_id}}" name="teacherId">
