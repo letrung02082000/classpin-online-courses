@@ -249,5 +249,11 @@ module.exports = {
 
     deleteOneCourse(courseID) {
         return Course.deleteOne({_id: courseID});
+    },
+
+    findAllChapterInCourse(courseID) {
+        return Course.findById(courseID)
+            .populate([{path: 'list_chapter', populate: {path: 'list_lesson' } }])
+            .lean();
     }
 };
