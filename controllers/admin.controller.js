@@ -5,6 +5,7 @@ const categoryModel = require('../models/category.model');
 const teacherModel = require('../models/teacher.model');
 const courseModel = require('../models/course.model');
 const ratingModel = require('../models/rating.model');
+const chapterModel = require('../models/chapter.model');
 const mongoose = require('mongoose');
 
 module.exports = {
@@ -25,12 +26,12 @@ module.exports = {
     },
 
     getDashboard: function (req, res) {
-        res.render('admin/dashboard', { layout: false });
+        res.render('admin/dashboard', { layout: 'admin' });
     },
 
     getCourses: async function (req, res) {
         const courses = await courseModel.loadAllCourses();
-        res.render('admin/courses', { layout: false, courses });
+        res.render('admin/courses', { layout: 'admin', courses });
     },
 
     getStudents: async function (req, res) {
@@ -41,7 +42,7 @@ module.exports = {
         const studentCount = await studentModel.countStudent();
 
         res.render('admin/student', {
-            layout: false,
+            layout: 'admin',
             studentList: students,
             current: page,
             pages: Math.ceil(studentCount / perPage),
@@ -57,7 +58,7 @@ module.exports = {
         const teachers = await teacherModel.loadAllTeachers();
 
         res.render('admin/teacher', {
-            layout: false,
+            layout: 'admin',
             teacherList: teachers,
         });
     },
@@ -83,7 +84,7 @@ module.exports = {
     },
 
     getCategories: function (req, res) {
-        res.render('admin/categories', { layout: false });
+        res.render('admin/categories', { layout: 'admin' });
     },
 
     addTopCategory(req, res) {
@@ -157,7 +158,7 @@ module.exports = {
         res.render('admin/categories', {
             categories: cat,
             empty: cat.length === 0,
-            layout: false
+            layout: 'admin'
         });
     },
     async postChangeTopCategory(req, res) {
@@ -208,16 +209,28 @@ module.exports = {
         });
     },
 
-    deleteCourse: async function(req, res) {
+    postDeleteCourse: async function(req, res) {
         const courseID = req.body.courseID;
         const matchedCourse = await courseModel.findById(courseID);
         // delete rating of course
-        const filter = {_id: {$in: matchedCourse.list_rating}};
-        await ratingModel.deleteMany(filter);
+        if(matchedCourse.list_rating) {
+            const filter = {_id: {$in: matchedCourse.list_rating}};
+            await ratingModel.deleteMany(filter);
+        }
+        
+        //delete lesson in chapter
+        
+
+        // delete chapter in course
+        if(matchedCourse.list_chapter) {
+            await chapterModel.deleteManyByListID(matchedCourse.list_chapter);
+        }
         // delete course
         await courseModel.deleteOneCourse(courseID);
 
-        // redirect
+        
 
+        // redirect
+        res.redirect('/admin/courses');
     },
 };

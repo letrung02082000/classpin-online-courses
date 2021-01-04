@@ -14,6 +14,8 @@ router.get('/students/:page', requireAdmin.isAdmin, controller.getStudents);
 router.get('/students', requireAdmin.isAdmin, controller.getStudents);
 router.post('/students/del', requireAdmin.isAdmin, controller.deleteStudent);
 
+
+
 router.get(
     '/teachers/create',
     requireAdmin.isAdmin,
@@ -34,6 +36,7 @@ router.post(
 router.get('/teachers', requireAdmin.isAdmin, controller.getTeachers);
 
 router.get('/courses', requireAdmin.isAdmin, controller.getCourses);
+router.post('/courses/del', requireAdmin.isAdmin, controller.postDeleteCourse);
 
 router.get(
     '/category/AddTopCategory',
