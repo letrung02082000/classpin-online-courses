@@ -45,6 +45,125 @@
 
 {{/section}}
 
+<div class="block">
+  <div class="adv">Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis, architecto!. <a href="#">Get
+      it!</a></div>
+  <header>
+    <div class="navigation" style="display: block; padding-top: -50x;">
+      <nav class="navbar navbar-expand-lg navbar-light text-white"
+        style=" position: fixed; width: 100%; top: 0; left: 0;">
+        <div id="logo-box">
+          <a href="/"><img id="logo" src="/public/static/images/logo.svg" alt="logo" style="width: 160px;" /></a>
+        </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+          aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation"><span
+            class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          {{!-- <div class="navbar-nav ml-0 mx-auto"><a class="text-white nav-link active" href="/">Home<span
+                class="sr-only">(current)</span></a><a class="text-white nav-link" href="/class">Dashboard</a></div>
+          <div class="dropdown ml-0" id="dropdow-avatar"><a class="btn dropdown-toggle" id="triggerId" type="button"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span
+                class="mr-3 d-none d-lg-inline text-secondary-600">haha</span><img class="img-profile rounded-circle"
+                src="" style="height: 30px; width: 30px;" /><a>
+                <div class="dropdown-menu" aria-labelledby="triggerId"><a class="dropdown-item" href="#"><i
+                      class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i> Profile</a><a class="dropdown-item"
+                    href="#"><i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i> Settings</a><a
+                    class="dropdown-item" href="#"><i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i> Activity
+                    Log</a>
+                  <div class="dropdown-divider"></div>
+                  <div class="text-center"><a class="btn btn-danger" href="/logout"><i
+                        class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i> Logout</a></div>
+                </div>
+              </a></a><a class="mr-3 btn text-white font-weight-bold" href="/login"
+              style="background-color: #003f8c; padding: 7px 20px">Sign in</a></div> --}}
+
+
+          <ul class="navbar-nav ml-0 mx-auto .d-flex-block align-items-center">
+
+            <li class="nav-item">
+              <a class="nav-link text-white active mr-3" aria-current="page" href="/">Home</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle text-white mr-3" href="#" data-toggle="dropdown">Categories</a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#"> Information Technology &raquo </a>
+                  <ul class="submenu dropdown-menu">
+                    <li><a class="dropdown-item" href=""> Mobile development </a></li>
+                    <li><a class="dropdown-item" href=""> Web development </a></li>
+                  </ul>
+                </li>
+                <li><a class="dropdown-item" href="#"> Dropdown item 2 </a></li>
+                <li><a class="dropdown-item" href="#"> Dropdown item 3 </a></li>
+              </ul>
+            </li>
+            <form class="d-flex justify-content-start ms-5 col-md-9" action="/course/search" method="GET">
+              <input class="form-control me-2 mr-2" type="search" placeholder="Search for anything" aria-label="Search"
+                name="q" />
+              <button class="btn btn-dark"><i class="fa fa-search" aria-hidden="true" type="submit"></i></button>
+            </form>
+          </ul>
+        </div>
+
+        <ul class="navbar-nav d-flex justify-content-end align-items-center">
+          <li class="nav-item mr-3">
+            <a class="nav-link" href="/cart"><i class="fas fa-shopping-cart"></i>
+              {{#if isEmptyCart}}
+              {{else}}
+              <span class="badge badge-pill badge-danger float-right">
+                {{cartCount}}
+              </span>
+              {{/if}}
+            </a>
+
+
+          </li>
+          {{#if isAuth}}
+          <li class="nav-item dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <img src="{{authUser.avatar}}" alt="avt" style="height: 30px; border-radius: 50%;">
+              {{authUser.fullname}}
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="/account/profile">My Profile</a>
+              <form class="dropdown-item" id="frmLogout" method="POST" action="/account/logout">
+                <a class="btn btn-danger" href="javascript: $('#frmLogout').submit();">
+                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Logout</a>
+                
+              </form>
+            </div>
+          </li>
+
+          {{else}}
+
+          <li class="nav-item">
+           <a class="mr-3 btn text-white font-weight-bold" href="/account/login"
+              style="background-color: #003f8c; padding: 7px 20px">Sign in</a>
+          </li>
+          {{/if}}
+        </ul>
+
+      </nav>
+    </div>
+    <div class="text-box">
+      <h3 class="heading-primary"><span class="heading-primary__main">ClassPin!</span><span
+          class="heading-primary__sub">Class of the future!</span></h3><a class="button button--blue button--animated"
+        href="/account/login"><strong>Get started!</strong></a>
+    </div>
+  </header>
+  <div class="custom-card">
+    <div class="card-img"><img id="img_header" src="/public/static/images/humangroups2.jpg" alt="card-img" style="width: 100%;" /></div>
+    <div class="card-text">
+      <h4 id="card_heading">Welcome to ClassPin</h4>
+      <div class="description">We help students and teachers have a powerful tool for learning</div>
+      <div class="cta-links">
+        <div class="link"><a class="button-text" href="/guide">Read the guide &rarr;</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <main>
   {{>homePartials/headerSlider}}
   <div class="container-fluid">

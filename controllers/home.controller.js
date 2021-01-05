@@ -42,6 +42,7 @@ module.exports = {
             allCategories,
             tenViewCourses,
             fourWeeklyCourses,
+            layout: 'main2',
         });
     },
     videoTest: function (req, res) {
