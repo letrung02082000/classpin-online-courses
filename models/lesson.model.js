@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const fs = require('fs');
 
 const Schema = mongoose.Schema;
 
@@ -22,7 +23,16 @@ module.exports = {
   updateOne(filter, update) {
     return Lesson.findOneAndUpdate(filter, update);
   },
-  delete(id) {
+  async delete(id) {
+    let lesson = await Lesson.findById(id);
+    fs.unlink('.\\' + lesson.thumbnail, (e) => {
+      console.log(e);
+      return;
+    });
+    fs.unlink('.\\' + lesson.video, (e) => {
+      console.log(e);
+      return;
+    });
     return Lesson.deleteOne({ _id: id });
   }
 }
