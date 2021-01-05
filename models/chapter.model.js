@@ -22,5 +22,8 @@ module.exports = {
   },
   updateOne(filter, update) {
     return Chapter.findOneAndUpdate(filter, update);
+  },
+  deleteOne(id) {
+    return Chapter.deleteOne({ _id: id });
   }
 }

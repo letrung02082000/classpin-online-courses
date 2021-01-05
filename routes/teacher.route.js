@@ -23,6 +23,7 @@ router.get('/profile', requireTeacher.isTeacher, controller.getProfile);
 
 router.post('/profile', requireTeacher.isTeacher, upload.single('avatar'), controller.postProfile);
 router.get('/courses', requireTeacher.isTeacher, controller.allCourse);
+router.post('/courses/chapter/delete', requireTeacher.isTeacher, controller.postDeleteChapter);
 router.get('/courses/:id', requireTeacher.isTeacher, controller.courseDetail);
 router.get('/courses/:id/config', requireTeacher.isTeacher, controller.editCourse);
 router.post('/courses/:id/config', requireTeacher.isTeacher, upload.single('thumbnail'), controller.postEditCourse);
@@ -32,5 +33,11 @@ router.get('/courses/:id/:chapter', requireTeacher.isTeacher, controller.chapter
 router.get('/courses/:id/:chapter/AddLesson', requireTeacher.isTeacher, controller.addLesson);
 var cpUpload = upload.fields([{ name: 'video', maxCount: 1 }, { name: 'thumbnail', maxCount: 1 }]);
 router.post('/courses/:id/:chapter/AddLesson', requireTeacher.isTeacher, cpUpload, controller.postAddLesson);
+router.get('/courses/:id/:chapter/EditChapter', requireTeacher.isTeacher, controller.editChapter);
+router.post('/courses/:id/:chapter/EditChapter', requireTeacher.isTeacher, controller.postEditChapter);
+router.get('/courses/:id/:chapter/:lesson/EditLesson', requireTeacher.isTeacher, controller.editLesson);
+router.post('/courses/:id/:chapter/:lesson/EditLesson', requireTeacher.isTeacher, cpUpload, controller.postEditLesson);
+router.post('/courses/:id/:chapter/:lesson/delete', requireTeacher.isTeacher, controller.postDeleteLesson);
+
 
 module.exports = router;

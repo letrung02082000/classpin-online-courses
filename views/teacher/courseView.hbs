@@ -36,10 +36,20 @@
         <a class="btn btn-primary" href="/teacher/courses/{{course._id}}/newchapter">Create new chapter</a>
       </div>
       <table class="table">
+        <colgroup>
+          <col span="1" style="width: 30%;">
+          <col span="1" style="width: 40%;">
+          <col span="1" style="width: 10%;">
+          <col span="1" style="width: 10%;">
+          <col span="1" style="width: 10%;">
+        </colgroup>
         <thead>
           <tr>
             <th>Title</th>
             <th>Description</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
           </tr>
         </thead>
         <tbody>
@@ -49,6 +59,12 @@
             <td>{{this.description}}</td>
             <td><a class="btn btn-primary" href="/teacher/courses/{{../course._id}}/{{this._id}}"
                 role="button">Detail</a></td>
+            <td><a class="btn btn-secondary" href="/teacher/courses/{{../course._id}}/{{this._id}}/EditChapter"
+                role="button"><i class="fas fa-pencil-alt"></i></a></td>
+            <form action="/teacher/courses/chapter/delete" method="post">
+              <input type="hidden" name="id" value="{{this._id}}">
+              <td><button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button></td>
+            </form>
           </tr>
           {{else}}
           <tr>

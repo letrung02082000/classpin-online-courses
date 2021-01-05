@@ -15,5 +15,14 @@ const Lesson = mongoose.model('Lesson', schema, 'Lesson');
 module.exports = {
   addLesson(lesson) {
     return Lesson.create(lesson);
+  },
+  findById(id) {
+    return Lesson.findById(id).lean();
+  },
+  updateOne(filter, update) {
+    return Lesson.findOneAndUpdate(filter, update);
+  },
+  delete(id) {
+    return Lesson.deleteOne({ _id: id });
   }
 }
