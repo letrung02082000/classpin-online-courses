@@ -28,5 +28,9 @@ router.get('/courses/:id/config', requireTeacher.isTeacher, controller.editCours
 router.post('/courses/:id/config', requireTeacher.isTeacher, upload.single('thumbnail'), controller.postEditCourse);
 router.get('/courses/:id/NewChapter', requireTeacher.isTeacher, controller.addChapter);
 router.post('/courses/:id/NewChapter', requireTeacher.isTeacher, controller.postAddChapter);
+router.get('/courses/:id/:chapter', requireTeacher.isTeacher, controller.chapterView);
+router.get('/courses/:id/:chapter/AddLesson', requireTeacher.isTeacher, controller.addLesson);
+var cpUpload = upload.fields([{ name: 'video', maxCount: 1 }, { name: 'thumbnail', maxCount: 1 }]);
+router.post('/courses/:id/:chapter/AddLesson', requireTeacher.isTeacher, cpUpload, controller.postAddLesson);
 
 module.exports = router;

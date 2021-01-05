@@ -4,12 +4,12 @@ const courseModel = require('../models/course.model');
 const multer = require('multer');
 const teacherModel = require('../models/teacher.model');
 const chapterModel = require('../models/chapter.model');
+const lessonModel = require('../models/lesson.model');
 
 
 module.exports = {
   async addCourse(req, res) {
     let categories = await categoryModel.loadTopCategory();
-    console.log(categories);
     res.render('teacher/addCourse', {
       categories: categories,
       layout: 'teacher',
@@ -30,9 +30,7 @@ module.exports = {
     if (req.file) {
       course.thumbnail = '\\' + req.file.path;
     }
-    console.log(req.body);
     await courseModel.addCourse(course);
-    console.log(course);
     res.redirect('/teacher/courses');
   },
 
@@ -67,7 +65,6 @@ module.exports = {
       phone: req.body.phone,
       about: req.body.about
     }
-    console.log(update);
     if (req.file) {
       update.avatar = '\\' + req.file.path;
     }
@@ -145,5 +142,44 @@ module.exports = {
     await chapterModel.addChapter(chapter);
     await courseModel.updateOne({ _id: course._id }, { $addToSet: { list_chapter: chapter._id } });
     res.redirect(`/teacher/courses/${course._id}`);
+  },
+  chapterView: async function (req, res) {
+    let chapter = await chapterModel.findById(req.params.chapter);
+    if (!chapter) return;
+    console.log(chapter);
+    res.render('teacher/chapterView', {
+      layout: 'teacher',
+      chapter: chapter,
+      courseId: req.params.id,
+    });
+  },
+  addLesson: async function (req, res) {
+    let chapter = await chapterModel.findById(req.params.chapter);
+    if (!chapter) return;
+    res.render('teacher/addLesson', {
+      layout: 'teacher',
+      chapterId: req.params.chapter,
+      courseId: req.params.id,
+    });
+  },
+  postAddLesson: async function (req, res) {
+    let chapter = await chapterModel.findById(req.params.chapter);
+    let course = await courseModel.findById(req.params.id);
+    if (!chapter) return;
+    let lesson = {
+      _id: mongoose.Types.ObjectId(),
+      title: req.body.title,
+      description: req.body.description,
+      thumbnail: course.thumbnail,
+    };
+    if (req.files['video'][0]) {
+      lesson.video = '\\' + req.files['video'][0].path;
+    }
+    if (req.files['thumbnail'][0]) {
+      lesson.thumbnail = '\\' + req.files['thumbnail'][0].path;
+    }
+    await lessonModel.addLesson(lesson);
+    await chapterModel.updateOne({ _id: chapter._id }, { $addToSet: { list_lesson: lesson._id } });
+    res.redirect(`/teacher/courses/${req.params.id}/${req.params.chapter}`);
   }
 }

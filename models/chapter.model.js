@@ -16,5 +16,11 @@ module.exports = {
   },
   addChapter(chapter) {
     return Chapter.create(chapter);
+  },
+  findById(chapterId) {
+    return Chapter.findById(chapterId).populate('list_lesson').lean();
+  },
+  updateOne(filter, update) {
+    return Chapter.findOneAndUpdate(filter, update);
   }
 }
