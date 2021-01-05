@@ -143,7 +143,25 @@ module.exports = {
         //console.log(percent);
         // list chapter in course
         const returnCourse = await courseModel.findAllChapterInCourse(matchedCourse._id);
-        console.log(returnCourse.list_chapter);
+        //console.log(returnCourse.list_chapter);
+
+        //find all course of teacher
+        const courseOfTeacher = await courseModel.findCourseOfTeacher(matchedCourse.teacher._id);
+        // count students of teacher
+        let studentsOfTeacher = 0;
+        let countReviewTeacher = 0;
+        let avgRatingTeacher = 0;
+        var c;
+        for(i of courseOfTeacher) {
+            studentsOfTeacher += i.list_student.length;
+            countReviewTeacher += i.list_rating.length;
+            c = await courseModel.computeAvgRating(i._id);
+            if (c[0]) {
+                avgRatingTeacher += c[0].avgRating;
+            }
+        }
+        
+        //console.log(avgRatingTeacher);
 
         res.render('course/index', {
             course: matchedCourse,
@@ -156,6 +174,10 @@ module.exports = {
             ratingList: ratingObj,
             percent: percent,
             chapterList: returnCourse.list_chapter,
+            courseOfTeacher: courseOfTeacher,
+            studentsOfTeacher: studentsOfTeacher,
+            countReviewTeacher: countReviewTeacher,
+            avgRatingTeacher: Math.round(avgRatingTeacher/countReviewTeacher * 100)/100,
         });
     },
     rating: function (req, res) {

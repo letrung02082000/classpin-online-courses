@@ -82,7 +82,7 @@
 <div class="row">
   <div class="col-7 container-content">
     <div class="card-description mb-5">
-      
+
       <div class="description">
         <b class="mb-2">Description</b>
         <p>
@@ -127,10 +127,50 @@
         {{/each}}
       </div>
     </div>
-
-    <b class="mb-2">Requirements</b>
     <br>
-    <b class="mb-2">Instructor</b>
+    <div class="card">
+      <div class="card-body">
+        <b class="mb-1">Instructors</b>
+        <div>
+          <section class="section-instructors">
+            <div class="row">
+              <h3 class="heading-tertiary mb-4">{{course.teacher.fullname}}</h3>
+              <div class="instructor">
+                <figure class="instructor__shape">
+                  <img src="{{course.teacher.avatar}}" class="testimonial__img" alt="photo1">
+                  <figcaption class="testimonial__caption">
+                    {{course.teacher.fullname}}
+                  </figcaption>
+                </figure>
+                <div class="instructor__text">
+                  <h3 class="intructor-heading">
+                    <i class="fas fa-star instructor-icon"></i>
+                    {{avgRatingTeacher}} Instructor Rating
+                  </h3>
+                  <h3 class="intructor-heading">
+                    <i class="fas fa-award instructor-icon"></i>
+                    {{countReviewTeacher}} Reviews
+                  </h3>
+                  <h3 class="intructor-heading">
+                    <i class="fas fa-user-friends instructor-icon"></i>
+                    {{studentsOfTeacher}} Students
+                  </h3>
+                  <h3 class="intructor-heading">
+                    <i class="fas fa-play-circle instructor-icon"></i>
+                    {{courseOfTeacher.length}} Courses
+                  </h3>
+                </div>
+                <br>
+                <div class="about" style="width: 100%;">
+                  {{course.teacher.about}}
+                </div>
+              </div>
+
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
     <br>
 
     <div class="card-body card-list-rating">
@@ -294,8 +334,8 @@
 </script>
 
 <script>
-  $(document).ready(function() {
-    $('.flip').click(function(){
+  $(document).ready(function () {
+    $('.flip').click(function () {
       $(this).parent().children('.panel').slideToggle("slow");
     });
   });
@@ -304,7 +344,7 @@
 <script>
   const msg = '{{this.msg}}';
   console.log(msg);
-  if(msg === "addtowishlist") {
+  if (msg === "addtowishlist") {
     Swal.fire({
       position: 'top-end',
       icon: 'success',
@@ -312,7 +352,7 @@
       showConfirmButton: false,
       timer: 1500
     })
-  } else if(msg === "unwishlist") {
+  } else if (msg === "unwishlist") {
     Swal.fire({
       position: 'top-end',
       icon: 'success',
