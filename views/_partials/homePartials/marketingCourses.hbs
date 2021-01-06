@@ -12,12 +12,17 @@
             <div class="card__category">{{category.name}}</div>
             <div class="card__price">$ {{price}}</div>
             <div class="card__button">
-                <a class="btn btn-primary mr-3" href="/course/{{_id}}">
+                {{#if isStudent}}
+                <a class="btn btn-success mr-3" href="/course/{{_id}}">
+                    Go to course</a>
+                {{else}}
+                <a class="btn btn-success mr-3" href="/course/{{_id}}">
                     Details</a>
                 <form method="POST" action="/cart/add">
                     <input type="hidden" value="{{_id}}" name="courseId" />
-                    <button class="btn btn-success" type="submit">Add to cart</button>
+                    <button class="btn btn-primary" type="submit">Add to cart</button>
                 </form>
+                {{/if}}
             </div>
         </div>
         {{/each}}

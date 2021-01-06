@@ -56,6 +56,34 @@ module.exports = {
             await updateWeekView(courseID);
         }
 
+        //trung find 5 courses in same category
+        var fiveRelatedCourses = [];
+        if (course.category) {
+            const relatedCourses = await courseModel.findRelatedCourse(
+                course.category
+            );
+
+            for (const course of relatedCourses) {
+                var relatedCourse = await courseModel.findById(course._id);
+                fiveRelatedCourses.push(relatedCourse);
+            }
+        }
+
+        for (const course of fiveRelatedCourses) {
+            if (req.user) {
+                const result = await courseModel.checkStudentInCourse(
+                    req.user._id,
+                    course._id
+                );
+
+                if (result) {
+                    if (result._id.toString() === course._id.toString()) {
+                        course.isStudent = true;
+                    }
+                }
+            }
+        }
+
         const matchedCourse = await courseModel.findAllRatingOfCourse(courseID);
         //checkout user was a member in course
         let isMember = false;
@@ -142,17 +170,21 @@ module.exports = {
 
         //console.log(percent);
         // list chapter in course
-        const returnCourse = await courseModel.findAllChapterInCourse(matchedCourse._id);
+        const returnCourse = await courseModel.findAllChapterInCourse(
+            matchedCourse._id
+        );
         //console.log(returnCourse.list_chapter);
 
         //find all course of teacher
-        const courseOfTeacher = await courseModel.findCourseOfTeacher(matchedCourse.teacher._id);
+        const courseOfTeacher = await courseModel.findCourseOfTeacher(
+            matchedCourse.teacher._id
+        );
         // count students of teacher
         let studentsOfTeacher = 0;
         let countReviewTeacher = 0;
         let avgRatingTeacher = 0;
         var c;
-        for(i of courseOfTeacher) {
+        for (i of courseOfTeacher) {
             studentsOfTeacher += i.list_student.length;
             countReviewTeacher += i.list_rating.length;
             c = await courseModel.computeAvgRating(i._id);
@@ -160,7 +192,7 @@ module.exports = {
                 avgRatingTeacher += c[0].avgRating;
             }
         }
-        
+
         //console.log(avgRatingTeacher);
 
         res.render('course/index', {
@@ -177,7 +209,9 @@ module.exports = {
             courseOfTeacher: courseOfTeacher,
             studentsOfTeacher: studentsOfTeacher,
             countReviewTeacher: countReviewTeacher,
-            avgRatingTeacher: Math.round(avgRatingTeacher/countReviewTeacher * 100)/100,
+            avgRatingTeacher:
+                Math.round((avgRatingTeacher / countReviewTeacher) * 100) / 100,
+            fiveRelatedCourses,
         });
     },
     rating: function (req, res) {

@@ -13,10 +13,10 @@ const schema = new Schema({
     thumbnail: String,
     price: Number,
     discount: Number,
-    done: {type: Boolean, default: false},
+    done: { type: Boolean, default: false },
     list_student: [{ type: Schema.Types.ObjectId, ref: 'Student' }],
     list_rating: [{ type: Schema.Types.ObjectId, ref: 'Rating' }],
-    list_chapter: [{type: Schema.Types.ObjectId, ref: 'Chapter'}],
+    list_chapter: [{ type: Schema.Types.ObjectId, ref: 'Chapter' }],
     teacher: { type: mongoose.Schema.Types.ObjectId, ref: 'Teacher' },
     category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' }, // id category
     date_created: { type: Date, default: Date.now },
@@ -37,7 +37,7 @@ module.exports = {
     },
 
     async loadAllCourses() {
-        return await Course.find({}).populate({path: 'teacher'}).lean();
+        return await Course.find({}).populate({ path: 'teacher' }).lean();
     },
 
     async loadCourses(query) {
@@ -158,6 +158,24 @@ module.exports = {
             .lean();
     },
 
+    //find 5 courses in same category
+    async findRelatedCourse(categoryId) {
+        return await Course.aggregate(
+            [
+                {
+                    $project: {
+                        length: { $size: '$list_student' },
+                    },
+                },
+                { $sort: { length: -1 } },
+                { $limit: 5 },
+            ],
+            function (err, doc) {
+                if (err) throw Error(err);
+            }
+        );
+    },
+
     // add ratingID to list_rating
     pushRatingIDToCourse(courseID, ratingID) {
         return Course.updateOne(
@@ -248,16 +266,20 @@ module.exports = {
     },
 
     deleteOneCourse(courseID) {
-        return Course.deleteOne({_id: courseID});
+        return Course.deleteOne({ _id: courseID });
     },
 
     findAllChapterInCourse(courseID) {
         return Course.findById(courseID)
-            .populate([{path: 'list_chapter', populate: {path: 'list_lesson' } }])
+            .populate([
+                { path: 'list_chapter', populate: { path: 'list_lesson' } },
+            ])
             .lean();
     },
 
     findCourseOfTeacher(teacherID) {
-        return Course.find({teacher: mongoose.Types.ObjectId(teacherID)}).lean();
-    }
+        return Course.find({
+            teacher: mongoose.Types.ObjectId(teacherID),
+        }).lean();
+    },
 };

@@ -58,7 +58,9 @@
           <img src="{{course.thumbnail}}" alt="course-img">
         </div>
         {{#if isMember}}
-
+        <div class="cart" style="margin-top: 30px;">
+          <a href="/course/{{_id}}" class="btn btn-success card-button__cart">Go to course</a>
+        </div>
         {{else}}
         <div class="card-text">
           <p>
@@ -256,47 +258,101 @@
       </div>
       {{/if}}
     </div>
+  </div>
 
-
-    <div>
-      <div class="card-header bg-white mt-5">
-        <b class="mb-2 flip" style="cursor: pointer;">Reviews</b>
-        <div class="student-feedback mt-2 panel">
-          <div class="testimonial">
-            {{#each this.course.list_rating}}
-            <div class="card-body card-testimonial">
-              <div class="avatar">
-                <figure class="testimonial__shape">
-                  <img src="{{this.student.avatar}}" class="testimonial__img" alt="photo1">
-                  <figcaption class="testimonial__caption">
-                    {{this.student.fullname}}
-                  </figcaption>
-                </figure>
-              </div>
-              <div class="testimonial__text mt-2">
-                <h3 class="heading-tertiary u-margin-bottom-small">
+  <div>
+    <div class="card-header bg-white mt-5">
+      <b class="mb-2 flip" style="cursor: pointer;">Reviews</b>
+      <div class="student-feedback mt-2 panel">
+        <div class="testimonial">
+          {{#each this.course.list_rating}}
+          <div class="card-body card-testimonial">
+            <div class="avatar">
+              <figure class="testimonial__shape">
+                <img src="{{this.student.avatar}}" class="testimonial__img" alt="photo1">
+                <figcaption class="testimonial__caption">
                   {{this.student.fullname}}
-                  <span class="time">{{fromNow this.date_rating}}</span>
-                </h3>
-                <div class="feedback">
-                  <div class="rateYo mt-1 mb-1" data-rateyo-rating={{this.rating}} data-rateyo-star-width="25px">
-                  </div>
-                </div>
-                <p>
-                  {{this.description}}
-                </p>
-              </div>
+                </figcaption>
+              </figure>
             </div>
-            <hr style="border:3px solid #f1f1f1; margin: 0;">
-            {{/each}}
+            <div class="testimonial__text mt-2">
+              <h3 class="heading-tertiary u-margin-bottom-small">
+                {{this.student.fullname}}
+                <span class="time">{{fromNow this.date_rating}}</span>
+              </h3>
+              <div class="feedback">
+                <div class="rateYo mt-1 mb-1" data-rateyo-rating={{this.rating}} data-rateyo-star-width="25px">
+                </div>
+              </div>
+              <p>
+                {{this.description}}
+              </p>
+            </div>
           </div>
+          <hr style="border:3px solid #f1f1f1; margin: 0;">
+          {{/each}}
         </div>
       </div>
     </div>
+  </div>
 
 
+</div>
+
+<div class="related-courses">
+  <h3>Related courses</h3>
+  <div class="carousel-container">
+    <div class="carousel-inner">
+      <div class="track">
+        {{#each fiveRelatedCourses}}
+        <div class="card-container">
+          <div class="card">
+            <div class="img">
+              <img src="{{thumbnail}}" alt="course_image" style="height: 100%; width:100%;">
+            </div>
+            <div class="info">
+              <div class="card__title">{{name}}</div>
+              <div class="card_teacher">{{teacher.fullname}}</div>
+              <div class="card__category">{{category.name}}</div>
+
+              <div class="rating mb-2">
+                <div class="rateYo" data-rateyo-rating="{{avgRating}}" data-rateyo-star-width="20px">
+                </div>
+
+              </div>
+              <div class="card__price">$ {{price}}</div>
+            </div>
+            <div class="card-button">
+
+              {{#if isStudent}}
+              <a href="/course/{{_id}}" class="btn btn-success card-button__cart">Go to course</a>
+              {{else}}
+              <a class="btn btn-primary mr-3 card-button__details" href="/course/{{_id}}">
+                Details</a>
+              <form method="POST" action="/cart/add">
+                <input type="hidden" value="{{_id}}" name="courseId" />
+                <button class="btn btn-success card-button__cart" type="submit">Add to cart</button>
+              </form>
+              {{/if}}
+            </div>
+          </div>
+        </div>
+        {{/each}}
+      </div>
+    </div>
+    <div class="nav">
+      <button class="prev">
+        <i class="fa fa-arrow-circle-left " aria-hidden="true"></i>
+      </button>
+      <button class="next">
+        <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+      </button>
+    </div>
   </div>
 </div>
+
+
+
 
 
 
@@ -362,4 +418,30 @@
     })
   }
 </script>
+
+<script>
+  function isInViewport(element) {
+    const rect = element.getBoundingClientRect();
+    return (
+      rect.top >= 0 &&
+      rect.left >= 0 &&
+      rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+      rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+  }
+
+  const relatedCourses = document.querySelector('.related-courses');
+  const buyCard = document.querySelector('.buy-card');
+  document.addEventListener('scroll', function () {
+    const messageText = isInViewport(relatedCourses) ?
+      buyCard.style.display = "none" : buyCard.style.display = "block"
+
+    message.textContent = messageText;
+
+  }, {
+    passive: true
+  });
+
+</script>
+<script src="/public/static/js/home/newestCarousel.js"></script>
 {{/section}}
