@@ -1,0 +1,82 @@
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">{{course.name}}</h1>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-3 border-right">
+        <div class="card" style="width: 250px;">
+          <img class="card-img-top" src="{{course.thumbnail}}" alt="Course Thumbnail">
+          <div class="card-body">
+            <a class="btn btn-primary" href="/teacher/courses/{{course._id}}/config" role="button">Change
+              information</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-7">
+        <h6>Name: </h6>
+        <p>{{course.name}}</p>
+        <h6>Short-description: </h6>
+        <p>{{course.short_description}}</p>
+        <h6>Price: </h6>
+        <p>$ {{course.price}}</p>
+        <h6>Discount: </h6>
+        <p>{{course.discount}}%</p>
+        <h6>Description: </h6>
+        <p>{{{course.description}}}</p>
+        <h6>Status: </h6>
+        <p>{{#if course.done}}
+          Completed
+          {{else}}Not completed{{/if}}</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="mt-3 mb-3">
+        <a class="btn btn-primary" href="/teacher/courses/{{course._id}}/newchapter">Create new chapter</a>
+      </div>
+      <table class="table">
+        <colgroup>
+          <col span="1" style="width: 30%;">
+          <col span="1" style="width: 40%;">
+          <col span="1" style="width: 10%;">
+          <col span="1" style="width: 10%;">
+          <col span="1" style="width: 10%;">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each course.list_chapter}}
+          <tr>
+            <td>{{this.title}}</td>
+            <td>{{this.description}}</td>
+            <td><a class="btn btn-primary" href="/teacher/courses/{{../course._id}}/{{this._id}}"
+                role="button">Detail</a></td>
+            <td><a class="btn btn-secondary" href="/teacher/courses/{{../course._id}}/{{this._id}}/EditChapter"
+                role="button"><i class="fas fa-pencil-alt"></i></a></td>
+            <form action="/teacher/courses/chapter/delete" method="post">
+              <input type="hidden" name="id" value="{{this._id}}">
+              <td><button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button></td>
+            </form>
+          </tr>
+          {{else}}
+          <tr>
+            <td colspan="2">
+              <h6>This course doesn't has any chapter</h6>
+            </td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</main>

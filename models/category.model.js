@@ -24,6 +24,9 @@ module.exports = {
     async loadAllCategories() {
         return await Category.find({}).lean();
     },
+    async AllCategories() {
+        return await Category.find({});
+    },
 
     findById(categoryId) {
         return Category.findById(categoryId).lean();

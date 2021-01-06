@@ -282,4 +282,10 @@ module.exports = {
             teacher: mongoose.Types.ObjectId(teacherID),
         }).lean();
     },
+
+    updateOne(filter, update) {
+        return Course.findOneAndUpdate(filter, update, {
+            last_updated: Date.now(),
+        });
+    },
 };

@@ -141,7 +141,7 @@ module.exports = {
         let cat = await categoryModel.selectFromOneId(req.body.categoryId);
         if (!cat) return;
         if (cat.sub_category.length === 0) {
-            let categories = await categoryModel.loadAllCategories();
+            let categories = await categoryModel.AllCategories();
             for (let i = 0; i < categories.length; i++) {
                 let index = categories[i].sub_category.indexOf(
                     req.body.categoryId
@@ -212,32 +212,32 @@ module.exports = {
         });
     },
 
-    postDeleteCourse: async function(req, res) {
+    postDeleteCourse: async function (req, res) {
         const courseID = req.body.courseID;
         const matchedCourse = await courseModel.findById(courseID);
         // delete rating of course
-        if(matchedCourse.list_rating) {
-            const filter = {_id: {$in: matchedCourse.list_rating}};
+        if (matchedCourse.list_rating) {
+            const filter = { _id: { $in: matchedCourse.list_rating } };
             await ratingModel.deleteMany(filter);
         }
-        
+
         //delete lesson in chapter
-        
+
 
         // delete chapter in course
-        if(matchedCourse.list_chapter) {
+        if (matchedCourse.list_chapter) {
             await chapterModel.deleteManyByListID(matchedCourse.list_chapter);
         }
         // delete course
         await courseModel.deleteOneCourse(courseID);
 
-        
+
 
         // redirect
         res.redirect('/admin/courses');
     },
 
-    postLogout: function(req, res) {
+    postLogout: function (req, res) {
         req.logout();
         res.redirect('/admin/login');
     }
