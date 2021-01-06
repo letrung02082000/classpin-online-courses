@@ -46,6 +46,10 @@ body {
     z-index: 1000;
 }
 
+.none{
+    display: none;
+}
+
 .card-text {
     padding: 20px;
 }

@@ -1,3 +1,8 @@
+{{#section 'css'}}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.css">
+{{/section}}
+
+
 <div class="container pt-5">
     {{#if empty}}
 
@@ -7,6 +12,11 @@
         <img class="card-img-top" src='{{this.thumbnail}}' alt="Card image cap">
         <div class="card-body">
             <h5 class="card-title">{{this.name}}</h5>
+            <div class="rating mb-2">
+                <div class="rateYo" data-rateyo-rating="{{this.avgRating}}" data-rateyo-star-width="20px">
+                </div>
+
+            </div>
             <p class="card-text">{{{this.short_description}}}</p>
             <div class="text-right">
                 <a href="#" class="btn btn-primary">Detail</a>
@@ -30,3 +40,17 @@
 
 
 </div>
+
+
+{{#section 'js'}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
+<script>
+    $(function () {
+
+        $(".rateYo").rateYo({
+            halfStar: true,
+            readOnly: true
+        });
+    });
+</script>
+{{/section}}

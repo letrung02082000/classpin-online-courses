@@ -35,6 +35,8 @@ module.exports = {
                 }
             }
 
+            
+
             var tenViewCourses = await loadTenViewCourses();
 
             for (var course of tenViewCourses) {
@@ -69,6 +71,8 @@ module.exports = {
                 }
             }
 
+            
+
             var tenWeeklyCategories = await categoryModel.loadTenWeeklyCategories();
 
             for (i of tenNewestCourses) {
@@ -80,9 +84,30 @@ module.exports = {
                 //console.log(avgRating);
                 i.avgRating = avgRating;
             }
+
+            for (i of tenViewCourses) {
+                const avg = await courseModel.computeAvgRating(i._id);
+                let avgRating = 0;
+                if (avg[0]) {
+                    avgRating = avg[0].avgRating;
+                }
+                //console.log(avgRating);
+                i.avgRating = avgRating;
+            }
+
+            for (i of fourWeeklyCourses) {
+                const avg = await courseModel.computeAvgRating(i._id);
+                let avgRating = 0;
+                if (avg[0]) {
+                    avgRating = avg[0].avgRating;
+                }
+                //console.log(avgRating);
+                i.avgRating = avgRating;
+            }
         } catch (error) {
             throw Error(error);
         }
+
 
         res.render('home', {
             tenNewestCourses: tenNewestCourses,
