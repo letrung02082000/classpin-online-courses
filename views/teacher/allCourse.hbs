@@ -3,9 +3,9 @@
         class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Courses</h1>
     </div>
-    
+
     <div class="mt-3 mb-3">
-      <a class="btn btn-primary" href="/teacher/addCourse">Create new course</a>
+        <a class="btn btn-primary" href="/teacher/addCourse">Create new course</a>
     </div>
     <table class="table" style="width:100%">
         <tr>
@@ -18,7 +18,7 @@
             <td>{{name}}</td>
             <td>{{list_student.length}}</td>
             <td>
-                <a class="btn btn-outline-info" href="#">Detail</a>
+                <a class="btn btn-outline-info" href="/teacher/courses/{{_id}}">Detail</a>
             </td>
         </tr>
         {{/each}}

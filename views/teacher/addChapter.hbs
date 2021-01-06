@@ -1,0 +1,23 @@
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Chapter</h1>
+  </div>
+
+  <div class="container">
+    <form method="POST" action="/teacher/courses/{{courseId}}/NewChapter">
+      <div class="card mt-5">
+        <h5 class="card-header">Add chapter</h5>
+        <div class="card-body">
+          <div class="form-group">
+            <label for="course-title">Title</label>
+            <input type="text" name="title" class="form-control" id="course-title" placeholder="Enter title" required>
+          </div>
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea class="form-control" name="description" id="description" rows="3"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+  </div>
+</main>
