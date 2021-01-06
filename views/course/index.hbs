@@ -28,8 +28,8 @@
             <div class="rateYo" data-rateyo-rating="{{this.avgRating}}" data-rateyo-star-width="30px"></div>
             <p class="mt-2">{{this.avgRating}} average based on {{this.totalRating}} ratings ({{amountStudent}}
               students).</p>
-            <p>Created by {{this.course.teacher.fullname}}</p>
-            <p>Last updated {{fromNow this.course.last_updated}}</p>
+            <p>Created by <a href="#ins">{{this.course.teacher.fullname}}</a></p>
+            <p><i class="fas fa-exclamation-circle mr-2"></i>Last updated {{fromNow this.course.last_updated}}</p>
           </div>
         </div>
 
@@ -132,8 +132,8 @@
         {{/each}}
       </div>
     </div>
-    <br>
-    <div class="card">
+    <br id="ins">
+    <div  class="card">
       <div class="card-body">
         <b class="mb-1">Instructors</b>
         <div>
@@ -261,49 +261,52 @@
       </div>
       {{/if}}
     </div>
-  </div>
-
-  <div>
-    <div class="card-header bg-white mt-5">
-      <b class="mb-2 flip" style="cursor: pointer;">Reviews</b>
-      <div class="student-feedback mt-2 panel">
-        <div class="testimonial">
-          {{#each this.course.list_rating}}
-          <div class="card-body card-testimonial">
-            <div class="avatar">
-              <figure class="testimonial__shape">
-                <img src="{{this.student.avatar}}" class="testimonial__img" alt="photo1">
-                <figcaption class="testimonial__caption">
-                  {{this.student.fullname}}
-                </figcaption>
-              </figure>
-            </div>
-            <div class="testimonial__text mt-2">
-              <h3 class="heading-tertiary u-margin-bottom-small">
-                {{this.student.fullname}}
-                <span class="time">{{fromNow this.date_rating}}</span>
-              </h3>
-              <div class="feedback">
-                <div class="rateYo mt-1 mb-1" data-rateyo-rating={{this.rating}} data-rateyo-star-width="25px">
-                </div>
+    <div>
+      <div class="card-header bg-white mt-5">
+        <b class="mb-2 flip" style="cursor: pointer;">Reviews</b>
+        <div class="student-feedback mt-2 panel">
+          <div class="testimonial">
+            {{#each this.course.list_rating}}
+            <div class="card-body card-testimonial">
+              <div class="avatar">
+                <figure class="testimonial__shape">
+                  <img src="{{this.student.avatar}}" class="testimonial__img" alt="photo1">
+                  <figcaption class="testimonial__caption">
+                    {{this.student.fullname}}
+                  </figcaption>
+                </figure>
               </div>
-              <p>
-                {{this.description}}
-              </p>
+              <div class="testimonial__text mt-2">
+                <h3 class="heading-tertiary u-margin-bottom-small">
+                  {{this.student.fullname}}
+                  <span class="time">{{fromNow this.date_rating}}</span>
+                </h3>
+                <div class="feedback">
+                  <div class="rateYo mt-1 mb-1" data-rateyo-rating={{this.rating}} data-rateyo-star-width="25px">
+                  </div>
+                </div>
+                <p>
+                  {{this.description}}
+                </p>
+              </div>
             </div>
+            <hr style="border:3px solid #f1f1f1; margin: 0;">
+            {{/each}}
           </div>
-          <hr style="border:3px solid #f1f1f1; margin: 0;">
-          {{/each}}
         </div>
       </div>
     </div>
   </div>
 
 
+
+
 </div>
 
-<div class="related-courses">
-  <h3>Related courses</h3>
+<hr>
+
+<div class="related-courses mt-3">
+  <h3 class="ml-5">Related courses</h3>
   <div class="carousel-container">
     <div class="carousel-inner">
       <div class="track">
@@ -356,10 +359,6 @@
 
 
 
-
-
-
-
 {{#section 'js'}}
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
@@ -377,8 +376,8 @@
             $('.buy-card, header').removeClass('sticky');
           }
         }, {
-        offset: '30px'
-      }
+          offset: '30px'
+        }
       )
     }
   )
@@ -390,6 +389,18 @@
     });
   });
 
+</script>
+
+<script>
+  $('.card-list-rating').waypoint(
+    function (direction) {
+      if (direction == "down") {
+        $('.buy-card').addClass('none');
+      } else {
+        $('.buy-card').removeClass('none');
+      }
+    }
+  )
 </script>
 
 <script>
@@ -422,29 +433,5 @@
   }
 </script>
 
-<script>
-  function isInViewport(element) {
-    const rect = element.getBoundingClientRect();
-    return (
-      rect.top >= 0 &&
-      rect.left >= 0 &&
-      rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-      rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-    );
-  }
-
-  const relatedCourses = document.querySelector('.related-courses');
-  const buyCard = document.querySelector('.buy-card');
-  document.addEventListener('scroll', function () {
-    const messageText = isInViewport(relatedCourses) ?
-      buyCard.style.display = "none" : buyCard.style.display = "block"
-
-    message.textContent = messageText;
-
-  }, {
-    passive: true
-  });
-
-</script>
 <script src="/public/static/js/home/newestCarousel.js"></script>
 {{/section}}

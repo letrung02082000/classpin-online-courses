@@ -195,6 +195,16 @@ module.exports = {
 
         //console.log(avgRatingTeacher);
 
+        // compute avg rating start of 5 related course
+        for (i of fiveRelatedCourses) {
+            const avg = await courseModel.computeAvgRating(i._id);
+            let avgRating = 0;
+            if (avg[0]) {
+                avgRating = avg[0].avgRating;
+            }
+            //console.log(avgRating);
+            i.avgRating = avgRating;
+        }
         res.render('course/index', {
             _id: courseID,
             course: matchedCourse,

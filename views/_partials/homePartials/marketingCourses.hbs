@@ -1,31 +1,42 @@
 <div class="marketing-courses">
-    <h2 class="marketing-courses__title mb-5">Recommended Courses this week!</h2>
+  <h2 class="marketing-courses__title mb-5">Recommended Courses this week!</h2>
 
-    <div class="row">
-        {{#each fourWeeklyCourses}}
-        <div class="col-lg-3 px-5">
-            <div class="card__image">
-                <img src="{{thumbnail}}" alt="course_image">
-            </div>
-            <div class="card__title">{{name}}</div>
-            <div class="card_teacher">{{teacher.fullname}}</div>
-            <div class="card__category">{{category.name}}</div>
-            <div class="card__price">$ {{price}}</div>
-            <div class="card__button">
-                {{#if isStudent}}
-                <a class="btn btn-success mr-3" href="/course/{{_id}}">
-                    Go to course</a>
-                {{else}}
-                <a class="btn btn-success mr-3" href="/course/{{_id}}">
-                    Details</a>
-                <form method="POST" action="/cart/add">
-                    <input type="hidden" value="{{_id}}" name="courseId" />
-                    <button class="btn btn-primary" type="submit">Add to cart</button>
-                </form>
-                {{/if}}
-            </div>
+  <div class="row">
+    {{#each fourWeeklyCourses}}
+    <div class="col-lg-3 px-5">
+      <div class="card">
+        <div class="card__image">
+          <img src="{{thumbnail}}" alt="course_image" style="height: 150px;">
         </div>
-        {{/each}}
+        <div class="card-text p-3">
+          <div class="card__title">{{name}}</div>
+          <div class="card_teacher">{{teacher.fullname}}</div>
+          <div class="card__category">{{category.name}}</div>
+          <div class="rating mb-2">
+            <div class="rateYo" data-rateyo-rating="{{avgRating}}" data-rateyo-star-width="20px">
+            </div>
+
+          </div>
+          <div class="card__price">$ {{price}}</div>
+          <div class="card__button">
+            {{#if isStudent}}
+            <a class="btn btn-success mr-3" href="/course/{{_id}}">
+              Go to course</a>
+            {{else}}
+            <a class="btn btn-success mr-3" href="/course/{{_id}}">
+              Details</a>
+            <form method="POST" action="/cart/add">
+              <input type="hidden" value="{{_id}}" name="courseId" />
+              <button class="btn btn-primary" type="submit">Add to cart</button>
+            </form>
+            {{/if}}
+          </div>
+        </div>
+
+      </div>
 
     </div>
+    {{/each}}
+
+  </div>
 </div>

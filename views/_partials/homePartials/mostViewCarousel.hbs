@@ -3,21 +3,19 @@
         <div class="carousel-inner">
             <div class="track2">
                 {{#each tenViewCourses}}
-                <div class="card-container">
+                <div class="card-container" style="height: 380px;">
                     <div class="card">
                         <div class="img">
-                            <img src="{{thumbnail}}" alt="course_image">
+                            <img src="{{thumbnail}}" alt="course_image" style="height: 150px;">
                         </div>
                         <div class="info">
                             <div class="card__title">{{name}}</div>
                             <div class="card_teacher">{{teacher.fullname}}</div>
                             <div class="card__category">{{category.name}}</div>
-                            <div class="rating">
-                                <span class="fa fa-star {{#ifCond rating '>=' 1}} checked {{else}} {{/ifCond}} "></span>
-                                <span class="fa fa-star {{#ifCond rating '>=' 1}} checked {{else}} {{/ifCond}} "></span>
-                                <span class="fa fa-star {{#ifCond rating '>=' 1}} checked {{else}} {{/ifCond}} "></span>
-                                <span class="fa fa-star {{#ifCond rating '>=' 1}} checked {{else}} {{/ifCond}} "></span>
-                                <span class="fa fa-star {{#ifCond rating '>=' 1}} checked {{else}} {{/ifCond}} "></span>
+                            <div class="rating mb-2">
+                                <div class="rateYo" data-rateyo-rating="{{avgRating}}" data-rateyo-star-width="20px">
+                                </div>
+
                             </div>
                             <div class="card__price">$ {{price}}</div>
                         </div>
