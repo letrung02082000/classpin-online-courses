@@ -52,7 +52,7 @@ module.exports = {
         }
     },
     addToCart: async function (req, res) {
-        const courseId = req.body.courseId;
+        const courseId = req.body.courseId.toString();
 
         if (!req.user) {
             const course = await courseModel.findById(
@@ -166,6 +166,7 @@ module.exports = {
 
         return res.render('cart/successCheckout', { isSuccessful: true });
     },
+
     delFromCart: function (req, res) {
         const courseId = req.body.courseId;
 
@@ -176,5 +177,20 @@ module.exports = {
         }
 
         res.redirect('/cart');
+    },
+
+    buyNow: async function (req, res) {
+        const courseId = req.body.courseId;
+        const course = await courseModel.findById(
+            mongoose.mongo.ObjectId(courseId)
+        );
+
+        res.render('cart/buynow', { course });
+    },
+
+    postBuyNowCheckout: async function (req, res) {
+        const courseId = req.body.courseId;
+        await courseModel.addStudentCourse(courseId, req.user._id);
+        res.render('cart/successCheckout', { isSuccessful: true });
     },
 };

@@ -196,6 +196,7 @@ module.exports = {
         //console.log(avgRatingTeacher);
 
         res.render('course/index', {
+            _id: courseID,
             course: matchedCourse,
             isMember: isMember,
             avgRating: Math.round(avgRating * 100) / 100, // value of avgRating

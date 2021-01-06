@@ -71,8 +71,14 @@
             </strong>
           </p>
           <div class="cart">
-            <a href="#" class="btn btn-danger button-add mb-2">Add to cart</a>
-            <a href="#" class="btn btn-outline-info button-add">Buy now</a>
+            <form method="POST" action="/cart/add">
+              <input type="hidden" value="{{_id}}" name="courseId" />
+              <button class="btn btn-danger button-add mb-2" type="submit">Add to cart</button>
+            </form>
+            <form method="POST" action="/cart/buynow">
+              <input type="hidden" value="{{_id}}" name="courseId" />
+              <button class="btn btn-outline-info button-add" type="submit">Buy now</button>
+            </form>
           </div>
         </div>
         {{/if}}
