@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const { findById } = require('./course.model');
 
 const paginate = require('mongoose-paginate-v2');
+const { getMonday } = require('../utils/getMonday');
 
 const Schema = mongoose.Schema;
 
@@ -11,6 +12,8 @@ const schema = new Schema({
     sub_category: Array, // id cac category con
     name: String,
     description: String,
+    last_count: { type: Date, default: Date.now },
+    student_count: { type: Number, default: 0 },
 });
 
 schema.plugin(paginate);
@@ -85,5 +88,42 @@ module.exports = {
             }
         }
         return;
-    }
-}
+    },
+
+    async increaseStudentCount(categoryId) {
+        const category = await Category.findById(
+            mongoose.mongo.ObjectId(categoryId),
+            function (err) {
+                if (err) throw Error(err);
+            }
+        );
+
+        category.student_count += 1;
+        category.last_count = Date.now();
+        category.save();
+    },
+
+    async resetLastCount(categoryId) {
+        const category = await Category.findById(
+            mongoose.mongo.ObjectId(categoryId),
+            function (err) {
+                if (err) throw Error(err);
+            }
+        );
+
+        category.student_count = 0;
+        category.last_count = Date.now();
+        category.save();
+    },
+
+    async loadTenWeeklyCategories() {
+        const monday = getMonday();
+        const now = Date.now();
+        return await Category.find({
+            last_count: { $gte: monday, $lte: now },
+        })
+            .sort({ student_count: -1 })
+            .limit(10)
+            .lean();
+    },
+};

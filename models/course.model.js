@@ -158,6 +158,24 @@ module.exports = {
             .lean();
     },
 
+    //find 5 courses in same category
+    async findRelatedCourse(categoryId) {
+        return await Course.aggregate(
+            [
+                {
+                    $project: {
+                        length: { $size: '$list_student' },
+                    },
+                },
+                { $sort: { length: -1 } },
+                { $limit: 5 },
+            ],
+            function (err, doc) {
+                if (err) throw Error(err);
+            }
+        );
+    },
+
     // add ratingID to list_rating
     pushRatingIDToCourse(courseID, ratingID) {
         return Course.updateOne(
@@ -253,17 +271,21 @@ module.exports = {
 
     findAllChapterInCourse(courseID) {
         return Course.findById(courseID)
-            .populate([{ path: 'list_chapter', populate: { path: 'list_lesson' } }])
+            .populate([
+                { path: 'list_chapter', populate: { path: 'list_lesson' } },
+            ])
             .lean();
     },
 
     findCourseOfTeacher(teacherID) {
-        return Course.find({ teacher: mongoose.Types.ObjectId(teacherID) }).lean();
+        return Course.find({
+            teacher: mongoose.Types.ObjectId(teacherID),
+        }).lean();
     },
 
     updateOne(filter, update) {
         return Course.findOneAndUpdate(filter, update, {
             last_updated: Date.now(),
         });
-    }
+    },
 };

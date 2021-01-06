@@ -1,5 +1,8 @@
 const courseModel = require('../models/course.model');
 const mongoose = require('mongoose');
+const categoryModel = require('../models/category.model');
+const { getMonday } = require('../utils/getMonday');
+const { resetLastCount } = require('../models/category.model');
 
 module.exports = {
     getCart: async function (req, res) {
@@ -49,7 +52,7 @@ module.exports = {
         }
     },
     addToCart: async function (req, res) {
-        const courseId = req.body.courseId;
+        const courseId = req.body.courseId.toString();
 
         if (!req.user) {
             const course = await courseModel.findById(
@@ -91,9 +94,9 @@ module.exports = {
     },
 
     getCheckout: async function (req, res) {
-        if (!req.user) {
-            return res.redirect('/account/login');
-        }
+        // if (!req.user) {
+        //     return res.redirect('/account/login');
+        // }
 
         const cartArr = req.session.cart;
 
@@ -129,12 +132,41 @@ module.exports = {
 
         if (typeof cartArr != 'undefined' && cartArr.length > 0) {
             for (ci of cartArr) {
-                await courseModel.addStudentCourse(ci.courseId, req.user._id);
+                try {
+                    await courseModel.addStudentCourse(
+                        ci.courseId,
+                        req.user._id
+                    );
+                } catch (error) {
+                    continue;
+                }
+
+                const course = await courseModel.findById(
+                    mongoose.mongo.ObjectId(ci.courseId)
+                );
+
+                const categoryId = course.category;
+
+                const category = await categoryModel.findById(
+                    mongoose.mongo.ObjectId(categoryId)
+                );
+
+                const lastCount = new Date(category.last_count);
+
+                const mondayDate = getMonday();
+
+                if (lastCount < mondayDate) {
+                    await categoryModel.resetLastCount(categoryId);
+                    await categoryModel.increaseStudentCount(categoryId);
+                } else {
+                    await categoryModel.increaseStudentCount(categoryId);
+                }
             }
         }
 
         return res.render('cart/successCheckout', { isSuccessful: true });
     },
+
     delFromCart: function (req, res) {
         const courseId = req.body.courseId;
 
@@ -145,5 +177,20 @@ module.exports = {
         }
 
         res.redirect('/cart');
+    },
+
+    buyNow: async function (req, res) {
+        const courseId = req.body.courseId;
+        const course = await courseModel.findById(
+            mongoose.mongo.ObjectId(courseId)
+        );
+
+        res.render('cart/buynow', { course });
+    },
+
+    postBuyNowCheckout: async function (req, res) {
+        const courseId = req.body.courseId;
+        await courseModel.addStudentCourse(courseId, req.user._id);
+        res.render('cart/successCheckout', { isSuccessful: true });
     },
 };
