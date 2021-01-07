@@ -16,6 +16,18 @@ module.exports = {
         }
         let matchCourses = await courseModel.loadLimitedCourses(perPage, page, { category: matchedCategory._id });
         let pageArr = paging(page, matchCourses.totalPages);
+
+        for (i of matchCourses.docs) {
+            const avg = await courseModel.computeAvgRating(i._id);
+            let avgRating = 0;
+            if (avg[0]) {
+                avgRating = avg[0].avgRating;
+            }
+            //console.log(avgRating);
+            i.avgRating = avgRating;
+        }
+
+        
         res.render('course', {
             courses: matchCourses.docs,
             empty: matchCourses.docs.length === 0,
