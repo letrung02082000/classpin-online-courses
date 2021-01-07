@@ -4,11 +4,10 @@
 <link rel="stylesheet" href="/public/static/css/home/newestCarousel.css">
 <link rel="stylesheet" href="/public/static/css/home/mostViewCarousel.css">
 
-<link rel="stylesheet" href="/public/static/css/home/categoryCarousel.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.css">
 
 <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900&display=swap" rel="stylesheet">
-<link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/carousel/">
+
 <style>
   .bd-placeholder-img {
     font-size: 1.125rem;
@@ -32,7 +31,6 @@
 <script type="text/javascript" src="/public/static/js/home/newestCarousel.js"></script>
 <script type="text/javascript" src="/public/static/js/home/mostViewCarousel.js"></script>
 
-<script type="text/javascript" src="/public/static/js/home/categoryCarousel.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
 <script>
   $(function () {
@@ -106,7 +104,8 @@
 
         <ul class="navbar-nav d-flex justify-content-end align-items-center">
           <li class="nav-item mr-3">
-            <a class="nav-link" href="/cart"><i class="fas fa-shopping-cart"></i>
+            <a class="nav-link" href="/cart">
+              <i class="fas fa-shopping-cart"></i>
               {{#if isEmptyCart}}
               {{else}}
               <span class="badge badge-pill badge-danger float-right">
@@ -130,7 +129,7 @@
                 <a class="btn btn-danger" href="javascript: $('#frmLogout').submit();">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                   Logout</a>
-                
+
               </form>
             </div>
           </li>
@@ -138,7 +137,7 @@
           {{else}}
 
           <li class="nav-item">
-           <a class="mr-3 btn text-white font-weight-bold" href="/account/login"
+            <a class="mr-3 btn text-white font-weight-bold" href="/account/login"
               style="background-color: #003f8c; padding: 7px 20px">Sign in</a>
           </li>
           {{/if}}
@@ -153,7 +152,8 @@
     </div>
   </header>
   <div class="custom-card">
-    <div class="card-img"><img id="img_header" src="/public/static/images/humangroups2.jpg" alt="card-img" style="width: 100%;" /></div>
+    <div class="card-img"><img id="img_header" src="/public/static/images/humangroups2.jpg" alt="card-img"
+        style="width: 100%;" /></div>
     <div class="card-text">
       <h4 id="card_heading">Welcome to ClassPin</h4>
       <div class="description">We help students and teachers have a powerful tool for learning</div>
@@ -171,12 +171,10 @@
 
     <hr class="featurette-divider">
 
-    <h2>New courses</h2>
     {{>homePartials/newestCarousel}}
 
     <hr class="featurette-divider">
 
-    <h2>Most view courses</h2>
     {{>homePartials/mostViewCarousel}}
 
     <hr class="featurette-divider">

@@ -22,7 +22,7 @@
     transition: transform 0.5s;
 }
 .carousel-container .card-container {
-    width: 290px;
+    width: 300px;
     flex-shrink: 0;
     height: 350px;
     padding-right: 15px;
@@ -73,8 +73,8 @@
 }
 .card .info {
     flex-basis: 40px;
-    background: #333;
-    color: #fff;
+    background: rgb(255, 255, 255);
+    color: #3c3b37;
     flex-grow: 0;
     padding: 10px;
     box-sizing: border-box;

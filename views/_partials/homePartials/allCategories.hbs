@@ -1,15 +1,12 @@
 <div class="all-categories-container container-fluid ms-3">
-    <h2>Most Registered Categories</h2>
+    <h2 class="carousel-title">Top categories</h2>
     <div class="row row-cols-1 row-cols-md-2">
         {{#each tenWeeklyCategories}}
         <div class="col mb-4">
             <div class="card">
-                <div class="category-card-image">
-                    {{!-- <img src="..." class="card-img-top" alt="..."> --}}
-                </div>
                 <div class="card-body">
 
-                    <h5 class="card-title">
+                    <h5 class="">
                         <a href="/category/{{_id}}">
                             {{name}}
                         </a>
@@ -17,6 +14,7 @@
                     <p class="card-text">{{description}}</p>
                 </div>
             </div>
+
         </div>
         {{/each}}
 

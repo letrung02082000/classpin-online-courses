@@ -1,28 +1,44 @@
 <div class="marketing-courses">
-    <h2 class="marketing-courses__title mb-5">Recommended Courses this week!</h2>
+    <h2 class="carousel-title marketing-courses__title mb-5">Recommended this week</h2>
 
     <div class="row">
         {{#each fourWeeklyCourses}}
-        <div class="col-lg-3 px-5">
-            <div class="card__image">
-                <img src="{{thumbnail}}" alt="course_image">
-            </div>
-            <div class="card__title">{{name}}</div>
-            <div class="card_teacher">{{teacher.fullname}}</div>
-            <div class="card__category">{{category.name}}</div>
-            <div class="card__price">$ {{price}}</div>
-            <div class="card__button">
-                {{#if isStudent}}
-                <a class="btn btn-success mr-3" href="/course/{{_id}}">
-                    Go to course</a>
-                {{else}}
-                <a class="btn btn-success mr-3" href="/course/{{_id}}">
-                    Details</a>
-                <form method="POST" action="/cart/add">
-                    <input type="hidden" value="{{_id}}" name="courseId" />
-                    <button class="btn btn-primary" type="submit">Add to cart</button>
-                </form>
-                {{/if}}
+        <div class="card-container px-5 col-sm-3">
+            <div class="card marketing-card">
+                <div class="card__image">
+                    <img src="{{thumbnail}}" alt="course_image">
+                </div>
+                <div class="info">
+                    <div class="card__title">
+                        <p>{{name}}</p>
+                    </div>
+                    <div class="card__teacher">
+                        <p>{{teacher.fullname}}</p>
+                    </div>
+                    <div class="card__category">
+                        <p>{{category.name}}</p>
+                    </div>
+                    <div class="card__allprice"><span class="card__discount">$ {{discount}}</span> &nbsp; <del
+                            class="card__price">$
+                            {{price}}</del>
+                    </div>
+
+                </div>
+                <div class="card-button">
+                    {{#if isStudent}}
+                    <a class="btn btn-success mr-3" href="/course/{{_id}}">
+                        Go to course</a>
+                    {{else}}
+                    <a class="btn btn-success mr-3" href="/course/{{_id}}">
+                        Detail</a>
+                    <form method="POST" action="/cart/add">
+                        <input type="hidden" value="{{_id}}" name="courseId" />
+                        <button class="btn btn-primary" type="submit">
+                            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                        </button>
+                    </form>
+                    {{/if}}
+                </div>
             </div>
         </div>
         {{/each}}
