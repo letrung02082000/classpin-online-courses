@@ -3,3 +3,25 @@
     margin: auto 0;
     margin-left: 5px;
 }
+
+.empty-cart {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.empty-cart__icon {
+    padding: 2rem;
+}
+
+.empty-cart__icon i {
+    font-size: 10rem;
+    color: #ccc;
+}
+
+.empty-cart__button {
+    width: 205px;
+    text-align: center;
+}

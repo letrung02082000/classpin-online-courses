@@ -17,6 +17,39 @@ module.exports = {
         //await insertExample();
         try {
             var allCategories = await loadAllCategories();
+            // var menuCategory = [];
+            // var subMenuCategoryId = [];
+
+            // for (const category of allCategories) {
+            //     if (category.sub_category.length != 0) {
+            //         category.hasSub = true;
+            //         menuCategory.push(category);
+            //     }
+            // }
+
+            // for (const category of menuCategory) {
+            //     var subCategories = [];
+            //     for (const subCategoryId of category.sub_category) {
+            //         const subCategory = await categoryModel.findById(
+            //             category.sub_category
+            //         );
+            //         subMenuCategoryId.push(subCategoryId.toString());
+            //         subCategories.push(subCategory);
+            //     }
+            //     category.sub_category = subCategories;
+            // }
+
+            // for (const category of allCategories) {
+            //     if (category.sub_category.length != 0) {
+            //         continue;
+            //     }
+
+            //     if (subMenuCategoryId.includes(category._id.toString())) {
+            //         continue;
+            //     }
+
+            //     menuCategory.push(category);
+            // }
 
             var tenNewestCourses = await LoadTenNewestCourses();
 
@@ -33,9 +66,9 @@ module.exports = {
                         }
                     }
                 }
+                const discount = course.discount || 0;
+                course.salePrice = course.price * (1 - discount / 100);
             }
-
-            
 
             var tenViewCourses = await loadTenViewCourses();
 
@@ -52,6 +85,8 @@ module.exports = {
                         }
                     }
                 }
+                const discount = course.discount || 0;
+                course.salePrice = course.price * (1 - discount / 100);
             }
 
             var fourWeeklyCourses = await getWeeklyCourse();
@@ -69,9 +104,9 @@ module.exports = {
                         }
                     }
                 }
+                const discount = course.discount || 0;
+                course.salePrice = course.price * (1 - discount / 100);
             }
-
-            
 
             var tenWeeklyCategories = await categoryModel.loadTenWeeklyCategories();
 
@@ -108,9 +143,8 @@ module.exports = {
             throw Error(error);
         }
 
-
         res.render('home', {
-            tenNewestCourses: tenNewestCourses,
+            tenNewestCourses,
             allCategories,
             tenViewCourses,
             fourWeeklyCourses,

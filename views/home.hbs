@@ -84,14 +84,22 @@
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle text-white mr-3" href="#" data-toggle="dropdown">Categories</a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#"> Information Technology &raquo </a>
+                {{#each menuCategory}}
+                <li><a class="dropdown-item" {{#if hasSub}} {{else}} href="/category/{{_id}}" {{/if}}> {{name}}
+                    {{#if hasSub}}
+                    &nbsp;
+                    <i class="fas fa-chevron-right"></i>
+                    {{/if}}
+                  </a>
+                  {{#if hasSub}}
                   <ul class="submenu dropdown-menu">
-                    <li><a class="dropdown-item" href=""> Mobile development </a></li>
-                    <li><a class="dropdown-item" href=""> Web development </a></li>
+                    {{#each sub_category}}
+                    <li><a class="dropdown-item" href="/category/{{_id}}"> {{name}} </a></li>
+                    {{/each}}
                   </ul>
+                  {{/if}}
                 </li>
-                <li><a class="dropdown-item" href="#"> Dropdown item 2 </a></li>
-                <li><a class="dropdown-item" href="#"> Dropdown item 3 </a></li>
+                {{/each}}
               </ul>
             </li>
             <li>

@@ -18,10 +18,10 @@
                     <div class="card__category">
                         <p>{{category.name}}</p>
                     </div>
-                    <div class="rating mb-2">
+                    <div class="rating mb-3">
                         <div class="rateYo" data-rateyo-rating="{{avgRating}}" data-rateyo-star-width="20px"></div>
                     </div>
-                    <div class="card__allprice"><span class="card__discount">$ {{discount}}</span> &nbsp; <del
+                    <div class="card__allprice"><span class="card__discount">$ {{salePrice}}</span> &nbsp; <del
                             class="card__price">$
                             {{price}}</del>
                     </div>
@@ -43,28 +43,8 @@
                     {{/if}}
                 </div>
             </div>
+        </div>
+        {{/each}}
 
-        </div>
-        <div class="card__price">$ {{price}}</div>
-        <div class="card__button">
-            {{#if isStudent}}
-            <a class="btn btn-success mr-3" href="/course/{{_id}}">
-                Go to course</a>
-            {{else}}
-            <a class="btn btn-success mr-3" href="/course/{{_id}}">
-                Details</a>
-            <form method="POST" action="/cart/add">
-                <input type="hidden" value="{{_id}}" name="courseId" />
-                <button class="btn btn-primary" type="submit">Add to cart</button>
-            </form>
-            {{/if}}
-        </div>
     </div>
-
-</div>
-
-</div>
-{{/each}}
-
-</div>
 </div>

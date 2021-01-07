@@ -28,6 +28,10 @@
         left: auto;
     }
 
+    /* .nav-item:hover .dropdown-menu {
+        display: block;
+    } */
+
     .dropdown-menu > li:hover {
         background-color: #f1f1f1;
     }
@@ -43,7 +47,7 @@ body {
     color: #5a5a5a;
 }
 
-/* CUSTOMIZE THE CAROUSEL */
+/* CUSTOMIZE THE CAROUSEL (Slider)*/
 
 /* Carousel base class */
 .carousel {
@@ -53,6 +57,7 @@ body {
 .carousel-caption {
     bottom: 3rem;
     z-index: 10;
+    color: #5a5a5a;
 }
 
 /* Declare heights because of positioning of img element */

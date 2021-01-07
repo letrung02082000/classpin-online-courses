@@ -5,8 +5,17 @@
 <div class="container-fluid">
 
     {{#if isEmpty}}
-    <h1>Your cart is empty!</h1>
-    <h3>Continue to browse course> <a href="/">Home</a></h3>
+    <div class="empty-cart">
+        <div class="empty-cart__icon">
+            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+        </div>
+        <div class="empty-cart__message">
+            <p>Your cart is empty. Keep shopping to find courses!</p>
+        </div>
+        <div class="empty-cart__button">
+            <a class="btn btn-danger" href="/">Keep shopping</a>
+        </div>
+    </div>
     {{else}}
     <section>
 
