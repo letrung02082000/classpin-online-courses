@@ -28,10 +28,6 @@
         left: auto;
     }
 
-    /* .nav-item:hover .dropdown-menu {
-        display: block;
-    } */
-
     .dropdown-menu > li:hover {
         background-color: #f1f1f1;
     }

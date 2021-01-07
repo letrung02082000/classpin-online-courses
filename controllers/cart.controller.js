@@ -14,19 +14,28 @@ module.exports = {
 
         var viewCartArr = [];
         var totalPrice = 0;
+        var totalSalePrice = 0;
 
         if (!req.user) {
             for (ci of cartArr) {
                 const id = mongoose.mongo.ObjectId(ci.courseId);
                 var course = await courseModel.findById(id);
-                viewCartArr = [...viewCartArr, course];
+
+                const discount = course.discount || 0;
+                course.salePrice = course.price * (1 - discount / 100);
+                totalSalePrice += course.salePrice;
                 totalPrice += course.price;
+
+                viewCartArr = [...viewCartArr, course];
             }
 
             res.render('cart/cart', {
                 viewCartArr: viewCartArr,
                 isEmpty: viewCartArr.length == 0 ? true : false,
                 totalPrice,
+                totalSalePrice,
+                cartQuantity: viewCartArr.length,
+                greaterThanOne: viewCartArr.length > 1 ? true : false,
             });
         } else {
             var studentCourse = await courseModel.findCoursesByStudent(

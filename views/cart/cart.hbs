@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="/public/static/css/cart.css" type="text/css">
 {{/section}}
 
-<div class="container-fluid">
+<div class="container-fluid px-5">
 
     {{#if isEmpty}}
     <div class="empty-cart">
@@ -24,8 +24,14 @@
 
             <!--Grid column-->
             <div class="col-lg-8">
-                <div class="cart">
-                    <h1>Your cart</h1>
+                <div class="cart-container mt-5">
+                    <h2 class="cart-title p-2">Your cart <span class="cart-quantity">({{cartQuantity}} {{#if
+                            greaterThanOne}}
+                            courses
+                            {{else}}
+                            course
+                            {{/if}} in
+                            cart)</span></h2>
                     {{#each viewCartArr}}
                     <div class="card mb-3 d-flex flex-row">
                         <div class="course-thumbnail"><img src="{{thumbnail}}" class="card-img-top"
@@ -43,13 +49,16 @@
                             </div>
 
                         </div>
-                        <div>
+                        <div class="remove-button">
                             <form action="/cart/del" method="post">
                                 <input type="hidden" value="{{_id}}" name="courseId" />
-                                <input type="submit" value="Remove" />
+                                <input type="submit" value="Remove" class="remove-button__submit" />
                             </form>
                         </div>
-                        <div class="card-text">$ {{price}}</div>
+                        <div class="course-price">
+                            <div class="card-text course-price__sale-price">${{salePrice}}</div>
+                            <del class="card-text course-price__total-price">${{price}}</del>
+                        </div>
                     </div>
                     {{/each}}
                 </div>
@@ -58,22 +67,19 @@
             <!--Grid column-->
 
             <!--Grid column-->
-            <div class="col-lg-4">
+            <div class="col-lg-4 mt-5 cart-checkout">
 
                 <!-- Card -->
-                <div class="mb-3">
-                    <div class="pt-4">
+                <div class="mb-3 p-3">
+                    <h5 class="mb-3">Total:</h5>
+                    <h2 class="cart-checkout__sale-price">$ {{totalSalePrice}}</h2>
+                    <del class="cart-checkout__total-price">$ {{totalPrice}}</del>
 
-                        <h5 class="mb-3">Total:</h5>
-
-                        <h2>$ {{totalPrice}}</h2>
-
-                        <a class="btn btn-primary btn-block" href="/cart/checkout">Checkout</a>
-
-                    </div>
+                    <a class="btn btn-primary btn-block mt-3 checkout-button" href="/cart/checkout">Checkout</a>
                 </div>
                 <!-- Card -->
 
+                {{!--
                 <!-- Card -->
                 <div class="mb-3">
                     <div class="pt-4">
@@ -94,7 +100,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- Card -->
+                <!-- Card --> --}}
 
             </div>
             <!--Grid column-->
