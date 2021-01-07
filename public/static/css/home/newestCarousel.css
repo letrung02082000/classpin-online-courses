@@ -60,30 +60,3 @@
 .nav .next.hide {
     display: none;
 }
-
-.card > * {
-    flex: 1;
-}
-.card .img {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 30px;
-    height: 150px;
-}
-.card .info {
-    flex-basis: 40px;
-    background: rgb(255, 255, 255);
-    color: #3c3b37;
-    flex-grow: 0;
-    padding: 10px;
-    box-sizing: border-box;
-}
-
-.card-button {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    padding: 10px;
-    flex: 0;
-}

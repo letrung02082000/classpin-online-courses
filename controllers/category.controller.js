@@ -14,7 +14,9 @@ module.exports = {
             console.log('Category do not exist');
             res.redirect('/category');
         }
-        let matchCourses = await courseModel.loadLimitedCourses(perPage, page, { category: matchedCategory._id });
+        let matchCourses = await courseModel.loadLimitedCourses(perPage, page, {
+            category: matchedCategory._id,
+        });
         let pageArr = paging(page, matchCourses.totalPages);
 
         for (i of matchCourses.docs) {
@@ -27,7 +29,7 @@ module.exports = {
             i.avgRating = avgRating;
         }
 
-        
+        console.log(matchCourses);
         res.render('course', {
             courses: matchCourses.docs,
             empty: matchCourses.docs.length === 0,
@@ -35,16 +37,16 @@ module.exports = {
                 page: page,
                 pageArr: pageArr,
                 next: matchCourses.nextPage,
-                pre: matchCourses.prevPage
+                pre: matchCourses.prevPage,
             },
-            path: req.path
-        })
+            path: req.path,
+        });
     },
     async allCategory(req, res) {
         let categories = await categoryModel.loadTopCategory();
         console.log(categories);
         res.render('category/index', {
-            categories: categories
+            categories: categories,
         });
-    }
-}
+    },
+};
