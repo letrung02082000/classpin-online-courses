@@ -60,13 +60,18 @@
         {{#if isMember}}
         {{else}}
         <div class="card-text">
-          <p>
-            <strong class="card-price">
-              {{#with this.course}}
-              ${{price}}
-              {{/with}}
-            </strong>
-          </p>
+          <div class="card-all-price">
+            {{#with this.course}}
+            <p>
+              <strong class="card-sale-price">
+                ${{salePrice}}
+                &nbsp;
+              </strong>
+            </p>
+            <del class="card-price">$ {{price}}</del>
+            <p class="card-price">{{discount}}% off</p>
+            {{/with}}
+          </div>
           <div class="cart">
             <form method="POST" action="/cart/add">
               <input type="hidden" value="{{_id}}" name="courseId" />
@@ -133,7 +138,7 @@
       </div>
     </div>
     <br id="ins">
-    <div  class="card">
+    <div class="card">
       <div class="card-body">
         <b class="mb-1">Instructors</b>
         <div>
@@ -306,7 +311,7 @@
 <hr>
 
 <div class="related-courses mt-3">
-  <h3 class="ml-5">Related courses</h3>
+  <p class="ml-5 related-courses__heading">Related Courses</p>
   <div class="carousel-container">
     <div class="carousel-inner">
       <div class="track">
@@ -314,34 +319,43 @@
         <div class="card-container">
           <div class="card">
             <div class="img">
-              <img src="{{thumbnail}}" alt="course_image" style="height: 100%; width:100%;">
+              <img src="{{thumbnail}}" alt="course_image">
             </div>
             <div class="info">
-              <div class="card__title">{{name}}</div>
-              <div class="card_teacher">{{teacher.fullname}}</div>
-              <div class="card__category">{{category.name}}</div>
-
+              <div class="card__title">
+                <p>{{name}}</p>
+              </div>
+              <div class="card__teacher">
+                <p>{{teacher.fullname}}</p>
+              </div>
+              <div class="card__category">
+                <p>{{category.name}}</p>
+              </div>
               <div class="rating mb-2">
                 <div class="rateYo" data-rateyo-rating="{{avgRating}}" data-rateyo-star-width="20px">
                 </div>
-
               </div>
-              <div class="card__price">$ {{price}}</div>
+              <div class="card__allprice"><span class="card__discount">${{salePrice}}</span> &nbsp; <del
+                  class="card__price">${{price}}</del></div>
             </div>
             <div class="card-button">
-
               {{#if isStudent}}
-              <a href="/course/{{_id}}" class="btn btn-success card-button__cart">Go to course</a>
+              <a class="btn btn-success card-button__details" href="/course/{{_id}}">
+                Go to course</a>
               {{else}}
-              <a class="btn btn-primary mr-3 card-button__details" href="/course/{{_id}}">
-                Details</a>
+              <a class="btn btn-primary card-button__details mr-3" href="/course/{{_id}}">
+                Detail</a>
               <form method="POST" action="/cart/add">
                 <input type="hidden" value="{{_id}}" name="courseId" />
-                <button class="btn btn-success card-button__cart" type="submit">Add to cart</button>
+                <button class="btn btn-success card-button__cart" type="submit">
+                  <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                </button>
               </form>
               {{/if}}
             </div>
           </div>
+
+
         </div>
         {{/each}}
       </div>
@@ -376,8 +390,8 @@
             $('.buy-card, header').removeClass('sticky');
           }
         }, {
-          offset: '30px'
-        }
+        offset: '30px'
+      }
       )
     }
   )

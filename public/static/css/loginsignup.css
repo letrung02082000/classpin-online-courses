@@ -399,7 +399,7 @@ form.sign-in-form {
     }
 }
 
-.homebtn {
+.back-btn {
     position: absolute;
     z-index: 10;
     padding: 10px 15px;

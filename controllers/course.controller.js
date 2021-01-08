@@ -18,6 +18,10 @@ module.exports = {
         let allCourses = await courseModel.loadLimitedCourses(perPage, page);
         let totalPage = allCourses.totalPages;
         let pageArr = paging(page, totalPage);
+        for (const course of allCourses.docs) {
+            const discount = course.discount || 0;
+            course.salePrice = course.price * (1 - discount / 100);
+        }
         res.render('course', {
             //courses: toObject.multipleMongooseToObj(allCourses.docs),
             courses: allCourses.docs,
@@ -29,6 +33,7 @@ module.exports = {
                 pre: allCourses.prevPage,
             },
             path: req.path,
+            categoryTitle: 'All Categories',
         });
     },
     async insertExample(req, res) {
@@ -65,6 +70,10 @@ module.exports = {
 
             for (const course of relatedCourses) {
                 var relatedCourse = await courseModel.findById(course._id);
+                if (course._id.toString() === courseID.toString()) continue;
+                const discount = relatedCourse.discount || 0;
+                relatedCourse.salePrice =
+                    relatedCourse.price * (1 - discount / 100);
                 fiveRelatedCourses.push(relatedCourse);
             }
         }
@@ -85,6 +94,9 @@ module.exports = {
         }
 
         const matchedCourse = await courseModel.findAllRatingOfCourse(courseID);
+        const discount = matchedCourse.discount || 0;
+        matchedCourse.salePrice = matchedCourse.price * (1 - discount / 100);
+
         //checkout user was a member in course
         let isMember = false;
         if (req.user) {

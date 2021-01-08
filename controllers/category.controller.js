@@ -10,6 +10,7 @@ module.exports = {
         let page = req.query.page;
         let perPage = 14;
         let matchedCategory = await categoryModel.selectFromOneId(id);
+        const categoryTitle = matchedCategory.name;
         if (matchedCategory === null) {
             console.log('Category do not exist');
             res.redirect('/category');
@@ -45,6 +46,7 @@ module.exports = {
                 pre: matchCourses.prevPage,
             },
             path: req.path,
+            categoryTitle,
         });
     },
     async allCategory(req, res) {

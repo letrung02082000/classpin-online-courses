@@ -26,8 +26,20 @@ module.exports = {
         res.redirect('/admin/dashboard');
     },
 
-    getDashboard: function (req, res) {
-        res.render('admin/dashboard', { layout: 'admin' });
+    getDashboard: async function (req, res) {
+        const teachers = await teacherModel.loadAllTeachers();
+        const totalTeacher = teachers.length;
+
+        const totalStudent = await studentModel.countStudent();
+
+        const totalCourse = await courseModel.count();
+
+        res.render('admin/dashboard', {
+            layout: 'admin',
+            totalTeacher,
+            totalStudent,
+            totalCourse,
+        });
     },
 
     getCourses: async function (req, res) {

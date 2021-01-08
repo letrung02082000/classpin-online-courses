@@ -24,7 +24,7 @@
 .carousel-container .card-container {
     width: 300px;
     flex-shrink: 0;
-    height: 350px;
+    height: 370px;
     padding-right: 15px;
     box-sizing: border-box;
 }
