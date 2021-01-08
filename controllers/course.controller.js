@@ -346,19 +346,25 @@ module.exports = {
         if (!lesson) return;
         let course = await courseModel.findById(req.params.id);
         let progress = await progressModel.find({ student: req.user._id });
-        if (!progress) {
+        //console.log(progress);
+        if (progress.length === 0) {
             let newProgress = {
                 student: req.user._id,
                 list_lesson: [lesson._id],
             };
             await progressModel.add(newProgress);
         } else {
-            progress.list_lesson.push(lesson._id);
-            progress.save();
+            progress[0].list_lesson.push(lesson._id);
+            progress[0].save();
         }
+
+        // list chapter in course
+        const returnCourse = await courseModel.findAllChapterInCourse(course._id);
+
         res.render('course/viewLesson', {
             course: course,
             lesson: lesson,
+            chapterList: returnCourse.list_chapter,
         });
     }
 };
