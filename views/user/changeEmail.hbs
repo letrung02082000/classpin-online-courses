@@ -1,0 +1,92 @@
+{{#section 'css'}}
+
+
+{{/section}}
+
+
+<div class="container mt-3" style="min-height: 75vh;">
+  <div class="card">
+    <div class="card-header">
+      <h2 class="text-center">Change email</h2>
+    </div>
+    <div class="card-body">
+      <form id="frmChangePass" action="/account/changeEmail" method="POST">
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" name="password" id="password" class="form-control" placeholder=""
+            aria-describedby="helpId">
+        </div>
+        <div class="form-group">
+          <label for="email">New Email</label>
+          <input type="email" name="email" id="email" class="form-control" placeholder="" aria-describedby="helpId"
+            value="{{authUser.email}}">
+        </div>
+      </form>
+
+    </div>
+    <div class="card-footer text-muted ">
+      <div class="d-flex justify-content-center">
+        <div>
+          <a class="btn btn-outline-info mr-2" href="/account/profile">
+            <i class="fa fa-backward" aria-hidden="true"></i>
+            Back
+          </a>
+        </div>
+        <div>
+          <a class="btn btn-info" href="javascript: $('#frmChangePass').submit()">Confirm</a>
+        </div>
+      </div>
+      <div class="text-center mt-2">
+        <p class="text-danger ">{{msg}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{#section 'js'}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script>
+  $('#frmChangePass').on('submit', function (e) {
+    e.preventDefault();
+    const password = $('#password').val();
+    const email = $('#email').val();
+
+    if (password.length === 0) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'invalid data input',
+      })
+      return;
+    }
+
+    $.getJSON(`/account//is-emailAvb/?email=${email}`, function (data) {
+      console.log(data)
+      if (data.isvalid === false) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: data.msg,
+        })
+      } else {
+        Swal.fire({
+          title: 'Do you want to save the changes?',
+          showDenyButton: true,
+          confirmButtonText: `Save`,
+          denyButtonText: `Don't save`,
+        }).then((result) => {
+          /* Read more about isConfirmed, isDenied below */
+          if (result.isConfirmed) {
+            $('#frmChangePass').off('submit').submit();
+          } else if (result.isDenied) {
+            Swal.fire('Changes are not saved', '', 'info')
+          }
+        })
+      }
+    })
+
+
+
+  }) 
+</script>
+{{/section}}

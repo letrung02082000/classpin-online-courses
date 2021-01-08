@@ -7,19 +7,19 @@ const courseModel = require('../models/course.model');
 
 
 function makeid(length) {
-    var result           = '';
-    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var result = '';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     var charactersLength = characters.length;
-    for ( var i = 0; i < length; i++ ) {
-       result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    for (var i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
     return result;
- }
+}
 
 
 module.exports = {
     login: function (req, res) {
-        if (req.headers.referer && req.headers.referer !== "http://localhost:3000/account/login" && req.headers.referer !=="http://localhost:3000/account/login/?status=success") {
+        if (req.headers.referer && req.headers.referer !== "http://localhost:3000/account/login" && req.headers.referer !== "http://localhost:3000/account/login/?status=success") {
             req.session.retURL = req.headers.referer;
         }
         console.log(req.session.retURL);
@@ -60,7 +60,7 @@ module.exports = {
 
         const createdStudent = await studentModel.insertOne(newStudent);
 
-        
+
 
         // create reusable transporter object using the default SMTP transport
         let transporter = nodemailer.createTransport({
@@ -78,7 +78,7 @@ module.exports = {
 
         // send mail with defined transport object
         let info = await transporter.sendMail({
-            from: '"OnlineCourse" <foo@example.com>', // sender address
+            from: '"ClassPin" <foo@example.com>', // sender address
             to: newStudent.email, // list of receivers
             subject: 'Verify your email', // Subject line
             text: '', // plain text body
@@ -92,7 +92,7 @@ module.exports = {
         console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
         // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
 
-        
+
         var msg = encodeURIComponent('success');
         res.redirect('/account/login/?status=' + msg);
     },
@@ -105,6 +105,16 @@ module.exports = {
             res.json({ isvalid: false, msg: 'Username already exist.' });
             return;
         }
+        const checkemail = await studentModel.findByEmail(email);
+        if (checkemail /*&& checkemail.verify === true*/) {
+            res.json({ isvalid: false, msg: 'Email already exist.' });
+            return;
+        }
+        res.json({ isvalid: true });
+    },
+
+    isEmailAvailable: async function (req, res) {
+        const email = req.query.email;
         const checkemail = await studentModel.findByEmail(email);
         if (checkemail /*&& checkemail.verify === true*/) {
             res.json({ isvalid: false, msg: 'Email already exist.' });
@@ -154,29 +164,89 @@ module.exports = {
         res.redirect('/account/profile/?status=' + msg);
     },
 
-    google: function (req, res) {},
+    google: function (req, res) { },
 
     googleRedirect: function (req, res) {
         res.redirect('/');
     },
 
-    changePass: function(req, res) {
+    changePass: function (req, res) {
         res.render('user/changePass', {
         });
     },
 
-    postChangePass: async function(req, res) {
+    postChangePass: async function (req, res) {
         const password = req.body.password;
         const newPassword = req.body.newPassword;
-        
-        if(bcrypt.compareSync(password, req.user.password)) {
-            const filter = {_id: req.user._id};
-            const update = {password: bcrypt.hashSync(newPassword, 10)};
+
+        if (bcrypt.compareSync(password, req.user.password)) {
+            const filter = { _id: req.user._id };
+            const update = { password: bcrypt.hashSync(newPassword, 10) };
             await studentModel.findOneAndUpdate(filter, update);
             console.log('success');
             res.redirect('/account/profile');
         } else {
             res.render('user/changePass', {
+                msg: 'Wrong password'
+            })
+        }
+    },
+
+    changeEmail: function (req, res) {
+        res.render('user/changeEmail', {
+
+        })
+    },
+
+    postChangeEmail: async function (req, res) {
+        const password = req.body.password;
+        const newEmail = req.body.email;
+        
+
+        if (bcrypt.compareSync(password, req.user.password)) {
+            const verify_key = makeid(50);
+            const filter = { _id: req.user._id };
+            const update = { newEmail: newEmail, verify_key: verify_key };
+            const createdStudent = await studentModel.findOneAndUpdate(filter, update);
+            
+
+            //send email
+            // create reusable transporter object using the default SMTP transport
+            let transporter = nodemailer.createTransport({
+                host: 'smtp.gmail.com',
+                port: 587,
+                secure: false, // true for 465, false for other ports
+                auth: {
+                    user: email.account, // generated ethereal user
+                    pass: email.password, // generated ethereal password
+                },
+                tls: {
+                    rejectUnauthorized: false,
+                },
+            });
+
+            // send mail with defined transport object
+            let info = await transporter.sendMail({
+                from: '"ClassPin" <foo@example.com>', // sender address
+                to: req.body.email, // list of receivers
+                subject: 'Verify your email', // Subject line
+                text: '', // plain text body
+                html: `<b>Click this link to verify your email! </b><a href="http://localhost:3000/verify/?clientId=${createdStudent._id}&key=${verify_key}">verify</a>`, // html body
+            });
+
+            console.log('Message sent: %s', info.messageId);
+            // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+
+            // Preview only available when sending through an Ethereal account
+            console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+            // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+            
+            console.log('success');
+            res.render('notify', {
+                layout: false,
+            })
+        } else {
+            res.render('user/changeEmail', {
                 msg: 'Wrong password'
             })
         }

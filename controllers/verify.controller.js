@@ -23,8 +23,15 @@ module.exports = {
       if(matchedUser.verify_key === key) {
         // verified
         const filter = {_id: userID};
-        const update = {verify: true};
+        let update;
+        if(matchedUser.newEmail) {
+          update = {verify: true, email: matchedUser.newEmail, newEmail: ""};
+        } else{
+          update = {verify: true};
+        }
         await studentModel.findOneAndUpdate(filter, update);
+
+        
         res.render('verify', {
           title: "Success",
           subject: "Verification",
@@ -94,5 +101,7 @@ module.exports = {
     // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
 
     res.redirect('/account/login');
-  }
+  },
+
+  
 }
