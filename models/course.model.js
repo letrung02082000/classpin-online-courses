@@ -312,8 +312,7 @@ module.exports = {
     },
 
     updateOne(filter, update) {
-        return Course.findOneAndUpdate(filter, update, {
-            last_updated: Date.now(),
-        });
+        update.last_updated = Date.now();
+        return Course.findOneAndUpdate(filter, update);
     },
 };

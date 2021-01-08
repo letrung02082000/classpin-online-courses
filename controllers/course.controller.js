@@ -9,6 +9,8 @@ const chapterModel = require('../models/chapter.model');
 const LessonModel = require('../models/lesson.model');
 const ratingModel = require('../models/rating.model');
 const paging = require('../utils/pagingOption');
+const categoryModel = require('../models/category.model');
+const lessonModel = require('../models/lesson.model');
 
 module.exports = {
     async allCourse(req, res) {
@@ -29,7 +31,7 @@ module.exports = {
                 pre: allCourses.prevPage,
             },
             path: req.baseUrl,
-
+            query: req.query,
         });
     },
     async insertExample(req, res) {
@@ -268,9 +270,9 @@ module.exports = {
         }
     },
     async search(req, res) {
-        let query = req.query.q || '';
-        let sort = req.query.sort;
-        let category = req.query.category;
+        let query = req.query.q;
+        let sort = req.query.sort || "";
+        let category = req.query.category || "";
         let page = +req.query.page || 1;
         let perPage = 4; //16
         console.log('Query: ' + req.query.q);
@@ -280,10 +282,17 @@ module.exports = {
                 price: 'asc',
             };
         }
-        let searchCourses = await courseModel.loadLimitedCourses(
+        let cond = {};
+        if (query !== "") {
+            cond.$text = { $search: query };
+        }
+        if (category !== "" && category !== "all") {
+            cond.category = category;
+        }
+        var searchCourses = await courseModel.loadLimitedCourses(
             perPage,
             page,
-            { $text: { $search: query } },
+            cond,
             option
         );
         let totalPage = searchCourses.totalPages;
@@ -298,7 +307,8 @@ module.exports = {
                 pre: searchCourses.prevPage,
             },
             path: req.path,
-            query: `q=${req.query.q}`,
+            q: req.query,
+            query: `q=${req.query.q}&category=${req.query.category}&sort=${req.query.sort}`,
         });
     },
 
@@ -318,4 +328,13 @@ module.exports = {
         var msg = encodeURIComponent('unwishlist');
         res.redirect('/course/' + courseID + '/?status=' + msg);
     },
+    viewLesson: async function (req, res) {
+        let lesson = await lessonModel.findById(req.params.lessonId);
+        if (!lesson) return;
+        let course = await courseModel.findById(req.params.id);
+        res.render('course/viewLesson', {
+            course: course,
+            lesson: lesson,
+        });
+    }
 };

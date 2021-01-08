@@ -1,0 +1,23 @@
+{{#section 'css'}}
+<link href="https://vjs.zencdn.net/7.10.2/video-js.css" rel="stylesheet" />
+{{/section}}
+
+{{#section 'js'}}
+<script src="https://vjs.zencdn.net/7.10.2/video.min.js"></script>
+{{/section}}
+
+{{#if lesson.video}}
+<div class="container mt-4" style="min-height: 75vh;">
+  <video id="my-video" class="video-js" controls preload="auto" width="640" poster="{{lesson.thumbnail}}"
+    data-setup="{}">
+    <source src="{{lesson.video}}" type="video/mp4" />
+    <p class="vjs-no-js">
+      To view this video please enable JavaScript, and consider upgrading to a
+      web browser that
+      <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+    </p>
+  </video>
+</div>
+{{else}}
+<h5>This lesson doesn't have video</h5>
+{{/if}}
