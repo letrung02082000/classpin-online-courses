@@ -287,6 +287,12 @@ module.exports = {
             .lean();
     },
 
+    async deleteTeacherCourses(teacherId) {
+        return await Course.deleteMany({
+            teacher: mongoose.mongo.ObjectId(teacherId),
+        });
+    },
+
     deleteOneCourse(courseID) {
         return Course.deleteOne({ _id: courseID });
     },

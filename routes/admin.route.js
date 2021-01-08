@@ -23,6 +23,7 @@ router.get('/students/:id', requireAdmin.isAdmin, controller.getDetailStudent);
 router.get('/students', requireAdmin.isAdmin, controller.getStudents);
 router.post('/students/del', requireAdmin.isAdmin, controller.deleteStudent);
 
+router.get('/teachers/:id', requireAdmin.isAdmin, controller.getDetailTeacher);
 router.get(
     '/teachers/create',
     requireAdmin.isAdmin,

@@ -102,8 +102,24 @@ module.exports = {
         });
     },
 
+    getDetailTeacher: async function (req, res) {
+        const teacherId = req.params.id;
+        const teacher = await teacherModel.findById(
+            mongoose.mongo.ObjectId(teacherId)
+        );
+
+        const coursesList = await courseModel.findCourseOfTeacher(teacherId);
+
+        res.render('admin/detailTeacher', {
+            layout: 'admin',
+            teacher,
+            coursesList,
+            hasCourse: coursesList.length == 0 ? false : true,
+        });
+    },
+
     getCreateTeacher: function (req, res) {
-        res.render('admin/createTeacher', { layout: false });
+        res.render('admin/createTeacher', { layout: 'admin' });
     },
 
     postCreateTeacher: async function (req, res) {
@@ -118,6 +134,7 @@ module.exports = {
     },
 
     postDeleteTeacher: async function (req, res) {
+        await courseModel.deleteTeacherCourses(req.body.teacherId);
         await teacherModel.deleteTeacher(req.body.teacherId);
         res.redirect('/admin/teachers');
     },

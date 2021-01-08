@@ -65,18 +65,6 @@
         if (confirmText === "Delete") {
             $('#delForm').off('submit').submit();
         }
-        /*Swal.fire({
-            title: "You are about to delete this student and this student's courses list. Type 'Delete' to confirm",
-            showDenyButton: true,
-            confirmButtonText: `Confirm`,
-            denyButtonText: `No`,
-        }).then((result) => {
-        if (result.isConfirmed) {
-            $('#delForm').off('submit').submit();
-        } else if (result.isDenied) {
-            Swal.fire('Cancel!', '', 'info')
-        }
-    }) */
     })
 </script>
 {{/section}}
