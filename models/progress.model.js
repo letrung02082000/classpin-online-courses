@@ -10,5 +10,10 @@ const schema = new Schema({
 const Progress = mongoose.model('Progress', schema, 'Progress');
 
 module.exports = {
-
+  find(query) {
+    return Progress.find(query);
+  },
+  add(progress) {
+    return Progress.create(progress);
+  }
 }

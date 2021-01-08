@@ -25,14 +25,12 @@ module.exports = {
   },
   async delete(id) {
     let lesson = await Lesson.findById(id);
-    fs.unlink('.\\' + lesson.thumbnail, (e) => {
-      console.log(e);
-      return;
-    });
-    fs.unlink('.\\' + lesson.video, (e) => {
-      console.log(e);
-      return;
-    });
+    if (lesson.video) {
+      fs.unlink('.\\' + lesson.video, (e) => {
+        console.log(e);
+        return;
+      });
+    }
     return Lesson.deleteOne({ _id: id });
   }
 }

@@ -11,9 +11,41 @@
         <a href="/" class="btn btn-danger">Keep shopping</a>
     </div>
     {{else}}
+
     <div class="category-title">
         <p>{{categoryTitle}}</p>
     </div>
+    <form action="/course/search" method="GET">
+        <input type="hidden" name="q" value="{{q.q}}">
+        <div class="row d-flex align-items-center">
+            <div class="col">
+                <div class="form-group">
+                    <label for="category">Category: </label>
+                    <select class="form-control" name="category" id="category">
+                        <option value="all">All category</option>
+                        {{#each menuCategory}}
+                        {{#each sub_category}}
+                        <option value="{{this._id}}">{{this.name}}</option>
+                        {{/each}}
+
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="sort">Sort: </label>
+                    <select class="form-control" name="sort" id="sort">
+                        <option value="price">Cheapest</option>
+                        <option value="rating">Best rated</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </div>
+    </form>
     <div class="row">
         {{#each courses}}
         <div class="col-lg-3 col-md-6 col-sm-12 mb-3">

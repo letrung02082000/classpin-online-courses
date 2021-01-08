@@ -42,6 +42,9 @@ module.exports = {
             .lean()
             .populate('sub_category');
     },
+    async loadSubCategory() {
+        return await Category.find({ sub_category: [] }).lean();
+    },
     addCategory(category) {
         return Category.create(category);
     },
