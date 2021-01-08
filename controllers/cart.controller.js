@@ -71,12 +71,21 @@ module.exports = {
             var cartArr = req.session.cart;
 
             for (ci of cartArr) {
-                if (ci.courseId === courseId)
-                    return res.redirect(req.headers.referer);
+                if (ci.courseId === courseId) {
+                    var msg = encodeURIComponent('exist');
+                    var url =
+                        req.headers.referer.toString().split('?')[0] +
+                        '?status=' +
+                        msg;
+                    return res.redirect(url);
+                }
             }
 
             req.session.cart = [...req.session.cart, { courseId }];
-            return res.redirect(req.headers.referer);
+            var msg = encodeURIComponent('addsuccess');
+            var url =
+                req.headers.referer.toString().split('?')[0] + '?status=' + msg;
+            return res.redirect(url);
         } else {
             var studentCourse = await courseModel.findCoursesByStudent(
                 req.user._id
@@ -87,18 +96,32 @@ module.exports = {
             );
 
             if (studentCourseId.includes(courseId)) {
-                return res.redirect(req.headers.referer);
+                var msg = encodeURIComponent('incourse');
+                var url =
+                    req.headers.referer.toString().split('?')[0] +
+                    '?status=' +
+                    msg;
+                return res.redirect(url);
             }
 
             var cartArr = req.session.cart;
 
             for (ci of cartArr) {
-                if (ci.courseId === courseId)
-                    return res.redirect(req.headers.referer);
+                if (ci.courseId === courseId) {
+                    var msg = encodeURIComponent('exist');
+                    var url =
+                        req.headers.referer.toString().split('?')[0] +
+                        '?status=' +
+                        msg;
+                    return res.redirect(url);
+                }
             }
 
             req.session.cart = [...req.session.cart, { courseId }];
-            return res.redirect(req.headers.referer);
+            var msg = encodeURIComponent('addsuccess');
+            var url =
+                req.headers.referer.toString().split('?')[0] + '?status=' + msg;
+            return res.redirect(url);
         }
     },
 

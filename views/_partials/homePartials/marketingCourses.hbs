@@ -5,7 +5,7 @@
         {{#each fourWeeklyCourses}}
         <div class="card-container px-3 col-md-6 col-lg-3 col-sm-6 mb-3">
             <div class="card marketing-card">
-                <div class="card__image">
+                <div class="img">
                     <img src="{{thumbnail}}" alt="course_image">
                 </div>
                 <div class="info">
@@ -29,7 +29,7 @@
                 </div>
                 <div class="card-button">
                     {{#if isStudent}}
-                    <a class="btn btn-success mr-3" href="/course/{{_id}}">
+                    <a class="btn btn-success" href="/course/{{_id}}">
                         Go to course</a>
                     {{else}}
                     <a class="btn btn-success mr-3" href="/course/{{_id}}">

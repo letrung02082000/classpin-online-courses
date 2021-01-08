@@ -80,4 +80,35 @@
         });
     });
 </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script>
+    var getUrlParameter = function getUrlParameter(sParam) {
+        var sPageURL = window.location.search.substring(1),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+            }
+        }
+    };
+    var status = getUrlParameter('status')
+    if (status == "addsuccess") {
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Success',
+            showConfirmButton: false,
+            timer: 1500
+        })
+    } else if (status == "exist") {
+        Swal.fire({ position: 'top-end', icon: 'error', title: 'Already in cart', showConfirmButton: false, timer: 1500 })
+    } else if (status == "incourse") {
+        Swal.fire({ position: 'top-end', icon: 'error', title: 'Already in course', showConfirmButton: false, timer: 1500 })
+    }
+</script>
 {{/section}}

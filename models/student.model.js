@@ -107,4 +107,8 @@ module.exports = {
     updateOne(filter, update) {
         return Student.findOneAndUpdate(filter, update);
     },
+
+    loadAllStudents: async function () {
+        return await Student.find({}).lean();
+    },
 };

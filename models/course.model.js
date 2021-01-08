@@ -266,6 +266,13 @@ module.exports = {
             .lean();
     },
 
+    async findDetailCourseById(courseId) {
+        return await Course.findById(mongoose.mongo.ObjectId(courseId))
+            .populate('teacher')
+            .populate('category')
+            .lean();
+    },
+
     deleteOneCourse(courseID) {
         return Course.deleteOne({ _id: courseID });
     },

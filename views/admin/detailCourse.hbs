@@ -1,0 +1,51 @@
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+    <div
+        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <a rel="stylesheet" href="/admin/courses" class="btn btn-primary">Back to all courses</a>
+    </div>
+
+    <div class="course-info">
+        <h1>Course information</h1>
+        {{#with course}}
+        <div class="card">
+            <div class="card-body">
+                <div class="info">
+                    <div class="card__title">
+                        <p><strong>Name:</strong> {{name}}</p>
+                    </div>
+                    <div class="card__teacher">
+                        <p><strong>Teacher:</strong> {{teacher.fullname}}</p>
+                    </div>
+                    <div class="card__category">
+                        <p><strong>Category:</strong> {{category.name}}</p>
+                    </div>
+                    <div class="card__price">
+                        <P><strong>Price:</strong> {{price}} USD</P>
+                    </div>
+                    <div class="card__discount">
+                        <P><strong>Discount:</strong> {{discount}}%</P>
+                    </div>
+                    <div class="description">
+                        <p><strong>Description:</strong> {{description}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{/with}}
+        <h1>Students list</h1>
+        <table class="table" style="width:100%">
+            <tr>
+                <th>Username</th>
+                <th>Fullname</th>
+                <th>Email</th>
+            </tr>
+            {{#each studentList}}
+            <tr>
+                <td>{{namelogin}}</td>
+                <td>{{fullname}}</td>
+                <td>{{email}}</td>
+            </tr>
+            {{/each}}
+        </table>
+    </div>
+</main>
