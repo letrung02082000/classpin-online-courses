@@ -6,14 +6,65 @@
 <script src="https://vjs.zencdn.net/7.10.2/video.min.js"></script>
 {{/section}}
 
-<div class="container mt-4" style="min-height: 75vh;">
-  <video id="my-video" class="video-js" controls preload="auto" width="640" poster="/public/static/video/yabe.jpg"
-    data-setup="{}">
-    <source src="/public/static/video/yabe.mp4" type="video/mp4" />
-    <p class="vjs-no-js">
-      To view this video please enable JavaScript, and consider upgrading to a
-      web browser that
-      <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
-    </p>
-  </video>
+<div class="p-2">
+  <a class="ml-3" href=""><i class="fas fa-backward mr-2"></i>Lap trinh web voi angular (ten khoa hoc)</a>
+
+</div>
+
+<div class="row" style="min-height: 79vh;">
+  <div class="col-sm-2 p-5">
+    Ten bai hoc
+  </div>
+
+  <div class="col-sm-7">
+    <div class="container mt-4" style="width: 100%; height: 65vh;">
+      <video id="my-video" class="video-js" controls preload="auto" style="width: 100%; height: 100%"
+        poster="/public/static/video/yabe.jpg" data-setup="{}">
+        <source src="/public/static/video/yabe.mp4" type="video/mp4" />
+        <p class="vjs-no-js">
+          To view this video please enable JavaScript, and consider upgrading to a
+          web browser that
+          <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+        </p>
+      </video>
+    </div>
+
+  </div>
+
+  <div class="col-sm-3 p-3">
+    <div class="description">
+      Mục lục
+      {{#each chapterList}}
+      <div class="card mt-2">
+        <div class="card-header flip" style="cursor: pointer;">
+          <div class="d-flex justify-content-between">
+            <strong>{{title}}</strong>
+            <i class="fas fa-angle-down"></i>
+          </div>
+        </div>
+        <div class="card-body panel">
+          <table class="table">
+            {{#each list_lesson}}
+            <tr>
+              <td>
+                <div class="d-flex justify-content-between">
+                  <div>
+                    <i class="fas fa-play-circle"></i>
+                    <a href="/videotest"><span class="card-text">{{title}}</span></a>
+                  </div>
+                  <div>
+                    {{#if isFree}}
+                    <img src="../../public/static/images/free.png" alt="free">
+                    {{/if}}
+                  </div>
+                </div>
+              </td>
+            </tr>
+            {{/each}}
+          </table>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+  </div>
 </div>

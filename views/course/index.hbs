@@ -58,6 +58,17 @@
           <img src="{{course.thumbnail}}" alt="course-img">
         </div>
         {{#if isMember}}
+        <div class="text-danger text-center mt-2">
+            <i><b>You are in</b></i>
+        </div>
+        <div class="card-text">
+          <b>This course includes:</b><br>
+          {{#each chapterList}}
+          <i class="fas fa-circle mr-2" style="font-size: 12px;"></i>{{title}}
+          <br>
+          {{/each}}
+          
+        </div>
         {{else}}
         <div class="card-text">
           <div class="card-all-price">
