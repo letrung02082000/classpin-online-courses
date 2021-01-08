@@ -213,7 +213,7 @@ module.exports = {
     let lesson = await lessonModel.findById(req.body.id);
     if (!lesson) return;
     await lessonModel.delete(lesson._id);
-    res.redirect(`/teacher/courses/${req.params.id}/${req.params.chapter}`);
+    res.redirect(`/teacher/courses/${req.body.courseId}/${req.body.chapterId}`);
   },
   editChapter: async function (req, res) {
     let chapter = await chapterModel.findById(req.params.chapter);

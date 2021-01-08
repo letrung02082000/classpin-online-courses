@@ -28,7 +28,8 @@ module.exports = {
                 next: allCourses.nextPage,
                 pre: allCourses.prevPage,
             },
-            path: req.path,
+            path: req.baseUrl,
+
         });
     },
     async insertExample(req, res) {
