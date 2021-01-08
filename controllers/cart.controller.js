@@ -14,19 +14,28 @@ module.exports = {
 
         var viewCartArr = [];
         var totalPrice = 0;
+        var totalSalePrice = 0;
 
         if (!req.user) {
             for (ci of cartArr) {
                 const id = mongoose.mongo.ObjectId(ci.courseId);
                 var course = await courseModel.findById(id);
-                viewCartArr = [...viewCartArr, course];
+
+                const discount = course.discount || 0;
+                course.salePrice = course.price * (1 - discount / 100);
+                totalSalePrice += course.salePrice;
                 totalPrice += course.price;
+
+                viewCartArr = [...viewCartArr, course];
             }
 
             res.render('cart/cart', {
                 viewCartArr: viewCartArr,
                 isEmpty: viewCartArr.length == 0 ? true : false,
                 totalPrice,
+                totalSalePrice,
+                cartQuantity: viewCartArr.length,
+                greaterThanOne: viewCartArr.length > 1 ? true : false,
             });
         } else {
             var studentCourse = await courseModel.findCoursesByStudent(
@@ -39,8 +48,14 @@ module.exports = {
                 if (!studentIdArr.includes(ci.courseId)) {
                     const courseId = mongoose.mongo.ObjectId(ci.courseId);
                     var cartCourse = await courseModel.findById(courseId);
-                    viewCartArr = [...viewCartArr, cartCourse];
+
                     totalPrice += cartCourse.price;
+                    const discount = cartCourse.discount || 0;
+                    cartCourse.salePrice =
+                        cartCourse.price * (1 - discount / 100);
+                    totalSalePrice += cartCourse.salePrice;
+
+                    viewCartArr = [...viewCartArr, cartCourse];
                 }
             }
             res.locals.cartCount = viewCartArr.length;
@@ -48,6 +63,7 @@ module.exports = {
                 viewCartArr: viewCartArr,
                 isEmpty: false,
                 totalPrice,
+                totalSalePrice,
             });
         }
     },
@@ -62,12 +78,21 @@ module.exports = {
             var cartArr = req.session.cart;
 
             for (ci of cartArr) {
-                if (ci.courseId === courseId)
-                    return res.redirect(req.headers.referer);
+                if (ci.courseId === courseId) {
+                    var msg = encodeURIComponent('exist');
+                    var url =
+                        req.headers.referer.toString().split('?')[0] +
+                        '?status=' +
+                        msg;
+                    return res.redirect(url);
+                }
             }
 
             req.session.cart = [...req.session.cart, { courseId }];
-            return res.redirect(req.headers.referer);
+            var msg = encodeURIComponent('addsuccess');
+            var url =
+                req.headers.referer.toString().split('?')[0] + '?status=' + msg;
+            return res.redirect(url);
         } else {
             var studentCourse = await courseModel.findCoursesByStudent(
                 req.user._id
@@ -78,18 +103,32 @@ module.exports = {
             );
 
             if (studentCourseId.includes(courseId)) {
-                return res.redirect(req.headers.referer);
+                var msg = encodeURIComponent('incourse');
+                var url =
+                    req.headers.referer.toString().split('?')[0] +
+                    '?status=' +
+                    msg;
+                return res.redirect(url);
             }
 
             var cartArr = req.session.cart;
 
             for (ci of cartArr) {
-                if (ci.courseId === courseId)
-                    return res.redirect(req.headers.referer);
+                if (ci.courseId === courseId) {
+                    var msg = encodeURIComponent('exist');
+                    var url =
+                        req.headers.referer.toString().split('?')[0] +
+                        '?status=' +
+                        msg;
+                    return res.redirect(url);
+                }
             }
 
             req.session.cart = [...req.session.cart, { courseId }];
-            return res.redirect(req.headers.referer);
+            var msg = encodeURIComponent('addsuccess');
+            var url =
+                req.headers.referer.toString().split('?')[0] + '?status=' + msg;
+            return res.redirect(url);
         }
     },
 
@@ -191,6 +230,17 @@ module.exports = {
     postBuyNowCheckout: async function (req, res) {
         const courseId = req.body.courseId;
         await courseModel.addStudentCourse(courseId, req.user._id);
+        const lastCount = new Date(category.last_count);
+
+        const mondayDate = getMonday();
+
+        if (lastCount < mondayDate) {
+            await categoryModel.resetLastCount(categoryId);
+            await categoryModel.increaseStudentCount(categoryId);
+        } else {
+            await categoryModel.increaseStudentCount(categoryId);
+        }
+
         res.render('cart/successCheckout', { isSuccessful: true });
     },
 };

@@ -11,7 +11,8 @@ const mongoose = require('mongoose');
 module.exports = {
     getLogin: function (req, res) {
         //console.log(req.user);
-        if (req.isAuthenticated() && req.user.type === 1) { // check if admin already login
+        if (req.isAuthenticated() && req.user.type === 1) {
+            // check if admin already login
             res.redirect('/admin/dashboard');
             return;
         }
@@ -34,24 +35,62 @@ module.exports = {
         res.render('admin/courses', { layout: 'admin', courses });
     },
 
-    getStudents: async function (req, res) {
-        const perPage = 10;
-        const page = req.params.page || 1;
+    getDetailCourse: async function (req, res) {
+        const courseId = req.params.id;
+        const course = await courseModel.findDetailCourseById(courseId);
 
-        const students = await studentModel.getStudent(perPage, page);
-        const studentCount = await studentModel.countStudent();
+        const studentList = [];
+        for (const studentId of course.list_student) {
+            const student = await studentModel.findById(
+                mongoose.mongo.ObjectId(studentId)
+            );
+            studentList.push(student);
+        }
 
-        res.render('admin/student', {
+        res.render('admin/detailCourse', {
             layout: 'admin',
-            studentList: students,
-            current: page,
-            pages: Math.ceil(studentCount / perPage),
+            course,
+            studentList,
+            hasStudent: studentList.length == 0 ? false : true,
         });
+    },
+
+    getStudents: async function (req, res) {
+        // const perPage = 10;
+        // const page = req.params.page || 1;
+
+        // const students = await studentModel.getStudent(perPage, page);
+        // const studentCount = await studentModel.countStudent();
+
+        // res.render('admin/student', {
+        //     layout: 'admin',
+        //     studentList: students,
+        //     current: page,
+        //     pages: Math.ceil(studentCount / perPage),
+        // });
+        const students = await studentModel.loadAllStudents();
+        res.render('admin/student', { layout: 'admin', studentList: students });
     },
 
     deleteStudent: async function (req, res) {
         await studentModel.deleteStudent(req.body.studentId);
-        res.redirect('/admin/student');
+        res.redirect('/admin/students');
+    },
+
+    getDetailStudent: async function (req, res) {
+        const student = await studentModel.findById(
+            mongoose.mongo.ObjectId(req.params.id)
+        );
+        const courseList = await courseModel.findCoursesByStudent(
+            req.params.id
+        );
+        console.log(courseList);
+        res.render('admin/detailStudent', {
+            layout: 'admin',
+            student,
+            courseList,
+            hasCourse: courseList.length == 0 ? false : true,
+        });
     },
 
     getTeachers: async function (req, res) {
@@ -63,8 +102,24 @@ module.exports = {
         });
     },
 
+    getDetailTeacher: async function (req, res) {
+        const teacherId = req.params.id;
+        const teacher = await teacherModel.findById(
+            mongoose.mongo.ObjectId(teacherId)
+        );
+
+        const coursesList = await courseModel.findCourseOfTeacher(teacherId);
+
+        res.render('admin/detailTeacher', {
+            layout: 'admin',
+            teacher,
+            coursesList,
+            hasCourse: coursesList.length == 0 ? false : true,
+        });
+    },
+
     getCreateTeacher: function (req, res) {
-        res.render('admin/createTeacher', { layout: false });
+        res.render('admin/createTeacher', { layout: 'admin' });
     },
 
     postCreateTeacher: async function (req, res) {
@@ -79,6 +134,7 @@ module.exports = {
     },
 
     postDeleteTeacher: async function (req, res) {
+        await courseModel.deleteTeacherCourses(req.body.teacherId);
         await teacherModel.deleteTeacher(req.body.teacherId);
         res.redirect('/admin/teachers');
     },
@@ -89,7 +145,7 @@ module.exports = {
 
     addTopCategory(req, res) {
         res.render('admin/addTopCategory', {
-            layout: 'admin'
+            layout: 'admin',
         });
     },
 
@@ -161,7 +217,7 @@ module.exports = {
         res.render('admin/categories', {
             categories: cat,
             empty: cat.length === 0,
-            layout: 'admin'
+            layout: 'admin',
         });
     },
     async postChangeTopCategory(req, res) {
@@ -170,7 +226,10 @@ module.exports = {
         if (!category) {
             return;
         }
-        categoryModel.changeCategory(categoryId, { name: req.body.name, description: req.body.description });
+        categoryModel.changeCategory(categoryId, {
+            name: req.body.name,
+            description: req.body.description,
+        });
         res.redirect('/admin/category');
     },
     async postChangeSubCategory(req, res) {
@@ -179,11 +238,18 @@ module.exports = {
         if (!category) {
             return;
         }
-        categoryModel.changeCategory(categoryId, { name: req.body.name, description: req.body.description });
+        categoryModel.changeCategory(categoryId, {
+            name: req.body.name,
+            description: req.body.description,
+        });
         let topCat = await categoryModel.findTopCategory(categoryId);
         if (topCat) {
             if (topCat._id !== req.body.topCategoryId) {
-                await categoryModel.changeSubCategory(categoryId, topCat._id, req.body.topCategoryId);
+                await categoryModel.changeSubCategory(
+                    categoryId,
+                    topCat._id,
+                    req.body.topCategoryId
+                );
             }
         }
         res.redirect('/admin/category');
@@ -195,7 +261,7 @@ module.exports = {
             return;
         }
         res.render('admin/changeTopCategory', {
-            category: category
+            category: category,
         });
     },
 
@@ -208,7 +274,7 @@ module.exports = {
         let categories = await categoryModel.loadTopCategory();
         res.render('admin/changeSubCategory', {
             category: category,
-            categories: categories
+            categories: categories,
         });
     },
 
@@ -223,15 +289,12 @@ module.exports = {
 
         //delete lesson in chapter
 
-
         // delete chapter in course
         if (matchedCourse.list_chapter) {
             await chapterModel.deleteManyByListID(matchedCourse.list_chapter);
         }
         // delete course
         await courseModel.deleteOneCourse(courseID);
-
-
 
         // redirect
         res.redirect('/admin/courses');
@@ -240,5 +303,5 @@ module.exports = {
     postLogout: function (req, res) {
         req.logout();
         res.redirect('/admin/login');
-    }
+    },
 };

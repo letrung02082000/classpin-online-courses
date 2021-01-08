@@ -1,24 +1,33 @@
 <div class="category-carousel">
+    <h2 class="carousel-title">New courses</h2>
     <div class="carousel-container">
         <div class="carousel-inner">
             <div class="track">
                 {{#each tenNewestCourses}}
-                <div class="card-container" style="height: 380px;">
+                <div class="card-container">
                     <div class="card">
                         <div class="img">
                             <img src="{{thumbnail}}" alt="course_image">
                         </div>
                         <div class="info">
-                            <div class="card__title">{{name}}</div>
-                            <div class="card_teacher">{{teacher.fullname}}</div>
-                            <div class="card__category">{{category.name}}</div>
+                            <div class="card__title">
+                                <p>{{name}}</p>
+                            </div>
+                            <div class="card__teacher">
+                                <p>{{teacher.fullname}}</p>
+                            </div>
+                            <div class="card__category">
+                                <p>{{category.name}}</p>
+                            </div>
 
                             <div class="rating mb-2">
                                 <div class="rateYo" data-rateyo-rating="{{avgRating}}" data-rateyo-star-width="20px">
                                 </div>
 
                             </div>
-                            <div class="card__price">$ {{price}}</div>
+                            <div class="card__allprice"><span class="card__discount">$ {{salePrice}}</span> &nbsp;
+                                <del class="card__price">$ {{price}}</del>
+                            </div>
                         </div>
                         <div class="card-button">
 
@@ -26,10 +35,11 @@
                             <a href="/course/{{_id}}" class="btn btn-success card-button__cart">Go to course</a>
                             {{else}}
                             <a class="btn btn-primary mr-3 card-button__details" href="/course/{{_id}}">
-                                Details</a>
+                                Detail</a>
                             <form method="POST" action="/cart/add">
                                 <input type="hidden" value="{{_id}}" name="courseId" />
-                                <button class="btn btn-success card-button__cart" type="submit">Add to cart</button>
+                                <button class="btn btn-success card-button__cart" type="submit"><i
+                                        class="fa fa-shopping-cart" aria-hidden="true"></i></button>
                             </form>
                             {{/if}}
                         </div>

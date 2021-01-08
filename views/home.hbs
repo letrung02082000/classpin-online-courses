@@ -4,11 +4,10 @@
 <link rel="stylesheet" href="/public/static/css/home/newestCarousel.css">
 <link rel="stylesheet" href="/public/static/css/home/mostViewCarousel.css">
 
-<link rel="stylesheet" href="/public/static/css/home/categoryCarousel.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.css">
 
 <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900&display=swap" rel="stylesheet">
-<link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/carousel/">
+
 <style>
   .bd-placeholder-img {
     font-size: 1.125rem;
@@ -32,8 +31,8 @@
 <script type="text/javascript" src="/public/static/js/home/newestCarousel.js"></script>
 <script type="text/javascript" src="/public/static/js/home/mostViewCarousel.js"></script>
 
-<script type="text/javascript" src="/public/static/js/home/categoryCarousel.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
   $(function () {
     $(".rateYo").rateYo({
@@ -41,6 +40,36 @@
       readOnly: true
     });
   });
+</script>
+<script>
+  var getUrlParameter = function getUrlParameter(sParam) {
+    var sPageURL = window.location.search.substring(1),
+      sURLVariables = sPageURL.split('&'),
+      sParameterName,
+      i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+      sParameterName = sURLVariables[i].split('=');
+
+      if (sParameterName[0] === sParam) {
+        return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+      }
+    }
+  };
+  var status = getUrlParameter('status')
+  if (status == "addsuccess") {
+    Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      title: 'Success',
+      showConfirmButton: false,
+      timer: 1500
+    })
+  } else if (status == "exist") {
+    Swal.fire({ position: 'top-end', icon: 'error', title: 'Already in cart', showConfirmButton: false, timer: 1500 })
+  } else if (status == "incourse") {
+    Swal.fire({ position: 'top-end', icon: 'error', title: 'Already in course', showConfirmButton: false, timer: 1500 })
+  }
 </script>
 
 {{/section}}
@@ -84,22 +113,30 @@
               <a class="nav-link text-white active mr-3" aria-current="page" href="/">Home</a>
             </li>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle text-white mr-3" href="#" data-toggle="dropdown">Categories</a>
+              <a class="nav-link text-white dropdown-toggle mr-3" href="#" data-toggle="dropdown">Categories</a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#"> Information Technology &raquo </a>
+                {{#each menuCategory}}
+                <li><a class="dropdown-item" {{#if hasSub}} {{else}} href="/category/{{_id}}" {{/if}}> {{name}}
+                    {{#if hasSub}}
+                    &nbsp;
+                    <i class="fas fa-chevron-right"></i>
+                    {{/if}}
+                  </a>
+                  {{#if hasSub}}
                   <ul class="submenu dropdown-menu">
-                    <li><a class="dropdown-item" href=""> Mobile development </a></li>
-                    <li><a class="dropdown-item" href=""> Web development </a></li>
+                    {{#each sub_category}}
+                    <li><a class="dropdown-item" href="/category/{{_id}}"> {{name}} </a></li>
+                    {{/each}}
                   </ul>
+                  {{/if}}
                 </li>
-                <li><a class="dropdown-item" href="#"> Dropdown item 2 </a></li>
-                <li><a class="dropdown-item" href="#"> Dropdown item 3 </a></li>
+                {{/each}}
               </ul>
             </li>
             <li>
               <form class="d-flex justify-content-start ms-5 col-md-9" action="/course/search" method="GET">
                 <input class="form-control me-2 mr-2" type="search" placeholder="Search for anything"
-                  aria-label="Search" name="q" size="34"/>
+                  aria-label="Search" name="q" size="34" />
                 <button class="btn btn-dark"><i class="fa fa-search" aria-hidden="true" type="submit"></i></button>
               </form>
             </li>
@@ -109,7 +146,8 @@
 
         <ul class="navbar-nav d-flex justify-content-end align-items-center">
           <li class="nav-item mr-3">
-            <a class="nav-link" href="/cart"><i class="fas fa-shopping-cart"></i>
+            <a class="nav-link" href="/cart">
+              <i class="fas fa-shopping-cart"></i>
               {{#if isEmptyCart}}
               {{else}}
               <span class="badge badge-pill badge-danger float-right">
@@ -117,8 +155,6 @@
               </span>
               {{/if}}
             </a>
-
-
           </li>
           {{#if isAuth}}
           <li class="nav-item dropdown" style="margin-right: 80px;">
@@ -175,12 +211,10 @@
 
     <hr class="featurette-divider">
 
-    <h2>New courses</h2>
     {{>homePartials/newestCarousel}}
 
     <hr class="featurette-divider">
 
-    <h2>Most view courses</h2>
     {{>homePartials/mostViewCarousel}}
 
     <hr class="featurette-divider">

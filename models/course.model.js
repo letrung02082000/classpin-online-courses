@@ -50,6 +50,7 @@ module.exports = {
             page: page,
             limit: perPage,
             lean: true,
+            populate: ['teacher', 'category'],
             ...option,
         });
     },
@@ -212,6 +213,20 @@ module.exports = {
         );
     },
 
+    async FindAndRemoveStudent(studentId) {
+        return await Course.updateMany(
+            {},
+            {
+                $pullAll: {
+                    list_student: [mongoose.mongo.ObjectId(studentId)],
+                },
+            },
+            function (err) {
+                if (err) throw Error(err);
+            }
+        );
+    },
+
     async findCoursesByStudent(studentId) {
         return await Course.find(
             {
@@ -263,6 +278,19 @@ module.exports = {
             .sort({ week_count: -1 })
             .limit(4)
             .lean();
+    },
+
+    async findDetailCourseById(courseId) {
+        return await Course.findById(mongoose.mongo.ObjectId(courseId))
+            .populate('teacher')
+            .populate('category')
+            .lean();
+    },
+
+    async deleteTeacherCourses(teacherId) {
+        return await Course.deleteMany({
+            teacher: mongoose.mongo.ObjectId(teacherId),
+        });
     },
 
     deleteOneCourse(courseID) {

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const courseModel = require('./course.model');
 
 const Schema = mongoose.Schema;
 
@@ -92,9 +93,10 @@ module.exports = {
     },
 
     deleteStudent: async function (id) {
-        return await Student.findByIdAndRemove(
-            mongoose.mongo.ObjectId(id),
-            (err) => {
+        await courseModel.FindAndRemoveStudent(id);
+        await Student.deleteOne(
+            { _id: mongoose.mongo.ObjectId(id) },
+            function (err) {
                 if (err) throw Error(err);
             }
         );
@@ -106,5 +108,9 @@ module.exports = {
 
     updateOne(filter, update) {
         return Student.findOneAndUpdate(filter, update);
+    },
+
+    loadAllStudents: async function () {
+        return await Student.find({}).lean();
     },
 };

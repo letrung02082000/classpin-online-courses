@@ -3,34 +3,59 @@
         class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Teachers</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
-            {{!-- <div class="btn-group mr-2">
-                <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-                <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
-            </div>
-            <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-                <span data-feather="calendar"></span>
-                This week
-            </button> --}}
             <a class="btn btn-primary" href="/admin/teachers/create">Create teacher account</a>
         </div>
     </div>
+    <form id="delForm" action="/admin/teachers/del" method="POST">
+        <input type="hidden" value="" id="txtTeacherId" name="teacherId">
+    </form>
     <table class="table" style="width:100%">
         <tr>
             <th>Username</th>
             <th>Fullname</th>
             <th>&nbsp;</th>
+            <th>&nbsp;</th>
         </tr>
+
         {{#each teacherList}}
         <tr>
             <td>{{namelogin}}</td>
             <td>{{fullname}}</td>
+            <td><a href="/admin/teachers/{{_id}}" class="btn btn-success">Detail</a></td>
             <td>
-                <form action="/admin/teachers/del" method="POST">
-                    <input type="hidden" value="{{_id}}" name="teacherId">
-                    <button class="btn btn-danger" type="submit">Delete</button>
-                </form>
+                <a class="btn btn-danger btnDel" data-id="{{_id}}">Delete</a>
+
             </td>
         </tr>
         {{/each}}
     </table>
 </main>
+
+{{#section 'js'}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script>
+    $('.btnDel').on('click', function () {
+        $('#txtTeacherId').val($(this).data('id'));
+        $('#delForm').submit();
+    })
+
+    $('#delForm').on('submit', async function (e) {
+        e.preventDefault();
+        const { value: confirmText } = await Swal.fire({
+            title: "You are about to delete this teacher and all this teacher's courses.",
+            input: 'text',
+            inputLabel: "Type 'Delete' to confirm",
+            showCancelButton: true,
+            inputValidator: (value) => {
+                if (!value) {
+                    return 'Select cancel to return'
+                }
+            }
+        })
+
+        if (confirmText === "Delete") {
+            $('#delForm').off('submit').submit();
+        }
+    })
+</script>
+{{/section}}

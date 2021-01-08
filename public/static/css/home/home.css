@@ -43,7 +43,7 @@ body {
     color: #5a5a5a;
 }
 
-/* CUSTOMIZE THE CAROUSEL */
+/* CUSTOMIZE THE CAROUSEL (Slider)*/
 
 /* Carousel base class */
 .carousel {
@@ -53,6 +53,7 @@ body {
 .carousel-caption {
     bottom: 3rem;
     z-index: 10;
+    color: #5a5a5a;
 }
 
 /* Declare heights because of positioning of img element */
@@ -67,24 +68,17 @@ body {
     height: 32rem;
 }
 
+.carousel-title {
+    font-weight: bold;
+    color: #3c3b37;
+    font-size: 25px;
+    margin-left: 10px;
+}
+
 /* MARKETING CONTENT
   -------------------------------------------------- */
 
 /* Center align the text within the three columns below the carousel */
-
-.card__image {
-    height: 150px;
-}
-
-.card__image img {
-    height: 150px;
-    width: 100%;
-}
-
-.card__button {
-    display: flex;
-    justify-content: center;
-}
 
 .marketing h2 {
     font-weight: 400;
@@ -133,90 +127,95 @@ body {
 
 @keyframes moveInLeft {
     0% {
-      opacity: 0;
-      transform: translateX(-100px); }
+        opacity: 0;
+        transform: translateX(-100px);
+    }
     80% {
-      transform: translateX(10px); }
+        transform: translateX(10px);
+    }
     100% {
-      opacity: 1;
-      transform: translateX(0); } }
-  
-  @keyframes moveInBottom {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes moveInBottom {
     0% {
-      opacity: 0;
-      transform: translateY(30px); }
+        opacity: 0;
+        transform: translateY(30px);
+    }
     100% {
-      opacity: 1;
-      transform: translateY(0); } }
-  
-  *{
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-  }
-  
-  body {
-    font-family: "Poppins", sans-serif;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
     font-weight: 400;
     font-size: 16px;
     line-height: 1.7;
     color: #777777;
-  }
-  
-  .adv {
+}
+
+.adv {
     text-align: center;
     background-color: #022044;
     color: white;
     padding: 8px;
-  }
-  
-  nav{
+}
+
+nav {
     margin-top: 30px;
     position: static !important;
-    font-family: "Poppins", sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 20px;
-    
-  }
-  
-  #logo-box{
+}
+
+#logo-box {
     display: inline;
     margin-left: 80px;
-  }
-  
-  #navbarNavAltMarkup{
+}
+
+#navbarNavAltMarkup {
     z-index: 10;
-  }
-  
-  header{
-    background-image: 
-    url("https://www.docker.com/sites/all/themes/docker/assets/images/homepage/homepage-banner-bg.svg");
+}
+
+header {
+    background-image: url('https://www.docker.com/sites/all/themes/docker/assets/images/homepage/homepage-banner-bg.svg');
     background-size: cover;
     background-position: top;
     position: relative;
     padding-top: 7px;
     height: 140vh;
-  }
-  
-  .text-box{
+}
+
+.text-box {
     position: absolute;
     width: 100%;
     top: 45%;
     left: 30%;
     transform: translate(-50%, -50%);
     text-align: center;
-  }
-  
-  .logo{
+}
+
+.logo {
     height: 70px;
-  } 
-  
-  .logo-box{
+}
+
+.logo-box {
     position: absolute;
     top: 30px;
     left: 30px;
-  } 
-  
-  .heading-primary{
+}
+
+.heading-primary {
     color: #fff;
     text-transform: uppercase;
     margin-bottom: 2rem;
@@ -224,60 +223,68 @@ body {
     animation-duration: 2s;
     animation-delay: 3s;
     animation-iteration-count: 2;
-  }
-  
-  .heading-primary__main{
+}
+
+.heading-primary__main {
     display: block;
     font-size: 75px;
     font-weight: 400;
     letter-spacing: 15px;
     margin-bottom: 1rem;
-  }
-  
-  .heading-primary__sub{
+}
+
+.heading-primary__sub {
     text-align: center;
     display: block;
     font-size: 25px;
     font-weight: 700;
     letter-spacing: 10px;
-  }
-  
-  
-  .button:link, .button:visited {
+}
+
+.button:link,
+.button:visited {
     text-transform: uppercase;
     text-decoration: none;
     padding: 15px 40px;
     display: inline-block;
     border-radius: 50px;
     font-size: 16px;
-    position: relative; }
-  
-  .button--white {
+    position: relative;
+}
+
+.button--white {
     color: #777777;
-    background-color: #fff; }
-    .button--white::after {
-      background-color: #fff; }
-  
-  .button--blue {
+    background-color: #fff;
+}
+.button--white::after {
+    background-color: #fff;
+}
+
+.button--blue {
     color: #fff;
-    background-color: #0073EC; }
-    .button--blue::after {
-      background-color: #0073EC; }
-  
-  .button:hover {
+    background-color: #0073ec;
+}
+.button--blue::after {
+    background-color: #0073ec;
+}
+
+.button:hover {
     color: #fff;
     transform: translateY(-3px);
-    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2); }
-    .button:hover::after {
-      transform: scaleX(1.4) scaleY(1.6);
-      opacity: 0; }
-  
-  .button:active {
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+}
+.button:hover::after {
+    transform: scaleX(1.4) scaleY(1.6);
+    opacity: 0;
+}
+
+.button:active {
     transform: translateY(-1px);
-    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.8); }
-  
-  .button::after {
-    content: "";
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.8);
+}
+
+.button::after {
+    content: '';
     display: block;
     height: 100%;
     width: 100%;
@@ -286,73 +293,80 @@ body {
     left: 0;
     border-radius: 50px;
     z-index: -1;
-    transition: all 0.4s; }
-  
-  .button--animated {
-    animation: moveInBottom .5s ease-out .75s; }
-  
-  .button-text:link, .button-text:visited {
+    transition: all 0.4s;
+}
+
+.button--animated {
+    animation: moveInBottom 0.5s ease-out 0.75s;
+}
+
+.button-text:link,
+.button-text:visited {
     color: #5a73fc;
     text-decoration: none;
     display: inline-block;
     border-bottom: 1px solid #5a73fc;
-    padding: .3rem;
+    padding: 0.3rem;
     font-size: 1.6rem;
-    transition: all .2s; }
-  
-  .button-text:hover {
+    transition: all 0.2s;
+}
+
+.button-text:hover {
     color: #fff;
     background-color: #5a73fc;
     transform: translateY(-0.2rem);
-    box-shadow: 0rem 1rem 2rem rgba(0, 0, 0, 0.15); }
-  
-  .button-text:active {
+    box-shadow: 0rem 1rem 2rem rgba(0, 0, 0, 0.15);
+}
+
+.button-text:active {
     transform: translateY(0);
-    box-shadow: 0rem 0.5rem 1rem rgba(0, 0, 0, 0.15); }
-  
-  .custom-card{
-    box-shadow: 0 4px 30px rgba(11,33,74,.11), 0 -2px 5px rgba(11,33,74,.03);
+    box-shadow: 0rem 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.custom-card {
+    box-shadow: 0 4px 30px rgba(11, 33, 74, 0.11),
+        0 -2px 5px rgba(11, 33, 74, 0.03);
     background-color: #fff;
     padding: 2em;
     color: #90a0ac;
     font-size: 20px;
     font-weight: 400;
     line-height: 24px;
-    letter-spacing: -.25px;
+    letter-spacing: -0.25px;
     height: 30rem;
     width: 33rem;
     position: absolute;
     top: 35%;
     right: 10%;
-  }
-  
-  .card-img{
+}
+
+.card-img {
     height: 15rem;
     width: 100%;
     margin-bottom: 1.5rem;
-  }
-  
-  #img_header{
+}
+
+#img_header {
     width: auto;
     height: auto;
     height: 100%;
     width: 100%;
-  }
-  
-  #card_heading{
+}
+
+#card_heading {
     color: #000;
-  }
-  
-  .description{
+}
+
+.description {
     margin-top: 2rem;
     margin-bottom: 1rem;
-  }
-  
-  .cta-links{
+}
+
+.cta-links {
     margin-bottom: 2rem;
-  }
-  
-  /* @media (max-width: 1200px) {
+}
+
+/* @media (max-width: 1200px) {
     html{
       font-size: 14px;
     }

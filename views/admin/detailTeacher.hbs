@@ -1,0 +1,49 @@
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+    <div
+        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <a rel="stylesheet" href="/admin/teachers" class="btn btn-primary">Back to all teachers</a>
+    </div>
+
+    <div class="teacher-info">
+        <h1>Teacher information</h1>
+        {{#with teacher}}
+        <div class="card">
+            <div class="card-body">
+                <div class="info">
+                    <div class="card__name">
+                        <p><strong>Name:</strong> {{fullname}}</p>
+                    </div>
+                    <div class="card__username">
+                        <p><strong>Username:</strong> {{namelogin}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{/with}}
+        <div class="course-list-title mt-3">
+            <h1>Teacher's courses</h1>
+        </div>
+        {{#if hasCourse}}
+        <table class="table" style="width:100%">
+            <tr>
+                <th>Course</th>
+                <th>Teacher</th>
+                <th>Category</th>
+                <th></th>
+            </tr>
+            {{#each coursesList}}
+            <tr>
+                <td>{{name}}</td>
+                <td>{{teacher.fullname}}</td>
+                <td>{{category.name}}</td>
+                <td><a href="/admin/courses/{{_id}}" class="btn btn-success">Detail</a></td>
+            </tr>
+            {{/each}}
+        </table>
+        {{else}}
+        <div class="empty-student-list">
+            <p>This teacher has no course.</p>
+        </div>
+        {{/if}}
+    </div>
+</main>
