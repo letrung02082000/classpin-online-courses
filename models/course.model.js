@@ -50,6 +50,7 @@ module.exports = {
             page: page,
             limit: perPage,
             lean: true,
+            populate: ['teacher', 'category'],
             ...option,
         });
     },

@@ -23,3 +23,23 @@
     height: 100%;
     width: 100%;
 }
+
+.card__title p {
+    font-weight: bold;
+}
+
+.card__teacher p {
+    font-size: 13px;
+    color: #73726c;
+    margin: 0;
+}
+
+.card__category p {
+    font-size: 15px;
+    color: #73726c;
+    margin: 0;
+}
+
+.card__discount {
+    font-weight: bold;
+}

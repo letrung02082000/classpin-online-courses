@@ -13,7 +13,7 @@
     {{else}}
     <div class="row">
         {{#each courses}}
-        <div class="col-lg-3 col-md-6 col-sm-12">
+        <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
             <div class="card">
                 <div class="card-image">
                     <img class="card-img-top" src='{{this.thumbnail}}' alt="Card image">
@@ -39,9 +39,13 @@
                             <del class="card__price">$ {{price}}</del>
                         </div>
                     </div>
-                    <div class="text-right">
-                        <a href="#" class="btn btn-primary">Detail</a>
-                        <a href="#" class="btn btn-secondary"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                    <div class="d-flex justify-content-end">
+                        <a href="/course/{{_id}}" class="btn btn-primary mr-3">Detail</a>
+                        <form action="/cart/add" method="POST">
+                            <input type="hidden" value="{{_id}}" name="courseId">
+                            <button type="submit" class="btn btn-secondary"><i class="fa fa-shopping-cart"
+                                    aria-hidden="true"></i></button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -49,7 +53,7 @@
         {{/each}}
     </div>
     <nav>
-        <ul class="pagination">
+        <ul class="pagination d-flex justify-content-center">
             <li class="page-item {{#if pagingOption.pre}}{{else}}disabled{{/if}}"><a class="page-link"
                     href="{{path}}?{{query}}&page={{#if pagingOption.pre}}{{pagingOption.pre}}{{/if}}">Previous</a></li>
             {{#each pagingOption.pageArr}}
