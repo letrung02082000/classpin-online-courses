@@ -11,6 +11,10 @@
         <a href="/" class="btn btn-danger">Keep shopping</a>
     </div>
     {{else}}
+
+    <div class="category-title">
+        <p>{{categoryTitle}}</p>
+    </div>
     <form action="/course/search" method="GET">
         <input type="hidden" name="q" value="{{q.q}}">
         <div class="row d-flex align-items-center">

@@ -1,5 +1,28 @@
-{{#if isSuccessful}}
-<h1>Checkout success</h1>
-{{else}}
-<h1>Checkout fail</h1>
-{{/if}}
+<div class="checkout-container">
+    {{#if isSuccessful}}
+    {{#with course}}
+    <div class="msg-container">
+        <p>Thank you. You have checked out successfully.</p>
+        <p><a href="/" class="btn btn-danger">Continue shopping</a> or <a href="/course/{{_id}}"
+                class="btn btn-success">Start learning now</a></p>
+    </div>
+    {{/with}}
+    {{else}}
+    <div class="msg-container">
+        <p>Something went wrong. Please try again later. Or contact support.</p>
+        <a href="/" class="btn btn-success">Back to home</a>
+    </div>
+    {{/if}}
+</div>
+
+{{#section 'css'}}
+<style>
+    .msg-container {
+        min-height: 90vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
+{{/section}}

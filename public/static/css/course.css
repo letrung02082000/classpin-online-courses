@@ -46,7 +46,7 @@ body {
     z-index: 1000;
 }
 
-.none{
+.none {
     display: none;
 }
 
@@ -73,13 +73,27 @@ body {
     margin-top: 20px;
 }
 
-.card-price {
+.card-all-price {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.card-sale-price {
     font-size: 40px;
+}
+
+.card-price {
+    padding-bottom: 0.7rem;
+    font-size: 1.1rem;
+    color: #73726c;
+    margin: 0;
+    padding-left: 0.5rem;
 }
 
 .card-description {
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
-    background-color: #fbfbf8;
+    background-color:#fff;
 }
 
 .description {
@@ -384,10 +398,16 @@ body {
     font-size: 30px;
     height: 150px;
 }
+
+.card img {
+    width: 100%;
+    height: 100%;
+    border-radius: 2%;
+}
 .card .info {
     flex-basis: 40px;
-    background: #333;
-    color: #fff;
+    background: rgb(255, 255, 255);
+    color: #3c3b37;
     flex-grow: 0;
     padding: 10px;
     box-sizing: border-box;
@@ -396,7 +416,42 @@ body {
 .card-button {
     display: flex;
     flex-direction: row;
-    justify-content: center;
-    padding: 10px;
+    justify-content: flex-end;
+    padding: 5px;
     flex: 0;
+    margin-right: 1rem;
+    padding: 1rem;
+}
+
+.card__title p {
+    font-weight: bold;
+    font-size: 17px;
+    margin: 0;
+}
+
+.card__teacher p {
+    font-size: 13px;
+    margin: 0;
+    color: #73726c;
+}
+
+.card__category p {
+    font-size: 15px;
+    margin: 0;
+    color: #73726c;
+}
+
+.card__price {
+    font-size: 15px;
+    color: #73726c;
+}
+
+.card__discount {
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.related-courses__heading {
+    font-weight: bold;
+    font-size: 2rem;
 }
