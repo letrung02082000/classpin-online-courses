@@ -11,6 +11,7 @@ const ratingModel = require('../models/rating.model');
 const paging = require('../utils/pagingOption');
 const categoryModel = require('../models/category.model');
 const lessonModel = require('../models/lesson.model');
+const progressModel = require('../models/progress.model');
 
 module.exports = {
     async allCourse(req, res) {
@@ -332,6 +333,17 @@ module.exports = {
         let lesson = await lessonModel.findById(req.params.lessonId);
         if (!lesson) return;
         let course = await courseModel.findById(req.params.id);
+        let progress = await progressModel.find({ student: req.user._id });
+        if (!progress) {
+            let newProgress = {
+                student: req.user._id,
+                list_lesson: [lesson._id],
+            };
+            await progressModel.add(newProgress);
+        } else {
+            progress.list_lesson.push(lesson._id);
+            progress.save();
+        }
         res.render('course/viewLesson', {
             course: course,
             lesson: lesson,
