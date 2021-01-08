@@ -213,6 +213,20 @@ module.exports = {
         );
     },
 
+    async FindAndRemoveStudent(studentId) {
+        return await Course.updateMany(
+            {},
+            {
+                $pullAll: {
+                    list_student: [mongoose.mongo.ObjectId(studentId)],
+                },
+            },
+            function (err) {
+                if (err) throw Error(err);
+            }
+        );
+    },
+
     async findCoursesByStudent(studentId) {
         return await Course.find(
             {

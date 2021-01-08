@@ -32,7 +32,10 @@
             </div>
         </div>
         {{/with}}
-        <h1>Students list</h1>
+        <div class="student-list-title mt-3">
+            <h1>Students list</h1>
+        </div>
+        {{#if hasStudent}}
         <table class="table" style="width:100%">
             <tr>
                 <th>Username</th>
@@ -47,5 +50,10 @@
             </tr>
             {{/each}}
         </table>
+        {{else}}
+        <div class="empty-student-list">
+            <p>This course has no student.</p>
+        </div>
+        {{/if}}
     </div>
 </main>

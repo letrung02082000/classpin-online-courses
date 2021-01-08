@@ -48,8 +48,14 @@ module.exports = {
                 if (!studentIdArr.includes(ci.courseId)) {
                     const courseId = mongoose.mongo.ObjectId(ci.courseId);
                     var cartCourse = await courseModel.findById(courseId);
-                    viewCartArr = [...viewCartArr, cartCourse];
+
                     totalPrice += cartCourse.price;
+                    const discount = cartCourse.discount || 0;
+                    cartCourse.salePrice =
+                        cartCourse.price * (1 - discount / 100);
+                    totalSalePrice += cartCourse.salePrice;
+
+                    viewCartArr = [...viewCartArr, cartCourse];
                 }
             }
             res.locals.cartCount = viewCartArr.length;
@@ -57,6 +63,7 @@ module.exports = {
                 viewCartArr: viewCartArr,
                 isEmpty: false,
                 totalPrice,
+                totalSalePrice,
             });
         }
     },
@@ -223,6 +230,17 @@ module.exports = {
     postBuyNowCheckout: async function (req, res) {
         const courseId = req.body.courseId;
         await courseModel.addStudentCourse(courseId, req.user._id);
+        const lastCount = new Date(category.last_count);
+
+        const mondayDate = getMonday();
+
+        if (lastCount < mondayDate) {
+            await categoryModel.resetLastCount(categoryId);
+            await categoryModel.increaseStudentCount(categoryId);
+        } else {
+            await categoryModel.increaseStudentCount(categoryId);
+        }
+
         res.render('cart/successCheckout', { isSuccessful: true });
     },
 };

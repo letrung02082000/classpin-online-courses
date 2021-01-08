@@ -19,7 +19,7 @@ router.post('/logout', requireAdmin.isAdmin, controller.postLogout);
 
 router.get('/dashboard', requireAdmin.isAdmin, controller.getDashboard);
 
-router.get('/students/:page', requireAdmin.isAdmin, controller.getStudents);
+router.get('/students/:id', requireAdmin.isAdmin, controller.getDetailStudent);
 router.get('/students', requireAdmin.isAdmin, controller.getStudents);
 router.post('/students/del', requireAdmin.isAdmin, controller.deleteStudent);
 

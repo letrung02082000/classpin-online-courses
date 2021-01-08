@@ -51,6 +51,7 @@ module.exports = {
             layout: 'admin',
             course,
             studentList,
+            hasStudent: studentList.length == 0 ? false : true,
         });
     },
 
@@ -73,7 +74,23 @@ module.exports = {
 
     deleteStudent: async function (req, res) {
         await studentModel.deleteStudent(req.body.studentId);
-        res.redirect('/admin/student');
+        res.redirect('/admin/students');
+    },
+
+    getDetailStudent: async function (req, res) {
+        const student = await studentModel.findById(
+            mongoose.mongo.ObjectId(req.params.id)
+        );
+        const courseList = await courseModel.findCoursesByStudent(
+            req.params.id
+        );
+        console.log(courseList);
+        res.render('admin/detailStudent', {
+            layout: 'admin',
+            student,
+            courseList,
+            hasCourse: courseList.length == 0 ? false : true,
+        });
     },
 
     getTeachers: async function (req, res) {
