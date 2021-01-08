@@ -66,11 +66,14 @@ router.get('/github/redirect', passport.authenticate('github', {failureRedirect:
 
 router.post('/postSignUp', controller.postSignUp);
 router.get('/is-available', controller.isAvailable);
+router.get('/is-emailAvb', controller.isEmailAvailable);
 router.post('/logout', controller.postLogout);
 router.get('/profile', requireUser.requireUser, controller.profile);
 router.get('/editprofile', requireUser.requireUser, controller.editProfile);
 router.post('/editprofile', requireUser.requireUser, upload.single('avatar'), controller.postEditProfile);
 router.get('/changepass', requireUser.requireUser, controller.changePass);
 router.post('/changepass', requireUser.requireUser, controller.postChangePass);
+router.get('/changeEmail', requireUser.requireUser, controller.changeEmail);
+router.post('/changeEmail', requireUser.requireUser, controller.postChangeEmail);
 
 module.exports = router;

@@ -8,6 +8,7 @@ const schema = new Schema({
     fullname: String,
     password: String,
     email: String,
+    newEmail: String,
     date_of_birth: String,
     avatar: String,
     verify: { type: Boolean, default: false },

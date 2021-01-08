@@ -4,5 +4,4 @@ const controller = require('../controllers/verify.controller');
 
 router.get('/', controller.verifyEmail);
 router.post('/resend', controller.postResendEmail);
-
 module.exports = router;
