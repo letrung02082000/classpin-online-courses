@@ -67,7 +67,11 @@
           <i class="fas fa-circle mr-2" style="font-size: 12px;"></i>{{title}}
           <br>
           {{/each}}
-          
+          {{#if course.done}}
+            <p class="text-success mt-2"><i class="fas fa-check-circle mr-2"></i>Complete</p>
+          {{else}}
+            <p class="text-danger"><i class="fas fa-spinner mr-2"></i> Incomplete</p>
+          {{/if}}
         </div>
         {{else}}
         <div class="card-text">
@@ -130,7 +134,11 @@
                 <td>
                   <div class="d-flex justify-content-between">
                     <div>
-                      <i class="fas fa-play-circle"></i>
+                      {{#if inProgress}}
+                      <i class="fas fa-check-circle text-success"></i>
+                      {{else}}
+                      <i class="fas fa-play-circle" style="color: rgb(231, 82, 82);"></i>
+                      {{/if}}
                       <a href="/course/{{../../_id}}/{{this._id}}"><span class="card-text">{{title}}</span></a>
                     </div>
                     <div>
@@ -146,6 +154,13 @@
           </div>
         </div>
         {{/each}}
+
+        <div class="mt-3" style="text-align: right; font-size: 14px;">
+          <i class="fas fa-play-circle" style="color: rgb(231, 82, 82);"></i>
+          <span>not seen</span>
+          <i class="fas fa-check-circle text-success"></i>
+          <span>watched</span>
+        </div>
       </div>
     </div>
     <br id="ins">
