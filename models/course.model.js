@@ -270,6 +270,7 @@ module.exports = {
     async getWeeklyCourse() {
         const mondayDate = getMonday();
         const now = Date.now();
+        console.log(mondayDate);
         return await Course.find({
             last_view: { $gte: mondayDate, $lte: now },
         })
