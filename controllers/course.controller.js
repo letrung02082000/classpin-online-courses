@@ -385,8 +385,9 @@ module.exports = {
     },
     viewLesson: async function (req, res) {
         let lesson = await lessonModel.findById(req.params.lessonId);
+        console.log(lesson);
         if (!lesson) return;
-        if (lesson.isFree === false) {
+        if (!lesson.isFree) {
             // check student in course
             let isMember = false;
             const check = await courseModel.checkStudentInCourse(
@@ -396,6 +397,7 @@ module.exports = {
             if (check) {
                 isMember = true;
             }
+            console.log(isMember);
             if (isMember === false) {
                 var msg = encodeURIComponent('noPermission')
                 res.redirect('/course/' + req.params.id + '/?status=' + msg);
@@ -428,16 +430,13 @@ module.exports = {
             }
         }
         
+        // list chapter in course
+        const returnCourse = await courseModel.findAllChapterInCourse(course._id);
 
-
-            // list chapter in course
-            const returnCourse = await courseModel.findAllChapterInCourse(course._id);
-
-            res.render('course/viewLesson', {
-                course: course,
-                lesson: lesson,
-                chapterList: returnCourse.list_chapter,
-            });
-        }
+        res.render('course/viewLesson', {
+            course: course,
+            lesson: lesson,
+            chapterList: returnCourse.list_chapter,
+        });
     },
 }
