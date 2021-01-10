@@ -36,7 +36,7 @@ module.exports = {
                 pre: allCourses.prevPage,
             },
             path: req.baseUrl,
-            query: req.query,
+            //query: req.query,
             categoryTitle: 'All Categories',
         });
     },
@@ -204,20 +204,20 @@ module.exports = {
         //console.log(returnCourse.list_chapter);
 
         // check lesson in progress
-        if(req.user) {
-            progress = await progressModel.findOne({student: req.user._id});
-            if(process) {
-                for(chapter of returnCourse.list_chapter) {
-                    for(lesson of chapter.list_lesson) {
-                        for(i of progress.list_lesson) {
-                            if(lesson._id.toString() === i._id.toString()) {
+        if (req.user) {
+            progress = await progressModel.findOne({ student: req.user._id });
+            if (process) {
+                for (chapter of returnCourse.list_chapter) {
+                    for (lesson of chapter.list_lesson) {
+                        for (i of progress.list_lesson) {
+                            if (lesson._id.toString() === i._id.toString()) {
                                 lesson.inProgress = true;
                             }
                         }
                     }
                 }
             }
-            
+
         }
 
         //find all course of teacher
@@ -326,7 +326,7 @@ module.exports = {
     async search(req, res) {
         let query = req.query.q;
         let sort = req.query.sort || "";
-        let category = req.query.category || "";
+        let category = (req.query.category === 'undefined' ? 'all' : req.query.category) || "";
         let page = +req.query.page || 1;
         let perPage = 4; //16
         console.log('Query: ' + req.query.q);
@@ -351,6 +351,7 @@ module.exports = {
         );
         let totalPage = searchCourses.totalPages;
         let pageArr = paging(page, totalPage);
+        let qr = `q=${req.query.q}&category=${req.query.category}&sort=${req.query.sort}`
         res.render('course', {
             courses: searchCourses.docs,
             empty: searchCourses.docs.length === 0,
@@ -362,7 +363,7 @@ module.exports = {
             },
             path: req.path,
             q: req.query,
-            query: `q=${req.query.q}&category=${req.query.category}&sort=${req.query.sort}`,
+            query: `q=${query}&category=${category}&sort=${sort}`,
         });
     },
 
@@ -424,7 +425,6 @@ module.exports = {
                     progress[0].list_lesson.push(lesson._id);
                     progress[0].save();
                 }
-            }
         }
         
 

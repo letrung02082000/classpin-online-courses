@@ -242,5 +242,8 @@ module.exports = {
     });
     await chapterModel.deleteOne(chapter._id);
     res.redirect(`/teacher/courses/${chapter._id}`);
+  },
+  toDashboard: function (req, res) {
+    res.redirect('/teacher/dashboard');
   }
 }
