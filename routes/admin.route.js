@@ -5,6 +5,8 @@ const controller = require('../controllers/admin.controller');
 const requireAdmin = require('../middlewares/requireAdmin.mdw');
 const router = express.Router();
 
+
+router.get('/', requireAdmin.isAdmin, controller.toDashboard);
 router.get('/login', controller.getLogin);
 router.post(
     '/login',

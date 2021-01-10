@@ -9,7 +9,7 @@ var upload = multer({ dest: 'public/uploads/teacher/' });
 
 const router = express.Router();
 
-//router.get('/', controller.dashboard);
+router.get('/', requireTeacher.isTeacher, controller.toDashboard);
 router.get('/addCourse', requireTeacher.isTeacher, controller.addCourse);
 router.post('/addCourse', requireTeacher.isTeacher, upload.single('thumbnail'), controller.postAddCourse);
 
