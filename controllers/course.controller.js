@@ -206,7 +206,7 @@ module.exports = {
         // check lesson in progress
         if (req.user) {
             progress = await progressModel.findOne({ student: req.user._id });
-            if (process) {
+            if (progress) {
                 for (chapter of returnCourse.list_chapter) {
                     for (lesson of chapter.list_lesson) {
                         for (i of progress.list_lesson) {
@@ -426,6 +426,8 @@ module.exports = {
                     progress[0].save();
                 }
             }
+        }
+        
 
 
             // list chapter in course
