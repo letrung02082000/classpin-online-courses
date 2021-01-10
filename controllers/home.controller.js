@@ -90,7 +90,6 @@ module.exports = {
             }
 
             var fourWeeklyCourses = await getWeeklyCourse();
-            console.log(fourWeeklyCourses);
 
             for (var course of fourWeeklyCourses) {
                 if (req.user) {
