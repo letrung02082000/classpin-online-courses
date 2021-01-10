@@ -4,11 +4,11 @@ module.exports = {
         var day = date.getDay();
         var prevMonday = new Date();
         if (date.getDay() == 0) {
-            return date;
+            prevMonday.setDate(date.getDate() - 6);
         } else {
             prevMonday.setDate(date.getDate() - (day - 1));
         }
-
+        console.log(prevMonday);
         return prevMonday;
     },
 };
