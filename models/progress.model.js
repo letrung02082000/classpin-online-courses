@@ -13,6 +13,9 @@ module.exports = {
   find(query) {
     return Progress.find(query);
   },
+  findOne(filter) {
+    return Progress.findOne(filter);
+  },
   add(progress) {
     return Progress.create(progress);
   }

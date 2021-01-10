@@ -191,6 +191,23 @@ module.exports = {
         );
         //console.log(returnCourse.list_chapter);
 
+        // check lesson in progress
+        if(req.user) {
+            progress = await progressModel.findOne({student: req.user._id});
+            if(process) {
+                for(chapter of returnCourse.list_chapter) {
+                    for(lesson of chapter.list_lesson) {
+                        for(i of progress.list_lesson) {
+                            if(lesson._id.toString() === i._id.toString()) {
+                                lesson.inProgress = true;
+                            }
+                        }
+                    }
+                }
+            }
+            
+        }
+
         //find all course of teacher
         const courseOfTeacher = await courseModel.findCourseOfTeacher(
             matchedCourse.teacher._id
@@ -221,6 +238,7 @@ module.exports = {
             //console.log(avgRating);
             i.avgRating = avgRating;
         }
+
         res.render('course/index', {
             _id: courseID,
             course: matchedCourse,
@@ -248,7 +266,7 @@ module.exports = {
     },
 
     postRating: async function (req, res) {
-        console.log(req.body);
+        //console.log(req.body);
         //const course = await courseModel.findById(req.params.id);
         const idCourse = req.params.id;
         // check student in course
@@ -256,7 +274,7 @@ module.exports = {
             req.user._id,
             idCourse
         );
-        console.log(matchedCourse);
+        //console.log(matchedCourse);
         let r = 0;
         if (req.body.rating) {
             r = req.body.rating;
@@ -354,8 +372,18 @@ module.exports = {
             };
             await progressModel.add(newProgress);
         } else {
-            progress[0].list_lesson.push(lesson._id);
-            progress[0].save();
+            //console.log(lesson._id);
+            let isExisted = false;
+            for(i of progress[0].list_lesson) {
+                if(i.toString() === lesson._id.toString()) {
+                    isExisted = true;
+                }
+            }
+            //console.log(isExisted);
+            if(!isExisted) {
+                progress[0].list_lesson.push(lesson._id);
+                progress[0].save();
+            }
         }
 
         // list chapter in course
