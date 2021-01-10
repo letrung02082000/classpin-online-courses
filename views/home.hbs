@@ -151,7 +151,7 @@
         </div>
 
         <ul class="navbar-nav d-flex justify-content-end align-items-center">
-          <li class="nav-item mr-3">
+          <li class="nav-item">
             <a class="nav-link" href="/cart">
               <i class="fas fa-shopping-cart"></i>
               {{#if isEmptyCart}}
@@ -164,11 +164,11 @@
           </li>
           {{#if isAuth}}
           <li class="nav-item dropdown" style="margin-right: 80px;">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <img src="{{authUser.avatar}}" alt="avt" style="height: 30px; border-radius: 50%;">
+            <a class="btn dropdown-toggle active text-white" type="button" id="dropdownMenuButton"
+              data-toggle="dropdown">
               {{authUser.fullname}}
-            </button>
+              <img src="{{authUser.avatar}}" alt="avt" style="height: 30px; width: 30px; border-radius: 50%; margin-left: 5px;">
+            <a>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
               <a class="dropdown-item" href="/account/profile"><i class="fas fa-user mr-2"></i>Profile</a>
               <form class="dropdown-item" id="frmLogout" method="POST" action="/account/logout">

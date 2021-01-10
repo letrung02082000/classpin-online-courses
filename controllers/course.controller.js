@@ -46,7 +46,7 @@ module.exports = {
     },
 
     course: async function (req, res) {
-        var msg = '';
+        let msg = '';
         if (req.query.status) {
             msg = req.query.status;
         }
@@ -112,6 +112,18 @@ module.exports = {
                 isMember = true;
             }
         }
+        
+        // check user rating this course before
+        // check student had feedback before
+        let isRating = false;
+        if(req.user) {
+            for(i of matchedCourse.list_rating) {
+                if(i.student._id.toString() === req.user._id.toString()) {
+                    isRating = true;
+                }
+            }
+        }
+        
 
         // check course in wishlist
         let isInWishList = false;
@@ -239,6 +251,7 @@ module.exports = {
             i.avgRating = avgRating;
         }
 
+        console.log(isRating);
         res.render('course/index', {
             _id: courseID,
             course: matchedCourse,
@@ -257,6 +270,7 @@ module.exports = {
             avgRatingTeacher:
                 Math.round((avgRatingTeacher / countReviewTeacher) * 100) / 100,
             fiveRelatedCourses,
+            isRating: isRating
         });
     },
     rating: function (req, res) {
@@ -282,6 +296,15 @@ module.exports = {
         if (!matchedCourse) {
             throw Error('No permission');
         } else {
+            // check student had feedback before
+            for(i of matchedCourse.list_rating) {
+                if(i.student.toString() === req.user._id.toString()) {
+                    let msg = encodeURIComponent('ratingExist')
+                    res.redirect('/course/' + matchedCourse._id + '/status=' + msg);
+                    return;
+                }
+            }
+            
             const newRating = {
                 student: req.user._id,
                 description: req.body.description,
@@ -362,29 +385,48 @@ module.exports = {
     viewLesson: async function (req, res) {
         let lesson = await lessonModel.findById(req.params.lessonId);
         if (!lesson) return;
-        let course = await courseModel.findById(req.params.id);
-        let progress = await progressModel.find({ student: req.user._id });
-        //console.log(progress);
-        if (progress.length === 0) {
-            let newProgress = {
-                student: req.user._id,
-                list_lesson: [lesson._id],
-            };
-            await progressModel.add(newProgress);
-        } else {
-            //console.log(lesson._id);
-            let isExisted = false;
-            for(i of progress[0].list_lesson) {
-                if(i.toString() === lesson._id.toString()) {
-                    isExisted = true;
-                }
+        if(lesson.isFree === false) {
+          // check student in course
+            let isMember = false;
+            const check = await courseModel.checkStudentInCourse(
+                req.user._id,
+                req.params.id
+            );
+            if (check) {
+                isMember = true;
             }
-            //console.log(isExisted);
-            if(!isExisted) {
-                progress[0].list_lesson.push(lesson._id);
-                progress[0].save();
+            if(isMember === false) {
+                var msg = encodeURIComponent('noPermission')
+                res.redirect('/course/' + req.params.id + '/?status=' + msg);
+                return;
             }
         }
+        let course = await courseModel.findById(req.params.id);
+        if(req.user) {
+            let progress = await progressModel.find({ student: req.user._id });
+            //console.log(progress);
+            if (progress.length === 0) {
+                let newProgress = {
+                    student: req.user._id,
+                    list_lesson: [lesson._id],
+                };
+                await progressModel.add(newProgress);
+            } else {
+                //console.log(lesson._id);
+                let isExisted = false;
+                for(i of progress[0].list_lesson) {
+                    if(i.toString() === lesson._id.toString()) {
+                        isExisted = true;
+                    }
+                }
+                //console.log(isExisted);
+                if(!isExisted) {
+                    progress[0].list_lesson.push(lesson._id);
+                    progress[0].save();
+                }
+            }
+        }
+        
 
         // list chapter in course
         const returnCourse = await courseModel.findAllChapterInCourse(course._id);

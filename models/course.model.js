@@ -145,7 +145,7 @@ module.exports = {
         return Course.findOne({
             _id: courseId,
             list_student: { $all: [mongoose.Types.ObjectId(studentId)] },
-        });
+        }).populate({path: 'list_rating'});
     },
     async addCourse(course) {
         return Course.create(course);
