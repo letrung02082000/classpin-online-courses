@@ -1,7 +1,7 @@
 const express = require('express');
 const controller = require('../controllers/course.controller');
 const requireUser = require('../middlewares/requireUserLogin.middleware');
-
+const requireMember = require('../middlewares/requireMember.mdw');
 
 const router = express.Router();
 

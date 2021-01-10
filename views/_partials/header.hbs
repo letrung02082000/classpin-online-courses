@@ -1,4 +1,4 @@
-<header style="z-index: 900; width: 100%">
+<header style="z-index: 1100; width: 100%">
     <nav class="navbar navbar-expand-lg navbar-dark d-flex" style="background-color: #022044;">
         <div class="container-fluid">
             <a class="navbar-brand" href="/" style="padding: 0;"><img src="/public/static/images/logo.svg" alt="logo"
@@ -49,7 +49,7 @@
             </div>
 
             <ul class="navbar-nav justify-content-end">
-                <li class="nav-item mr-3">
+                <li class="nav-item ">
                     <a class="nav-link" href="/cart"><i class="fas fa-shopping-cart"></i>
                         {{#if isEmptyCart}}
                         {{else}}
@@ -65,7 +65,7 @@
                 <li class="nav-item dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img src="{{authUser.avatar}}" alt="avt" style="height: 30px; border-radius: 50%;">
+                        <img src="{{authUser.avatar}}" alt="avt" style="height: 30px; width: 30px; border-radius: 50%;">
                         {{authUser.fullname}}
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
