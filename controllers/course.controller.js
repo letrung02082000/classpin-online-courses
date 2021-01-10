@@ -112,18 +112,18 @@ module.exports = {
                 isMember = true;
             }
         }
-        
+
         // check user rating this course before
         // check student had feedback before
         let isRating = false;
-        if(req.user) {
-            for(i of matchedCourse.list_rating) {
-                if(i.student._id.toString() === req.user._id.toString()) {
+        if (req.user) {
+            for (i of matchedCourse.list_rating) {
+                if (i.student._id.toString() === req.user._id.toString()) {
                     isRating = true;
                 }
             }
         }
-        
+
 
         // check course in wishlist
         let isInWishList = false;
@@ -297,14 +297,14 @@ module.exports = {
             throw Error('No permission');
         } else {
             // check student had feedback before
-            for(i of matchedCourse.list_rating) {
-                if(i.student.toString() === req.user._id.toString()) {
+            for (i of matchedCourse.list_rating) {
+                if (i.student.toString() === req.user._id.toString()) {
                     let msg = encodeURIComponent('ratingExist')
                     res.redirect('/course/' + matchedCourse._id + '/status=' + msg);
                     return;
                 }
             }
-            
+
             const newRating = {
                 student: req.user._id,
                 description: req.body.description,
@@ -386,8 +386,8 @@ module.exports = {
     viewLesson: async function (req, res) {
         let lesson = await lessonModel.findById(req.params.lessonId);
         if (!lesson) return;
-        if(lesson.isFree === false) {
-          // check student in course
+        if (lesson.isFree === false) {
+            // check student in course
             let isMember = false;
             const check = await courseModel.checkStudentInCourse(
                 req.user._id,
@@ -396,14 +396,14 @@ module.exports = {
             if (check) {
                 isMember = true;
             }
-            if(isMember === false) {
+            if (isMember === false) {
                 var msg = encodeURIComponent('noPermission')
                 res.redirect('/course/' + req.params.id + '/?status=' + msg);
                 return;
             }
         }
         let course = await courseModel.findById(req.params.id);
-        if(req.user) {
+        if (req.user) {
             let progress = await progressModel.find({ student: req.user._id });
             //console.log(progress);
             if (progress.length === 0) {
@@ -415,13 +415,13 @@ module.exports = {
             } else {
                 //console.log(lesson._id);
                 let isExisted = false;
-                for(i of progress[0].list_lesson) {
-                    if(i.toString() === lesson._id.toString()) {
+                for (i of progress[0].list_lesson) {
+                    if (i.toString() === lesson._id.toString()) {
                         isExisted = true;
                     }
                 }
                 //console.log(isExisted);
-                if(!isExisted) {
+                if (!isExisted) {
                     progress[0].list_lesson.push(lesson._id);
                     progress[0].save();
                 }
@@ -429,13 +429,15 @@ module.exports = {
         }
         
 
-        // list chapter in course
-        const returnCourse = await courseModel.findAllChapterInCourse(course._id);
 
-        res.render('course/viewLesson', {
-            course: course,
-            lesson: lesson,
-            chapterList: returnCourse.list_chapter,
-        });
-    }
-};
+            // list chapter in course
+            const returnCourse = await courseModel.findAllChapterInCourse(course._id);
+
+            res.render('course/viewLesson', {
+                course: course,
+                lesson: lesson,
+                chapterList: returnCourse.list_chapter,
+            });
+        }
+    },
+}
