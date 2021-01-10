@@ -34,7 +34,6 @@ module.exports = {
             i.avgRating = avgRating;
         }
 
-        console.log(matchCourses.docs);
 
         res.render('course', {
             courses: matchCourses.docs,
@@ -45,7 +44,7 @@ module.exports = {
                 next: matchCourses.nextPage,
                 pre: matchCourses.prevPage,
             },
-            path: req.path,
+            path: req.baseUrl + req.path,
             categoryTitle,
         });
     },

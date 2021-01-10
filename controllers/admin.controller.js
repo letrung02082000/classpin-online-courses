@@ -9,6 +9,9 @@ const chapterModel = require('../models/chapter.model');
 const mongoose = require('mongoose');
 
 module.exports = {
+    toDashboard: function (req, res) {
+        res.redirect('admin/dashboard');
+    },
     getLogin: function (req, res) {
         //console.log(req.user);
         if (req.isAuthenticated() && req.user.type === 1) {
