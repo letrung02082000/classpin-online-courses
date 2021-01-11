@@ -38,6 +38,7 @@ router.get('/courses/:id/:chapter/EditChapter', requireTeacher.isTeacher, contro
 router.post('/courses/:id/:chapter/EditChapter', requireTeacher.isTeacher, controller.postEditChapter);
 router.get('/courses/:id/:chapter/:lesson/EditLesson', requireTeacher.isTeacher, controller.editLesson);
 router.post('/courses/:id/:chapter/:lesson/EditLesson', requireTeacher.isTeacher, cpUpload, controller.postEditLesson);
+router.get('/courses/:id/:chapter/:lesson/video', requireTeacher.isTeacher, controller.previewVideo);
 
 
 

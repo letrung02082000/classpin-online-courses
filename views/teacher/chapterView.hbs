@@ -60,7 +60,7 @@
     <tr>
       <th>Lesson</th>
       <th>Description</th>
-      <th>&nbsp;</th>
+      <th>Video</th>
       <th>&nbsp;</th>
       <th>&nbsp;</th>
     </tr>
@@ -69,7 +69,13 @@
       <td>{{title}}</td>
       <td>{{description}}</td>
       <td>
-        <a class="btn btn-primary" href="#" role="button">Detail</a>
+        {{#if video}}
+        <a class="btn btn-primary" href="/teacher/courses/{{../courseId}}/{{../chapter._id}}/{{this._id}}/video"
+          role="button">Preview</a>
+        {{else}}
+        <p>None</p>
+        {{/if}}
+
       </td>
       <td><a class="btn btn-secondary"
           href="/teacher/courses/{{../courseId}}/{{../chapter._id}}/{{this._id}}/EditLesson" role="button"><i

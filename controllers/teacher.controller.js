@@ -245,5 +245,13 @@ module.exports = {
   },
   toDashboard: function (req, res) {
     res.redirect('/teacher/dashboard');
+  },
+  previewVideo: async function (req, res) {
+    let lesson = await lessonModel.findById(req.params.lesson);
+    if (!lesson) return;
+    res.render('teacher/previewVideo', {
+      layout: 'teacher',
+      lesson: lesson,
+    });
   }
 }
