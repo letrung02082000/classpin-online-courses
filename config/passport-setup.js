@@ -126,7 +126,7 @@ passport.use(
   new FacebookStrategy({
     clientID: keys.facebook.clientID,
     clientSecret: keys.facebook.clientSecret,
-    callbackURL: '/account/facebook/redirect',
+    callbackURL: 'https://harukishima.live/account/facebook/redirect',
     profileFields: ['id', 'displayName', 'photos', 'email'],
   }, async (accessToken, refreshToken, profile, done) => {
     //passport callback function
