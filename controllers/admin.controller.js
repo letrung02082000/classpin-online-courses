@@ -211,6 +211,8 @@ module.exports = {
     async deleteCategory(req, res) {
         let cat = await categoryModel.selectFromOneId(req.body.categoryId);
         if (!cat) return;
+        let course = await courseModel.loadCourses({ category: cat._id });
+        if (course) return;
         if (cat.sub_category.length === 0) {
             let categories = await categoryModel.AllCategories();
             for (let i = 0; i < categories.length; i++) {
@@ -229,6 +231,8 @@ module.exports = {
 
     async showCategory(req, res) {
         let cat = await categoryModel.loadAll();
+
+
         res.render('admin/categories', {
             categories: cat,
             empty: cat.length === 0,

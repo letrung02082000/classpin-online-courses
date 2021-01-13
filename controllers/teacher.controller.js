@@ -180,6 +180,7 @@ module.exports = {
     }
     await lessonModel.addLesson(lesson);
     await chapterModel.updateOne({ _id: chapter._id }, { $addToSet: { list_lesson: lesson._id } });
+    await courseModel.updateOne({ _id: req.params.id }, {});
     res.redirect(`/teacher/courses/${req.params.id}/${req.params.chapter}`);
   },
   editLesson: async function (req, res) {
@@ -207,12 +208,18 @@ module.exports = {
       update.thumbnail = '\\' + req.files['thumbnail'][0].path;
     }
     await lessonModel.updateOne({ _id: lesson._id }, update);
+    if (req.params.id) {
+      await courseModel.updateOne({ _id: req.params.id }, {});
+    }
     res.redirect(`/teacher/courses/${req.params.id}/${req.params.chapter}`);
   },
   postDeleteLesson: async function (req, res) {
     let lesson = await lessonModel.findById(req.body.id);
     if (!lesson) return;
     await lessonModel.delete(lesson._id);
+    if (req.body.courseId) {
+      await courseModel.updateOne({ _id: req.body.courseId }, {});
+    }
     res.redirect(`/teacher/courses/${req.body.courseId}/${req.body.chapterId}`);
   },
   editChapter: async function (req, res) {
@@ -232,6 +239,9 @@ module.exports = {
       description: req.body.description,
     }
     await chapterModel.updateOne({ _id: chapter._id }, update);
+    if (req.params.id) {
+      await courseModel.updateOne({ _id: req.params.id }, {});
+    }
     res.redirect(`/teacher/courses/${req.params.id}`);
   },
   postDeleteChapter: async function (req, res) {
