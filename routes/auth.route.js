@@ -52,7 +52,7 @@ router.get('/google/redirect', passport.authenticate('google', {successRedirect:
 
 //login with facebook
 router.get('/facebook/login', passport.authenticate('facebook', {
-  scope : ['user_friends', 'email'] 
+  scope : ['email'] 
 }));
 
 router.get('/facebook/redirect', passport.authenticate('facebook', {successRedirect: '/', failureRedirect: '/account/login'}));
