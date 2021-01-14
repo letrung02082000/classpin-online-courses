@@ -36,9 +36,30 @@
 
 <script type="text/javascript" src="/public/static/js/home/newestCarousel.js"></script>
 <script type="text/javascript" src="/public/static/js/home/mostViewCarousel.js"></script>
-
+<script src="/public/static/js/jquery.waypoints.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script>
+  $(document).ready(
+    function () {
+      $('.slide').waypoint(
+        function (direction) {
+          if (direction == "down") {
+            $('.navigation').addClass('sticky');
+            $('.navbar').addClass('sticky__nav');
+            $('#logo').addClass('sticky__logo');
+          } else {
+            $('.navigation').removeClass('sticky');
+            $('.navbar').removeClass('sticky__nav');
+            $('#logo').removeClass('sticky__logo');
+          }
+        }, {
+        offset: '30px'
+      }
+      )
+    }
+  )
+</script>
 <script>
   $(function () {
     $(".rateYo").rateYo({
@@ -84,7 +105,7 @@
   <div class="adv">Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis, architecto!. <a href="#">Get
       it!</a></div>
   <header>
-    <div class="navigation" style="display: block; padding-top: -50x;">
+    <div class="navigation" style="display: block;">
       <nav class="navbar navbar-expand-lg navbar-light text-white"
         style=" position: fixed; width: 100%; top: 0; left: 0;">
         <div id="logo-box">
@@ -153,7 +174,7 @@
         <ul class="navbar-nav d-flex justify-content-end align-items-center">
           <li class="nav-item">
             <a class="nav-link" href="/cart">
-              <i class="fas fa-shopping-cart"></i>
+              <i class="fas fa-shopping-cart text-white"></i>
               {{#if isEmptyCart}}
               {{else}}
               <span class="badge badge-pill badge-danger float-right">
@@ -175,7 +196,6 @@
                 <a class="btn btn-danger" href="javascript: $('#frmLogout').submit();">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                   Logout</a>
-
               </form>
             </div>
           </li>
