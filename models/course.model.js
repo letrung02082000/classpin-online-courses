@@ -92,7 +92,7 @@ module.exports = {
     findCoursePurchased(studentID) {
         return Course.find({
             list_student: { $all: [mongoose.Types.ObjectId(studentID)] },
-        }).populate({path: 'teacher'}).lean();
+        }).populate({ path: 'teacher' }).lean();
     },
     // return a document nested in array have field avgRating, if empty array, avgRating = 0
     computeAvgRating(courseID) {
@@ -145,7 +145,7 @@ module.exports = {
         return Course.findOne({
             _id: courseId,
             list_student: { $all: [mongoose.Types.ObjectId(studentId)] },
-        }).populate({path: 'list_rating'});
+        }).populate({ path: 'list_rating' });
     },
     async addCourse(course) {
         return Course.create(course);
@@ -154,7 +154,7 @@ module.exports = {
         return await Course.find({})
             .populate('teacher', 'fullname')
             .populate('category', 'name')
-            .sort({ date_created: 1 })
+            .sort({ date_created: -1 })
             .limit(10)
             .lean();
     },
