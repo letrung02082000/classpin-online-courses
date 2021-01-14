@@ -451,10 +451,10 @@ module.exports = {
             progress = await progressModel.findOne({ student: req.user._id });
             if (progress) {
                 for (chapter of returnCourse.list_chapter) {
-                    for (lesson of chapter.list_lesson) {
+                    for (Lesson of chapter.list_lesson) {
                         for (i of progress.list_lesson) {
-                            if (lesson._id.toString() === i._id.toString()) {
-                                lesson.inProgress = true;
+                            if (Lesson._id.toString() === i._id.toString()) {
+                                Lesson.inProgress = true;
                             }
                         }
                     }
