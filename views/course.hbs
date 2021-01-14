@@ -33,7 +33,7 @@
                         <option value="all">All category</option>
                         {{#each menuCategory}}
                         {{#each sub_category}}
-                        <option value="{{this._id}}">{{this.name}}</option>
+                        <option class="cat" value="{{this._id}}">{{this.name}}</option>
                         {{/each}}
 
                         {{/each}}
@@ -44,8 +44,8 @@
                 <div class="form-group">
                     <label for="sort">Sort: </label>
                     <select class="form-control" name="sort" id="sort">
-                        <option value="price">Cheapest</option>
-                        <option value="rating">Best rated</option>
+                        <option class="sorting" value="price">Cheapest</option>
+                        <option class="sorting" value="rating">Best rated</option>
                     </select>
                 </div>
             </div>
@@ -100,7 +100,7 @@
             <li class="page-item {{#if pagingOption.pre}}{{else}}disabled{{/if}}"><a class="page-link"
                     href="?{{query}}&page={{#if pagingOption.pre}}{{pagingOption.pre}}{{/if}}">Previous</a></li>
             {{#each pagingOption.pageArr}}
-            <li class="page-item"><a class="page-link" href="?{{../query}}&page={{this}}">{{this}}</a></li>
+            <li class="page-item page-number"><a class="page-link" href="?{{../query}}&page={{this}}">{{this}}</a></li>
             {{/each}}
             <li class="page-item {{#if pagingOption.next}}{{else}}disabled{{/if}}"><a class="page-link"
                     href="?{{query}}&page={{#if pagingOption.next}}{{pagingOption.next}}{{/if}}">Next</a></li>
@@ -122,6 +122,27 @@
             readOnly: true
         });
     });
+</script>
+<script>
+    var cur = '{{pagingOption.page}}';
+    var list = document.getElementsByClassName('page-number');
+    for (var i = 0; i < list.length; i++) {
+        if (list[i].firstChild.innerText === cur) {
+            list[i].classList.add('active');
+        }
+    }
+    var listCat = document.getElementsByClassName('cat');
+    for (let i = 0; i < listCat.length; i++) {
+        if (listCat[i].getAttribute('value') === '{{q.category}}') {
+            listCat[i].setAttribute('selected', '');
+        }
+    }
+    var listSort = document.getElementsByClassName('sorting');
+    for (let i = 0; i < listSort.length; i++) {
+        if (listSort[i].getAttribute('value') === '{{q.sort}}') {
+            listSort[i].setAttribute('selected', '');
+        }
+    }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>

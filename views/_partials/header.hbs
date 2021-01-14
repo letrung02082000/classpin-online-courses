@@ -39,8 +39,8 @@
                     <form class="d-flex justify-content-start align-items-center ms-5 col-md-9 ml-3"
                         action="/course/search" method="GET">
                         <input class="form-control me-2" type="search" placeholder="Search for anything"
-                            aria-label="Search" name="q" />
-                        <button class="btn btn-dark ml-2"><i class="fa fa-search" aria-hidden="true"
+                            aria-label="Search" name="q" value="{{q.q}}" />
+                        <button class=" btn btn-dark ml-2"><i class="fa fa-search" aria-hidden="true"
                                 type="submit"></i></button>
                     </form>
                 </ul>
@@ -71,8 +71,9 @@
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" href="/account/profile"><i class="fas fa-user mr-2"></i>Profile</a>
                         <form class="dropdown-item" id="frmLogout" method="POST" action="/account/logout">
-                            <a class="btn btn-danger" href="javascript: $('#frmLogout').submit();"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                            Logout</a>
+                            <a class="btn btn-danger" href="javascript: $('#frmLogout').submit();"><i
+                                    class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                Logout</a>
                         </form>
                     </div>
                 </li>

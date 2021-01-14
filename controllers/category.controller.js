@@ -8,7 +8,7 @@ module.exports = {
     async category(req, res) {
         let id = req.params.id;
         let page = req.query.page;
-        let perPage = 14;
+        let perPage = 8;
         let matchedCategory = await categoryModel.selectFromOneId(id);
         const categoryTitle = matchedCategory.name;
         if (matchedCategory === null) {

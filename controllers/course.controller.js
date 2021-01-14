@@ -17,7 +17,7 @@ module.exports = {
     async allCourse(req, res) {
         //let allCourses = await Course.loadAllCourses();
         let page = +req.query.page || 1;
-        let perPage = 4; //16
+        let perPage = 8; //16
         let allCourses = await courseModel.loadLimitedCourses(perPage, page);
         let totalPage = allCourses.totalPages;
         let pageArr = paging(page, totalPage);
@@ -329,7 +329,7 @@ module.exports = {
         let sort = req.query.sort || "";
         let category = (req.query.category === 'undefined' ? 'all' : req.query.category) || "";
         let page = +req.query.page || 1;
-        let perPage = 4; //16
+        let perPage = 8; //16
         console.log('Query: ' + req.query.q);
         let option = {};
         if (sort === 'price') {
@@ -352,7 +352,19 @@ module.exports = {
         );
         let totalPage = searchCourses.totalPages;
         let pageArr = paging(page, totalPage);
-        let qr = `q=${req.query.q}&category=${req.query.category}&sort=${req.query.sort}`
+        for (i of searchCourses.docs) {
+            var discount = i.discount || 0;
+            var salePrice = i.price * (1 - discount / 100);
+            i.salePrice = salePrice;
+            const avg = await courseModel.computeAvgRating(i._id);
+            let avgRating = 0;
+            if (avg[0]) {
+                avgRating = avg[0].avgRating;
+            }
+            //console.log(avgRating);
+            i.avgRating = avgRating;
+        }
+        //let qr = `q=${req.query.q}&category=${req.query.category}&sort=${req.query.sort}`
         res.render('course', {
             courses: searchCourses.docs,
             empty: searchCourses.docs.length === 0,
@@ -430,7 +442,7 @@ module.exports = {
                 }
             }
         }
-        
+
         // list chapter in course
         const returnCourse = await courseModel.findAllChapterInCourse(course._id);
 
