@@ -15,6 +15,10 @@
     width: 150px;
 }
 
+.card {
+    height: 23rem;
+}
+
 .card-image {
     height: 150px;
 }

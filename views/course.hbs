@@ -82,13 +82,20 @@
                             <del class="card__price">$ {{price}}</del>
                         </div>
                     </div>
-                    <div class="d-flex justify-content-end">
-                        <a href="/course/{{_id}}" class="btn btn-primary mr-3">Detail</a>
-                        <form action="/cart/add" method="POST">
-                            <input type="hidden" value="{{_id}}" name="courseId">
-                            <button type="submit" class="btn btn-secondary"><i class="fa fa-shopping-cart"
-                                    aria-hidden="true"></i></button>
-                        </form>
+                    <div class="card-button d-flex justify-content-end">
+                        {{#if isStudent}}
+                        <a class="btn btn-success" href="/course/{{_id}}">
+                            Go to course</a>
+                        {{else}}
+                        <div class="d-flex justify-content-end">
+                            <a href="/course/{{_id}}" class="btn btn-primary mr-3">Detail</a>
+                            <form action="/cart/add" method="POST">
+                                <input type="hidden" value="{{_id}}" name="courseId">
+                                <button type="submit" class="btn btn-secondary"><i class="fa fa-shopping-cart"
+                                        aria-hidden="true"></i></button>
+                            </form>
+                        </div>
+                        {{/if}}
                     </div>
                 </div>
             </div>
