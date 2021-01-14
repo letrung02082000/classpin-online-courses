@@ -1,5 +1,18 @@
 {{#section 'css'}}
 <link rel="stylesheet" href="/public/static/css/cart.css" type="text/css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.css">
+{{/section}}
+
+{{#section 'js'}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
+<script>
+    $(function () {
+        $(".rateYo").rateYo({
+            halfStar: true,
+            readOnly: true
+        });
+    });
+</script>
 {{/section}}
 
 <div class="container-fluid px-5">
@@ -41,11 +54,7 @@
                             <div class="card-text">{{teacher.fullname}}</div>
                             <div class="card-text">{{category.name}}</div>
                             <div class="rating">
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star"></span>
-                                <span class="fa fa-star"></span>
+                                <div class="rateYo" data-rateyo-rating="{{avgRating}}" data-rateyo-star-width="30px"></div>
                             </div>
 
                         </div>

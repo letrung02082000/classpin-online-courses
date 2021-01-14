@@ -20,6 +20,15 @@ module.exports = {
             for (ci of cartArr) {
                 const id = mongoose.mongo.ObjectId(ci.courseId);
                 var course = await courseModel.findDetailCourseById(id);
+                
+                //dat
+                const avg = await courseModel.computeAvgRating(course._id);
+                let avgRating = 0;
+                if (avg[0]) {
+                    avgRating = avg[0].avgRating;
+                }
+                //console.log(avgRating);
+                course.avgRating = avgRating;
 
                 const discount = course.discount || 0;
                 course.salePrice = course.price * (1 - discount / 100);
@@ -50,6 +59,14 @@ module.exports = {
                     var cartCourse = await courseModel.findDetailCourseById(
                         courseId
                     );
+
+                    const avg = await courseModel.computeAvgRating(cartCourse._id);
+                    let avgRating = 0;
+                    if (avg[0]) {
+                        avgRating = avg[0].avgRating;
+                    }
+                    //console.log(avgRating);
+                    cartCourse.avgRating = avgRating;
 
                     totalPrice += cartCourse.price;
                     const discount = cartCourse.discount || 0;
