@@ -247,11 +247,12 @@ module.exports = {
   postDeleteChapter: async function (req, res) {
     let chapter = await chapterModel.findById(req.body.id);
     if (!chapter) return;
-    chapter.list_lesson.forEach(async function (lesson) {
-      await lessonModel.delete(lesson._id);
-    });
+    for (i of chapter.list_lesson) {
+      await lessonModel.delete(i._id);
+    }
     await chapterModel.deleteOne(chapter._id);
-    res.redirect(`/teacher/courses/${chapter._id}`);
+    //res.redirect(`/teacher/courses/${req.params.id}`);
+    res.redirect(req.headers.referrer || req.headers.referer);
   },
   toDashboard: function (req, res) {
     res.redirect('/teacher/dashboard');
