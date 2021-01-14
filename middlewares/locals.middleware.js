@@ -18,9 +18,7 @@ module.exports.localsUser = async function (req, res, next) {
     for (const category of menuCategory) {
         var subCategories = [];
         for (const subCategoryId of category.sub_category) {
-            const subCategory = await categoryModel.findById(
-                category.sub_category
-            );
+            const subCategory = await categoryModel.findById(subCategoryId);
             subMenuCategoryId.push(subCategoryId.toString());
             subCategories.push(subCategory);
         }

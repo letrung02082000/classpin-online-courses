@@ -32,6 +32,19 @@ module.exports = {
             }
             //console.log(avgRating);
             i.avgRating = avgRating;
+
+            if (req.user) {
+                const result = await courseModel.checkStudentInCourse(
+                    req.user._id,
+                    i._id
+                );
+
+                if (result) {
+                    if (result._id.toString() === i._id.toString()) {
+                        i.isStudent = true;
+                    }
+                }
+            }
         }
 
         console.log(matchCourses.docs);

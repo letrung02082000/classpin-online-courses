@@ -244,7 +244,22 @@ module.exports = {
 
     postBuyNowCheckout: async function (req, res) {
         const courseId = req.body.courseId;
-        await courseModel.addStudentCourse(courseId, req.user._id);
+
+        try {
+            await courseModel.addStudentCourse(courseId, req.user._id);
+        } catch (error) {
+            res.render('cart/successCheckout', { isSuccessful: false });
+        }
+
+        const course = await courseModel.findById(
+            mongoose.mongo.ObjectId(courseId)
+        );
+
+        const categoryId = course.category;
+        const category = await categoryModel.findById(
+            mongoose.mongo.ObjectId(categoryId)
+        );
+
         const lastCount = new Date(category.last_count);
 
         const mondayDate = getMonday();
@@ -256,6 +271,6 @@ module.exports = {
             await categoryModel.increaseStudentCount(categoryId);
         }
 
-        res.render('cart/successCheckout', { isSuccessful: true });
+        res.render('cart/successCheckout', { isSuccessful: true, course });
     },
 };

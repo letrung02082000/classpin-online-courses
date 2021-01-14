@@ -8,7 +8,6 @@ module.exports = {
         } else {
             prevMonday.setDate(date.getDate() - (day - 1));
         }
-        console.log(prevMonday);
         return prevMonday;
     },
 };
