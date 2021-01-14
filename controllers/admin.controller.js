@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs');
+const fs = require('fs');
 const adminModel = require('../models/admin.model');
 const studentModel = require('../models/student.model');
 const categoryModel = require('../models/category.model');
@@ -6,6 +7,7 @@ const teacherModel = require('../models/teacher.model');
 const courseModel = require('../models/course.model');
 const ratingModel = require('../models/rating.model');
 const chapterModel = require('../models/chapter.model');
+const lessonModel = require('../models/lesson.model');
 const mongoose = require('mongoose');
 
 module.exports = {
@@ -305,9 +307,13 @@ module.exports = {
             const filter = { _id: { $in: matchedCourse.list_rating } };
             await ratingModel.deleteMany(filter);
         }
+        // delete thumbnail course
+
 
         //delete lesson in chapter
-
+        for(i of matchedCourse.list_chapter) {
+            await lessonModel.delete(i);
+        }
         // delete chapter in course
         if (matchedCourse.list_chapter) {
             await chapterModel.deleteManyByListID(matchedCourse.list_chapter);
