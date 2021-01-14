@@ -213,8 +213,6 @@ module.exports = {
     async deleteCategory(req, res) {
         let cat = await categoryModel.selectFromOneId(req.body.categoryId);
         if (!cat) return;
-        let course = await courseModel.loadCourses({ category: cat._id });
-        if (course) return;
         if (cat.sub_category.length === 0) {
             let categories = await categoryModel.AllCategories();
             for (let i = 0; i < categories.length; i++) {
@@ -233,8 +231,21 @@ module.exports = {
 
     async showCategory(req, res) {
         let cat = await categoryModel.loadAll();
-
-
+        var c = [];
+        for (var a = 0; a < cat.length; a++) {
+            var course = await courseModel.loadCourses({ category: cat[a]._id });
+            if (course.length) {
+                cat[a].deletable = false;
+            } else {
+                cat[a].deletable = true;
+            }
+            for (var b = 0; b < cat[a].sub_category.length; b++) {
+                course = await courseModel.loadCourses({ category: cat[a].sub_category[b]._id });
+                if (course.length) {
+                    cat[a].deletable = false;
+                }
+            }
+        }
         res.render('admin/categories', {
             categories: cat,
             empty: cat.length === 0,
