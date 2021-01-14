@@ -446,6 +446,23 @@ module.exports = {
         // list chapter in course
         const returnCourse = await courseModel.findAllChapterInCourse(course._id);
 
+        // check lesson in progress
+        if (req.user) {
+            progress = await progressModel.findOne({ student: req.user._id });
+            if (progress) {
+                for (chapter of returnCourse.list_chapter) {
+                    for (lesson of chapter.list_lesson) {
+                        for (i of progress.list_lesson) {
+                            if (lesson._id.toString() === i._id.toString()) {
+                                lesson.inProgress = true;
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+
         res.render('course/viewLesson', {
             course: course,
             lesson: lesson,

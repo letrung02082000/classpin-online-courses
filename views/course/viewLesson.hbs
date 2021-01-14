@@ -73,8 +73,12 @@
             <td>
               <div class="d-flex justify-content-between">
                 <div>
-                  <i class="fas fa-play-circle"></i>
-                  <a href="/course/{{../../course._id}}/{{this._id}}"><span class="card-text">{{title}}</span></a>
+                  {{#if inProgress}}
+                  <i class="fas fa-check-circle text-success"></i>
+                  {{else}}
+                  <i class="fas fa-play-circle" style="color: rgb(231, 82, 82);"></i>
+                  {{/if}}
+                  <a href="/course/{{../../_id}}/{{this._id}}"><span class="card-text">{{title}}</span></a>
                 </div>
                 <div>
                   {{#if isFree}}
