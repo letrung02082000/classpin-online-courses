@@ -37,10 +37,10 @@
                             <td><a class="btn btn-secondary"
                                     href="{{#if sub_category}}/admin/category/changeTopCategory/{{this._id}}{{else}}/admin/category/changeSubCategory/{{this._id}}{{/if}}"
                                     role="button"><i class="fas fa-pencil-alt"></i></a></td>
-                            <td>
+                            <td>{{#if deletable}}
                                 <a class="btn btn-danger btnDel" data-id="{{_id}}"><i class="fa fa-trash"
                                         aria-hidden="true"></i></a>
-
+                                {{/if}}
                             </td>
                         </tr>
 
