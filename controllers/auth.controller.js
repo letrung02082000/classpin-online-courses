@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const fs = require('fs');
 const studentModel = require('../models/student.model');
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
@@ -154,9 +155,19 @@ module.exports = {
             fullname: req.body.fullname,
             date_of_birth: req.body.date_of_birth,
         };
+        
+    
         if (req.file) {
+            // delete old avatar
+            if(req.user.avatar !== '/public/static/images/unnamed.png') {
+                fs.unlink('.\\' + req.user.avatar, (e) => {
+                    console.log(e);
+                    return
+                });
+            }
             update.avatar = '\\' + req.file.path;
         }
+
         //console.log(update);
         const newUser = await studentModel.findOneAndUpdate(filter, update);
         req.session.authUser = newUser;
