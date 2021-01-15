@@ -38,7 +38,7 @@
                     </li>
                     <form class="d-flex justify-content-start align-items-center ms-5 col-md-9 ml-3"
                         action="/course/search" method="GET">
-                        <input class="form-control me-2" type="search" placeholder="Search for anything"
+                        <input class="form-control me-2" id="searchbar" type="search" placeholder="Search for anything"
                             aria-label="Search" name="q" value="{{q.q}}" />
                         <button class=" btn btn-dark ml-2"><i class="fa fa-search" aria-hidden="true"
                                 type="submit"></i></button>
@@ -65,7 +65,8 @@
                 <li class="nav-item dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img src="{{authUser.avatar}}" alt="avt" style="height: 30px; width: 30px; border-radius: 50%; margin-right: 5px;">
+                        <img src="{{authUser.avatar}}" alt="avt"
+                            style="height: 30px; width: 30px; border-radius: 50%; margin-right: 5px;">
                         {{authUser.fullname}}
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">

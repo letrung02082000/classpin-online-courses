@@ -26,7 +26,7 @@
         </h2>
     </div>
     <form action="/course/search" method="GET">
-        <input type="hidden" name="q" value="{{q.q}}">
+        <input id="hiddensearch" type="hidden" name="q" value="{{q.q}}">
         <div class="row d-flex align-items-center">
             <div class="col">
                 <div class="form-group">
@@ -152,6 +152,23 @@
             listSort[i].setAttribute('selected', '');
         }
     }
+    //var hsearch = document.getElementById('hiddensearch');
+    //var search = document.getElementById('searchbar');
+    //if (search.getAttribute('value') !== '') {
+    //    hsearch.setAttribute('value', search.getAttribute('value'));
+    //} else {
+    //    hsearch.setAttribute('value', '');
+    //}
+    $('#searchbar').on('change', function () {
+        var q = $('#searchbar').val();
+        if (q !== '') {
+            $('#hiddensearch').val(q);
+        } else {
+            $('#hiddensearch').val('');
+        }
+
+    });
+
 </script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>

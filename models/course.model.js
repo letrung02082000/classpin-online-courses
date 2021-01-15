@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate-v2');
+const aggregatePaginate = require('mongoose-aggregate-paginate-v2');
 const { findRatingById } = require('./rating.model');
 const Schema = mongoose.Schema;
 //trung
@@ -28,6 +29,7 @@ const schema = new Schema({
 
 schema.index({ '$**': 'text' });
 schema.plugin(mongoosePaginate);
+schema.plugin(aggregatePaginate);
 
 const Course = mongoose.model('Course', schema, 'Course');
 
@@ -58,6 +60,36 @@ module.exports = {
             ...option,
         });
     },
+
+    async loadAggCourses(query = {}, option = {}) {
+        let agg = [{
+            $lookup: {
+                from: 'Rating',
+                localField: 'list_rating',
+                foreignField: '_id',
+                as: 'list_rating_info',
+            },
+        },
+        {
+            "$addFields": {
+                "rating_average": { "$avg": "$list_rating_info.rating" }
+            }
+        }];
+        // if (Object.keys(query).length !== 0) {
+        //     agg.unshift({ $match: query });
+        // }
+        if (query.category) {
+            agg.unshift({ $match: { category: mongoose.Types.ObjectId(query.category) } });
+        }
+        if (query.$text) {
+            agg.unshift({ $match: { $text: query.$text } });
+        }
+        console.log('printsomthing');
+        //console.log(await Course.aggregate([{ $match: { $text: query.$text } }]));
+        var mya = Course.aggregate(agg);
+        return Course.aggregatePaginate(mya, option);
+    },
+
     async insertExample() {
         let arr = [
             {

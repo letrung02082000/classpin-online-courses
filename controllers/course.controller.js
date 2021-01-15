@@ -330,11 +330,14 @@ module.exports = {
         let category = (req.query.category === 'undefined' ? 'all' : req.query.category) || "";
         let page = +req.query.page || 1;
         let perPage = 8; //16
-        console.log('Query: ' + req.query.q);
-        let option = {};
+        let option = { limit: perPage, page };
         if (sort === 'price') {
             option.sort = {
                 price: 'asc',
+            };
+        } else if (sort === 'rating') {
+            option.sort = {
+                rating_average: -1,
             };
         }
         let cond = {};
@@ -344,12 +347,7 @@ module.exports = {
         if (category !== "" && category !== "all") {
             cond.category = category;
         }
-        var searchCourses = await courseModel.loadLimitedCourses(
-            perPage,
-            page,
-            cond,
-            option
-        );
+        var searchCourses = await courseModel.loadAggCourses(cond, option);
         let totalPage = searchCourses.totalPages;
         let pageArr = paging(page, totalPage);
         for (i of searchCourses.docs) {
@@ -360,6 +358,9 @@ module.exports = {
             let avgRating = 0;
             if (avg[0]) {
                 avgRating = avg[0].avgRating;
+            }
+            if (i.rating_average === null) {
+                i.rating_average = 0;
             }
             //console.log(avgRating);
             i.avgRating = avgRating;
