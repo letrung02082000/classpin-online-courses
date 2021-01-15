@@ -13,6 +13,7 @@ const schema = new Schema({
     avatar: { type: String, default: '/public/static/images/unnamed.png'},
     type: {type: Number, default: 2},
     date_created: { type: Date, default: Date.now },
+    isBlock: {type: Boolean, default: false}
 });
 
 const Teacher = mongoose.model('Teacher', schema, 'Teacher');

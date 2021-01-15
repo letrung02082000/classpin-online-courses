@@ -172,6 +172,22 @@ module.exports = {
         await teacherModel.deleteTeacher(req.body.teacherId);
         res.redirect('/admin/teachers');
     },
+    
+    postBlockTeacher: async function(req, res) {
+        const ID = req.body.teacherId;
+        const filter = {_id: ID};
+        const update = {isBlock: true};
+        await teacherModel.updateOne(filter, update);
+        res.redirect('/admin/teachers');
+    },
+
+    postUnlockTeacher: async function(req, res) {
+        const ID = req.body.teacherId;
+        const filter = {_id: ID};
+        const update = {isBlock: false};
+        await teacherModel.updateOne(filter, update);
+        res.redirect('/admin/teachers');
+    },
 
     getCategories: function (req, res) {
         res.render('admin/categories', { layout: 'admin' });

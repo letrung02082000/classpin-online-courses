@@ -123,6 +123,9 @@ passport.use('teacher-local',
     if(!bcrypt.compareSync(password, teacher.password)) {
       return done(null, false, {message: 'Incorrect password.'});
     }
+    if(teacher.isBlock === true) {
+      return done(null, false, {message: 'Your account have been locked!.'});
+    }
 
     return done(null, teacher);
   })

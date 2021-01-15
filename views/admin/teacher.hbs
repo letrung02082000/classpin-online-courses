@@ -7,12 +7,13 @@
         </div>
     </div>
     <form id="delForm" action="/admin/teachers/del" method="POST">
-        <input type="hidden" value="" id="txtTeacherId" name="teacherId">
+        <input type="text" value="" id="txtTeacherId" name="teacherId">
     </form>
     <table class="table" style="width:100%">
         <tr>
             <th>Username</th>
             <th>Fullname</th>
+            <th>&nbsp;</th>
             <th>&nbsp;</th>
             <th>&nbsp;</th>
         </tr>
@@ -21,10 +22,18 @@
         <tr>
             <td>{{namelogin}}</td>
             <td>{{fullname}}</td>
-            <td><a href="/admin/teachers/{{_id}}" class="btn btn-success">Detail</a></td>
+            <td><a href="/admin/teachers/{{_id}}" class="btn btn-success"><i class="fas fa-info-circle mr-2"></i>Detail</a></td>
+            {{#if isBlock}}
             <td>
-                <a class="btn btn-danger btnDel" data-id="{{_id}}">Delete</a>
-
+                <a class="btn btn-secondary btnUnlock" data-id="{{_id}}"><i class="fas fa-lock-open mr-2"></i>Unlock</a>
+            </td>
+            {{else}}
+            <td>
+                <a class="btn btn-warning btnLock" data-id="{{_id}}"><i class="fas fa-lock mr-2"></i>Lock</a>
+            </td>
+            {{/if}}
+            <td>
+                <a class="btn btn-danger btnDel" data-id="{{_id}}"><i class="fas fa-trash-alt mr-2"></i>Delete</a>
             </td>
         </tr>
         {{/each}}
@@ -35,27 +44,73 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
     $('.btnDel').on('click', function () {
+        $('#delForm').attr('action', '/admin/teachers/del')
+        $('#txtTeacherId').val($(this).data('id'));
+        $('#delForm').submit();
+    })
+
+    $('.btnLock').on('click', function() {
+        $('#delForm').attr('action', '/admin/teachers/lock')
+        $('#txtTeacherId').val($(this).data('id'));
+        $('#delForm').submit();
+    })
+
+    $('.btnUnlock').on('click', function() {
+        $('#delForm').attr('action', '/admin/teachers/unlock')
         $('#txtTeacherId').val($(this).data('id'));
         $('#delForm').submit();
     })
 
     $('#delForm').on('submit', async function (e) {
         e.preventDefault();
-        const { value: confirmText } = await Swal.fire({
-            title: "You are about to delete this teacher and all this teacher's courses.",
-            input: 'text',
-            inputLabel: "Type 'Delete' to confirm",
-            showCancelButton: true,
-            inputValidator: (value) => {
-                if (!value) {
-                    return 'Select cancel to return'
+        if($(this).attr('action') === '/admin/teachers/del') {
+            const { value: confirmText } = await Swal.fire({
+                title: "You are about to delete this teacher and all this teacher's courses.",
+                input: 'text',
+                inputLabel: "Type 'Delete' to confirm",
+                showCancelButton: true,
+                inputValidator: (value) => {
+                    if (!value) {
+                        return 'Select cancel to return'
+                    }
                 }
+            })
+            if (confirmText === "Delete") {
+                $('#delForm').off('submit').submit();
             }
-        })
+        } else if($(this).attr('action') === '/admin/teachers/lock') {
+            const { value: confirmText } = await Swal.fire({
+                title: "Are you sure about lock this account?",
+                input: 'text',
+                inputLabel: "Type 'Lock' to confirm",
+                showCancelButton: true,
+                inputValidator: (value) => {
+                    if (!value) {
+                        return 'Select cancel to return'
+                    }
+                }
+            })
 
-        if (confirmText === "Delete") {
-            $('#delForm').off('submit').submit();
+            if (confirmText === "Lock") {
+                $('#delForm').off('submit').submit();
+            }
+        } else {
+            const { value: confirmText } = await Swal.fire({
+                title: "Are you sure about lock this account?",
+                input: 'text',
+                inputLabel: "Type 'Unlock' to confirm",
+                showCancelButton: true,
+                inputValidator: (value) => {
+                    if (!value) {
+                        return 'Select cancel to return'
+                    }
+                }
+            })
+            if (confirmText === "Unlock") {
+                $('#delForm').off('submit').submit();
+            }
         }
+        
     })
 </script>
 {{/section}}

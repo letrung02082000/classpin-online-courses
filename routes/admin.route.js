@@ -12,7 +12,7 @@ router.post(
     '/login',
     passport.authenticate('admin-local', {
         failureRedirect: '/admin/login',
-        failureMessage: true,
+        failureFlash: true,
     }),
     controller.postLogin
 );
@@ -45,6 +45,8 @@ router.post(
 );
 router.get('/teachers/:id', requireAdmin.isAdmin, controller.getDetailTeacher);
 router.get('/teachers', requireAdmin.isAdmin, controller.getTeachers);
+router.post('/teachers/lock', requireAdmin.isAdmin, controller.postBlockTeacher);
+router.post('/teachers/unlock', requireAdmin.isAdmin, controller.postUnlockTeacher);
 
 router.get('/courses', requireAdmin.isAdmin, controller.getCourses);
 router.post('/courses/del', requireAdmin.isAdmin, controller.postDeleteCourse);
