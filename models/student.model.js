@@ -14,6 +14,7 @@ const schema = new Schema({
     verify: { type: Boolean, default: false },
     verify_key: String,
     wishlist: [{ type: Schema.Types.ObjectId, ref: 'Course' }], // ObjectId khoa hoc
+    isBlock: {type: Boolean, default: false}
 });
 
 const Student = mongoose.model('Student', schema, 'Student');

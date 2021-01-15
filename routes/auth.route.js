@@ -48,20 +48,20 @@ router.get('/google/login', passport.authenticate('google', {
   ]
 }));
 
-router.get('/google/redirect', passport.authenticate('google', {successRedirect: '/', failureRedirect: '/account/login'}));
+router.get('/google/redirect', passport.authenticate('google', {successRedirect: '/', failureRedirect: '/account/login', failureFlash: true}));
 
 //login with facebook
 router.get('/facebook/login', passport.authenticate('facebook', {
   scope : ['email'] 
 }));
 
-router.get('/facebook/redirect', passport.authenticate('facebook', {successRedirect: '/', failureRedirect: '/account/login'}));
+router.get('/facebook/redirect', passport.authenticate('facebook', {successRedirect: '/', failureRedirect: '/account/login', failureFlash: true}));
 //login with github
 router.get('/github/login', passport.authenticate('github', {
   scope: [ 'user:email' ]
 }))
 
-router.get('/github/redirect', passport.authenticate('github', {failureRedirect: '/account/login', successRedirect: '/'}));
+router.get('/github/redirect', passport.authenticate('github', {failureRedirect: '/account/login', successRedirect: '/', failureFlash: true}));
 
 
 router.post('/postSignUp', controller.postSignUp);

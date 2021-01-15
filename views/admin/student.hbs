@@ -23,17 +23,27 @@
             <th>Username</th>
             <th>Fullname</th>
             <th>Email</th>
-            <th></th>
-            <th></th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
         </tr>
         {{#each studentList}}
         <tr>
             <td>{{namelogin}}</td>
             <td>{{fullname}}</td>
             <td>{{email}}</td>
-            <td><a href="/admin/students/{{_id}}" class="btn btn-success">Detail</a></td>
+            <td><a href="/admin/students/{{_id}}" class="btn btn-success"><i class="fas fa-info-circle mr-2"></i>Detail</a></td>
+            {{#if isBlock}}
             <td>
-                <a data-id="{{_id}}" class="btn btn-danger btnDel" href="#">Delete</a>
+                <a data-id="{{_id}}" class="btn btn-secondary btnUnlock" href="#"><i class="fas fa-lock-open mr-2"></i>Unlock</a>
+            </td>
+            {{else}}
+            <td>
+                <a data-id="{{_id}}" class="btn btn-warning btnBlock" href="#"><i class="fas fa-lock mr-2"></i>Lock</a>
+            </td>
+            {{/if}}
+            <td>
+                <a data-id="{{_id}}" class="btn btn-danger btnDel" href="#"><i class="fas fa-trash-alt mr-2"></i>Delete</a>
             </td>
         </tr>
         {{/each}}
@@ -45,25 +55,69 @@
 <script>
     $('.btnDel').on('click', function () {
         $('#txtStudentId').val($(this).data('id'));
+        $('#delForm').attr('action', '/admin/students/del')
+        $('#delForm').submit();
+    })
+
+    $('.btnBlock').on('click', function() {
+        $('#txtStudentId').val($(this).data('id'));
+        $('#delForm').attr('action', '/admin/students/ban')
+        $('#delForm').submit();
+    })
+
+    $('.btnUnlock').on('click', function() {
+        $('#txtStudentId').val($(this).data('id'));
+        $('#delForm').attr('action', '/admin/students/unlock');
         $('#delForm').submit();
     })
 
     $('#delForm').on('submit', async function (e) {
         e.preventDefault();
-        const { value: confirmText } = await Swal.fire({
-            title: "You are about to delete this student and this student's courses list.",
-            input: 'text',
-            inputLabel: "Type 'Delete' to confirm",
-            showCancelButton: true,
-            inputValidator: (value) => {
-                if (!value) {
-                    return 'Select cancel to return'
+        if($(this).attr('action') === '/admin/students/ban') {
+            const { value: confirmText } = await Swal.fire({
+                title: "Are you sure about lock this account?",
+                input: 'text',
+                inputLabel: "Type 'Lock' to confirm",
+                showCancelButton: true,
+                inputValidator: (value) => {
+                    if (!value) {
+                        return 'Select cancel to return'
+                    }
                 }
+            })
+            if (confirmText === "Lock") {
+                $('#delForm').off('submit').submit();
             }
-        })
-
-        if (confirmText === "Delete") {
-            $('#delForm').off('submit').submit();
+        } else if($(this).attr('action') === '/admin/students/unlock') {
+            const { value: confirmText } = await Swal.fire({
+                title: "Are you sure about unlock this account?",
+                input: 'text',
+                inputLabel: "Type 'Unlock' to confirm",
+                showCancelButton: true,
+                inputValidator: (value) => {
+                    if (!value) {
+                        return 'Select cancel to return'
+                    }
+                }
+            })
+            if (confirmText === "Unlock") {
+                $('#delForm').off('submit').submit();
+            }
+        } else {
+            const { value: confirmText } = await Swal.fire({
+                title: "You are about to delete this student and this student's courses list.",
+                input: 'text',
+                inputLabel: "Type 'Delete' to confirm",
+                showCancelButton: true,
+                inputValidator: (value) => {
+                    if (!value) {
+                        return 'Select cancel to return'
+                    }
+                }
+            })
+            if (confirmText === "Delete") {
+                $('#delForm').off('submit').submit();
+            }
         }
     })
 </script>

@@ -24,6 +24,8 @@ router.get('/dashboard', requireAdmin.isAdmin, controller.getDashboard);
 router.get('/students/:id', requireAdmin.isAdmin, controller.getDetailStudent);
 router.get('/students', requireAdmin.isAdmin, controller.getStudents);
 router.post('/students/del', requireAdmin.isAdmin, controller.deleteStudent);
+router.post('/students/ban', requireAdmin.isAdmin, controller.postBanStudent);
+router.post('/students/unlock', requireAdmin.isAdmin, controller.postUnlockStudent);
 
 router.get(
     '/teachers/create',
@@ -47,6 +49,7 @@ router.get('/teachers', requireAdmin.isAdmin, controller.getTeachers);
 router.get('/courses', requireAdmin.isAdmin, controller.getCourses);
 router.post('/courses/del', requireAdmin.isAdmin, controller.postDeleteCourse);
 router.get('/courses/:id', requireAdmin.isAdmin, controller.getDetailCourse);
+
 
 router.get(
     '/category/AddTopCategory',

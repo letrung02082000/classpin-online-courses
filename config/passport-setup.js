@@ -51,7 +51,11 @@ passport.use(
     const user = await studentModel.findByEmail(profile.emails[0].value);
     if(user) {
       console.log('user already exist');
-      done(null, user);
+      if(user.isBlock === true) {
+        return done(null, false, {message: 'Your account have been locked!.'});
+      } else {
+        done(null, user);
+      }
     } else {
       const newStudent = {
         fullname: profile.displayName,
@@ -82,7 +86,9 @@ passport.use('student-local',
     if(user.verify === false) {
       return done(null, false, {message: 'check your email for verification!', email: user.email, userID: user._id});
     }
-    
+    if(user.isBlock === true) {
+      return done(null, false, {message: 'Your account have been locked!.'});
+    }
     return done(null, user);
   })
 );
@@ -136,7 +142,11 @@ passport.use(
     const user = await studentModel.findByEmail(profile.emails[0].value);
     if(user) {
       console.log('user already exist');
-      done(null, user);
+      if(user.isBlock === true) {
+        return done(null, false, {message: 'Your account have been locked!.'});
+      } else {
+        done(null, user);
+      }
     } else {
       const newStudent = {
         fullname: profile.displayName,
@@ -163,7 +173,11 @@ passport.use(new GitHubStrategy({
   const user = await studentModel.findByEmail(profile.emails[0].value);
   if(user) {
     console.log('user already exist');
-    done(null, user);
+    if(user.isBlock === true) {
+      return done(null, false, {message: 'Your account have been blocked!.'});
+    } else {
+      done(null, user);
+    }
   } else {
     const newStudent = {
       fullname: profile.displayName,

@@ -94,6 +94,23 @@ module.exports = {
         res.redirect('/admin/students');
     },
 
+    postBanStudent: async function(req, res) {
+        const ID = req.body.studentId;
+        // block student
+        const filter = {_id: ID};
+        const update = {isBlock: true};
+        await studentModel.updateOne(filter, update);
+        res.redirect('/admin/students');
+    },
+
+    postUnlockStudent: async function(req, res) {
+        const ID = req.body.studentId;
+        const filter = {_id: ID};
+        const update = {isBlock: false};
+        await studentModel.updateOne(filter, update);
+        res.redirect('/admin/students');
+    },
+
     getDetailStudent: async function (req, res) {
         const student = await studentModel.findById(
             mongoose.mongo.ObjectId(req.params.id)
