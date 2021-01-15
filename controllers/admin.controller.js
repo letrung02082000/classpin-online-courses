@@ -48,8 +48,28 @@ module.exports = {
     },
 
     getCourses: async function (req, res) {
-        const courses = await courseModel.loadAllCourses();
-        res.render('admin/courses', { layout: 'admin', courses });
+        let query = (req.query.q === 'undefined' ? '' : req.query.q) || "";
+        let cat = (req.query.category === 'undefined' ? 'all' : req.query.category) || "";
+        let te = (req.query.teacher === 'undefined' ? 'all' : req.query.teacher) || "";
+        let cond = {};
+        if (query !== "") {
+            cond.$text = { $search: query };
+        }
+        if (cat !== "" && cat !== "all") {
+            cond.category = cat;
+        }
+        if (te !== "" && te !== "all") {
+            cond.teacher = te;
+        }
+        const courses = await courseModel.getCourse(cond);
+        const teacher = await teacherModel.loadAllTeachers();
+        res.render('admin/courses', {
+            layout: 'admin',
+            empty: courses.length === 0,
+            courses,
+            teacher,
+            query: req.query,
+        });
     },
 
     getDetailCourse: async function (req, res) {
@@ -94,19 +114,19 @@ module.exports = {
         res.redirect('/admin/students');
     },
 
-    postBanStudent: async function(req, res) {
+    postBanStudent: async function (req, res) {
         const ID = req.body.studentId;
         // block student
-        const filter = {_id: ID};
-        const update = {isBlock: true};
+        const filter = { _id: ID };
+        const update = { isBlock: true };
         await studentModel.updateOne(filter, update);
         res.redirect('/admin/students');
     },
 
-    postUnlockStudent: async function(req, res) {
+    postUnlockStudent: async function (req, res) {
         const ID = req.body.studentId;
-        const filter = {_id: ID};
-        const update = {isBlock: false};
+        const filter = { _id: ID };
+        const update = { isBlock: false };
         await studentModel.updateOne(filter, update);
         res.redirect('/admin/students');
     },
@@ -172,19 +192,19 @@ module.exports = {
         await teacherModel.deleteTeacher(req.body.teacherId);
         res.redirect('/admin/teachers');
     },
-    
-    postBlockTeacher: async function(req, res) {
+
+    postBlockTeacher: async function (req, res) {
         const ID = req.body.teacherId;
-        const filter = {_id: ID};
-        const update = {isBlock: true};
+        const filter = { _id: ID };
+        const update = { isBlock: true };
         await teacherModel.updateOne(filter, update);
         res.redirect('/admin/teachers');
     },
 
-    postUnlockTeacher: async function(req, res) {
+    postUnlockTeacher: async function (req, res) {
         const ID = req.body.teacherId;
-        const filter = {_id: ID};
-        const update = {isBlock: false};
+        const filter = { _id: ID };
+        const update = { isBlock: false };
         await teacherModel.updateOne(filter, update);
         res.redirect('/admin/teachers');
     },
@@ -355,7 +375,7 @@ module.exports = {
 
 
         //delete lesson in chapter
-        for(i of matchedCourse.list_chapter) {
+        for (i of matchedCourse.list_chapter) {
             await lessonModel.delete(i);
         }
         // delete chapter in course

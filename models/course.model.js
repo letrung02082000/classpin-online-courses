@@ -44,6 +44,10 @@ module.exports = {
         return await Course.find(query);
     },
 
+    async getCourse(query) {
+        return await Course.find(query).populate({ path: 'teacher' }).lean();
+    },
+
     async loadLimitedCourses(perPage, page, query = {}, option = {}) {
         //return await Course.find().limit(perPage).skip((page - 1) * perPage);
         return await Course.paginate(query, {

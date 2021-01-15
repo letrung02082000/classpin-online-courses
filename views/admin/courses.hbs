@@ -13,7 +13,46 @@
             </button>
         </div> --}}
     </div>
+    <div class="card mb-3">
+        <div class="card-body">
+            <form action="/admin/courses" method="get">
 
+                <input type="text" class="form-control" name="q" aria-describedby="helpId" placeholder="Search"
+                    value="{{#if query.q}}{{query.q}}{{/if}}">
+                <div class="row d-flex align-items-center">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="category">Category: </label>
+                            <select class="form-control" name="category" id="category">
+                                <option value="all">All category</option>
+                                {{#each menuCategory}}
+                                {{#each sub_category}}
+                                <option class="cat" value="{{this._id}}">{{this.name}}</option>
+                                {{/each}}
+
+                                {{/each}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="teacher">Teacher: </label>
+                            <select class="form-control" name="teacher" id="teacher">
+                                <option value="all">All teacher</option>
+                                {{#each teacher}}
+                                <option class="teacher" value="{{this._id}}">{{this.fullname}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary mt-3">Search</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
     <form id="delForm" action="/admin/courses/del" method="POST">
         <input id="txtCourseID" type="hidden" value="" name="courseID">
     </form>
@@ -27,6 +66,9 @@
             </tr>
         </thead>
         <tbody>
+            {{#if empty}}
+            <h3>Không tồn tại khoá học</h3>
+            {{else}}
             {{#each courses}}
             <tr>
                 <td>{{name}}</td>
@@ -35,6 +77,8 @@
                 <td><a data-id="{{_id}}" class="btn btn-danger btnDel" href="#">Delete</a></td>
             </tr>
             {{/each}}
+            {{/if}}
+
 
         </tbody>
     </table>
@@ -66,5 +110,19 @@
             }
         })
     })
+</script>
+<script>
+    var listCat = document.getElementsByClassName('cat');
+    for (let i = 0; i < listCat.length; i++) {
+        if (listCat[i].getAttribute('value') === '{{query.category}}') {
+            listCat[i].setAttribute('selected', '');
+        }
+    }
+    var listTeacher = document.getElementsByClassName('teacher');
+    for (let i = 0; i < listTeacher.length; i++) {
+        if (listTeacher[i].getAttribute('value') === '{{query.teacher}}') {
+            listTeacher[i].setAttribute('selected', '');
+        }
+    }
 </script>
 {{/section}}
