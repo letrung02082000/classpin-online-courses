@@ -60,7 +60,12 @@
             <div class="card-body">
               <h5 class="card-title">{{this.name}}</h5>
               <p class="card-text">{{this.teacher.fullname}}</p>
-              <a href="/course/{{this._id}}" class="btn btn-primary">Detail</a>
+              {{#if this.done}}
+              <p class="text-success mt-2"><i class="fas fa-check-circle mr-2"></i>Completed</p>
+              {{else}}
+              <p class="text-danger"><i class="fas fa-spinner mr-2"></i> Incomplete</p>
+              {{/if}}
+              <a href="/course/{{this._id}}" class="btn btn-primary">Detail<i class="fas fa-long-arrow-alt-right ml-2"></i></a>
             </div>
           </div>
           {{/each}}
@@ -84,7 +89,12 @@
             <div class="card-body">
               <h5 class="card-title">{{this.name}}</h5>
               <p class="card-text">{{this.teacher.fullname}}</p>
-              <a href="/course/{{this._id}}" class="btn btn-primary">Detail</a>
+              {{#if this.done}}
+              <p class="text-success mt-2"><i class="fas fa-check-circle mr-2"></i>Completed</p>
+              {{else}}
+              <p class="text-danger"><i class="fas fa-spinner mr-2"></i> Incomplete</p>
+              {{/if}}
+              <a href="/course/{{this._id}}" class="btn btn-primary">Detail<i class="fas fa-long-arrow-alt-right ml-2"></i></a>
             </div>
           </div>
           {{/each}}

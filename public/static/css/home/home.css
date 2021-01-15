@@ -164,6 +164,16 @@ body {
     color: #777777;
 }
 
+.u-center-text {
+    text-align: center !important; 
+}
+  
+.u-margin-bottom-big {
+margin-bottom: 8rem !important; }
+
+.u-margin-bottom-small {
+margin-bottom: 1.5rem !important; }
+
 .adv {
     text-align: center;
     background-color: #022044;
@@ -259,6 +269,21 @@ header {
     font-weight: 700;
     letter-spacing: 10px;
 }
+
+.heading-secondary {
+    font-size: 34px;
+    text-transform: uppercase;
+    font-weight: 600;
+    display: inline-block;
+    letter-spacing: 7px;
+    cursor: pointer;
+    background-image: linear-gradient(to right, #8e9efc, #1c3eff);
+    color: transparent;
+    -webkit-background-clip: text;
+    transition: all .2s; }
+    .heading-secondary:hover {
+      transform: skewY(5deg) scale(1.1);
+      text-shadow: 6px 10px 5px rgba(0, 0, 0, 0.2); }
 
 .button:link,
 .button:visited {

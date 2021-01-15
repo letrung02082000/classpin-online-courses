@@ -20,8 +20,10 @@
     </div>
     {{else}}
 
-    <div class="category-title">
-        <p>{{categoryTitle}}</p>
+    <div class="category-title u-margin-bottom-small">
+        <h2 class="heading-secondary">
+            {{categoryTitle}}
+        </h2>
     </div>
     <form action="/course/search" method="GET">
         <input type="hidden" name="q" value="{{q.q}}">
@@ -54,7 +56,7 @@
             </div>
         </div>
     </form>
-    <div class="row">
+    <div class="row mt-5">
         {{#each courses}}
         <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
             <div class="card">
