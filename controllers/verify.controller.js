@@ -86,7 +86,7 @@ module.exports = {
 
     // send mail with defined transport object
     let info = await transporter.sendMail({
-      from: '"OnlineCourse" <foo@example.com>', // sender address
+      from: '"ClassPin" <foo@example.com>', // sender address
       to: userEmail, // list of receivers
       subject: 'Verify your email', // Subject line
       text: '', // plain text body

@@ -346,6 +346,7 @@ module.exports = {
             return;
         }
         res.render('admin/changeTopCategory', {
+            layout: 'admin',
             category: category,
         });
     },
@@ -358,6 +359,7 @@ module.exports = {
         }
         let categories = await categoryModel.loadTopCategory();
         res.render('admin/changeSubCategory', {
+            layout: 'admin',
             category: category,
             categories: categories,
         });

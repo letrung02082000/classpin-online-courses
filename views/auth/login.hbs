@@ -138,20 +138,53 @@
       e.preventDefault();
       const username = $('#txtUsername').val();
       const password = $('#txtPassword').val();
-      const confirm = $('#txtConfirm').val();
-      const name = $('#txtFullname').val();
+      const passconfirm = $('#txtConfirm').val();
+      const fullname = $('#txtFullname').val();
       const birthDate = $('#txtBirthDate').val();
       const email = $('#txtEmail').val();
-      if (username.length === 0 || name.length === 0 || birthDate.length === 0) {
+      if (username.length === 0 || fullname.length === 0 || birthDate.length === 0) {
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
-          text: 'invalid data input',
+          text: "Don't leave username, fullname, birthDate empty",
         })
         return
       }
-
-      if (password !== confirm) {
+      if(username.length <= 8 || username.length >=30) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Username length must be atleast 8 characters, must not exceed 30 characters!',
+        })
+        return;
+      }
+      if(username.indexOf(' ') !== -1) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Username must have no space please!',
+        })
+        return;
+      }
+      if(password.length <= 8 || password.length >= 30) {
+         Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: '**Password length must be atleast 8 characters, must not exceed 30 characters!',
+        })
+        return;
+      }
+      
+      if(password.indexOf(' ') !== -1) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Password must have no space please!',
+        })
+        return
+      }
+      
+      if (password !== passconfirm) {
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
@@ -172,8 +205,6 @@
           $('#frmSignUp').off('submit').submit();
         }
       })
-
-
     })
 
     $('#txtBirthDate').datetimepicker({
