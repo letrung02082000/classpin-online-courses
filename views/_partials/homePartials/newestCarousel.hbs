@@ -27,9 +27,13 @@
                                 </div>
 
                             </div>
+                            {{#if isDiscount}}
                             <div class="card__allprice"><span class="card__discount">$ {{salePrice}}</span> &nbsp;
                                 <del class="card__price">$ {{price}}</del>
                             </div>
+                            {{else}}
+                            <div class="card__discount">$ {{price}}</div>
+                            {{/if}}
                         </div>
                         <div class="card-button">
 
@@ -45,6 +49,7 @@
                             </form>
                             {{/if}}
                         </div>
+                        <span class="new-course-tag">New</span>
                     </div>
 
 
