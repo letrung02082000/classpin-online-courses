@@ -80,16 +80,22 @@
                             </div>
 
                         </div>
+                        {{#if isDiscount}}
                         <div class="card__allprice"><span class="card__discount">$ {{salePrice}}</span> &nbsp;
                             <del class="card__price">$ {{price}}</del>
                         </div>
+                        {{else}}
+                        <div class="card__discount">$ {{price}}</div>
+                        {{/if}}
+
                     </div>
+
                     <div class="card-button d-flex justify-content-end">
                         {{#if isStudent}}
                         <a class="btn btn-success" href="/course/{{_id}}">
                             Go to course</a>
                         {{else}}
-                        <div class="d-flex justify-content-end">
+                        <div class="d-flex custom-btn justify-content-end">
                             <a href="/course/{{_id}}" class="btn btn-primary mr-3">Detail</a>
                             <form action="/cart/add" method="POST">
                                 <input type="hidden" value="{{_id}}" name="courseId">
@@ -100,6 +106,20 @@
                         {{/if}}
                     </div>
                 </div>
+                <div class="course-tag">
+                    {{#if isMostView}}
+                    <div class="new-course-tag">Most view</div>
+                    {{/if}}
+                    {{#if isNew}}
+                    <div class="new-course-tag">New</div>
+                    {{/if}}
+                </div>
+                {{#if isWeekly}}
+                <div class="hot-course-tag">
+                    <span class="hot-course-tag__icon"><i class="fab fa-hotjar"></i></span>
+                    <span class="hot-course-tag__text">Hot</span>
+                </div>
+                {{/if}}
             </div>
         </div>
         {{/each}}

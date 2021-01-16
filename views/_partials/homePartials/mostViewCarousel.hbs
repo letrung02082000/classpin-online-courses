@@ -9,7 +9,7 @@
                 <div class="card-container">
                     <div class="card">
                         <div class="img">
-                            <img src="{{thumbnail}}" alt="course_image">
+                            <img src="{{thumbnail}}" alt="course_image" />
                         </div>
                         <div class="info">
                             <div class="card__title">
@@ -25,8 +25,13 @@
                                 <div class="rateYo" data-rateyo-rating="{{avgRating}}" data-rateyo-star-width="20px">
                                 </div>
                             </div>
-                            <div class="card__allprice"><span class="card__discount">${{salePrice}}</span> &nbsp; <del
-                                    class="card__price">${{price}}</del></div>
+                            {{#if isDiscount}}
+                            <div class="card__allprice"><span class="card__discount">$ {{salePrice}}</span> &nbsp;
+                                <del class="card__price">$ {{price}}</del>
+                            </div>
+                            {{else}}
+                            <div class="card__discount">$ {{price}}</div>
+                            {{/if}}
                         </div>
                         <div class="card-button">
                             {{#if isStudent}}
@@ -43,6 +48,7 @@
                             </form>
                             {{/if}}
                         </div>
+                        <span class="new-course-tag">Most view</span>
                     </div>
 
 

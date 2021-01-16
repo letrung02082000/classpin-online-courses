@@ -7,10 +7,15 @@
         {{#each fourWeeklyCourses}}
         <div class="card-container px-3 col-md-6 col-lg-3 col-sm-6 mb-3">
             <div class="card marketing-card">
+                <div class="hot-course-tag">
+                    <span class="hot-course-ta__icon"><i class="fab fa-hotjar"></i></span>
+                    <span class="hot-course-tag__text">Hot</span>
+                </div>
                 <div class="img">
                     <img src="{{thumbnail}}" alt="course_image">
                 </div>
                 <div class="info">
+
                     <div class="card__title">
                         <p>{{name}}</p>
                     </div>
@@ -23,10 +28,13 @@
                     <div class="rating mb-3">
                         <div class="rateYo" data-rateyo-rating="{{avgRating}}" data-rateyo-star-width="20px"></div>
                     </div>
-                    <div class="card__allprice"><span class="card__discount">$ {{salePrice}}</span> &nbsp; <del
-                            class="card__price">$
-                            {{price}}</del>
+                    {{#if isDiscount}}
+                    <div class="card__allprice"><span class="card__discount">$ {{salePrice}}</span> &nbsp;
+                        <del class="card__price">$ {{price}}</del>
                     </div>
+                    {{else}}
+                    <div class="card__discount">$ {{price}}</div>
+                    {{/if}}
 
                 </div>
                 <div class="card-button">

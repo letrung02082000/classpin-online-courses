@@ -88,6 +88,24 @@ body {
     color: orange;
 }
 
+.info {
+    position: relative;
+}
+
+.hot-course-tag {
+    position: absolute;
+    font-size: 0.7rem;
+    top: 0.3rem;
+    right: 0.3rem;
+    width: 3.5rem;
+    background-color: rgb(240, 48, 48);
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+    padding: 0.1rem 0.3rem;
+    font-weight: bold;
+}
+
 /* Featurettes
   ------------------------- */
 
@@ -165,14 +183,16 @@ body {
 }
 
 .u-center-text {
-    text-align: center !important; 
+    text-align: center !important;
 }
-  
+
 .u-margin-bottom-big {
-margin-bottom: 8rem !important; }
+    margin-bottom: 8rem !important;
+}
 
 .u-margin-bottom-small {
-margin-bottom: 1.5rem !important; }
+    margin-bottom: 1.5rem !important;
+}
 
 .adv {
     text-align: center;
@@ -188,7 +208,7 @@ nav {
     font-size: 20px;
 }
 
-.sticky{
+.sticky {
     position: fixed;
     top: 0;
     z-index: 900;
@@ -197,13 +217,13 @@ nav {
     margin-top: 0 !important;
 }
 
-.sticky__nav{
+.sticky__nav {
     margin-top: 0;
     padding: 0;
     height: 12vh;
 }
 
-.sticky__logo{
+.sticky__logo {
     width: 100px !important;
 }
 
@@ -280,10 +300,12 @@ header {
     background-image: linear-gradient(to right, #8e9efc, #1c3eff);
     color: transparent;
     -webkit-background-clip: text;
-    transition: all .2s; }
-    .heading-secondary:hover {
-      transform: skewY(5deg) scale(1.1);
-      text-shadow: 6px 10px 5px rgba(0, 0, 0, 0.2); }
+    transition: all 0.2s;
+}
+.heading-secondary:hover {
+    transform: skewY(5deg) scale(1.1);
+    text-shadow: 6px 10px 5px rgba(0, 0, 0, 0.2);
+}
 
 .button:link,
 .button:visited {
