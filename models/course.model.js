@@ -136,6 +136,13 @@ module.exports = {
         return Course.findById(courseId).lean();
     },
 
+    findByIdWithTeacherInfo(courseId) {
+        return Course.findOne({ _id: mongoose.mongo.ObjectId(courseId) })
+            .populate('teacher', 'fullname')
+            .populate('category', 'name')
+            .lean();
+    },
+
     // return rating embeded in list_rating of course
     findAllRatingOfCourse(courseID) {
         return Course.findById(courseID)

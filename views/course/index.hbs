@@ -59,7 +59,7 @@
         </div>
         {{#if isMember}}
         <div class="text-danger text-center mt-2">
-            <i><b>You are in</b></i>
+          <i><b>You are in</b></i>
         </div>
         <div class="card-text">
           <b>This course includes:</b><br>
@@ -68,9 +68,9 @@
           <br>
           {{/each}}
           {{#if course.done}}
-            <p class="text-success mt-2"><i class="fas fa-check-circle mr-2"></i>Completed</p>
+          <p class="text-success mt-2"><i class="fas fa-check-circle mr-2"></i>Completed</p>
           {{else}}
-            <p class="text-danger"><i class="fas fa-spinner mr-2"></i> Incomplete</p>
+          <p class="text-danger"><i class="fas fa-spinner mr-2"></i> Incomplete</p>
           {{/if}}
         </div>
         {{else}}
@@ -369,8 +369,13 @@
                 <div class="rateYo" data-rateyo-rating="{{avgRating}}" data-rateyo-star-width="20px">
                 </div>
               </div>
-              <div class="card__allprice"><span class="card__discount">${{salePrice}}</span> &nbsp; <del
-                  class="card__price">${{price}}</del></div>
+              {{#if isDiscount}}
+              <div class="card__allprice"><span class="card__discount">$ {{salePrice}}</span> &nbsp;
+                <del class="card__price">$ {{price}}</del>
+              </div>
+              {{else}}
+              <div class="card__discount">$ {{price}}</div>
+              {{/if}}
             </div>
             <div class="card-button">
               {{#if isStudent}}
@@ -381,14 +386,27 @@
                 Detail</a>
               <form method="POST" action="/cart/add">
                 <input type="hidden" value="{{_id}}" name="courseId" />
-                <button class="btn btn-success card-button__cart" type="submit">
+                <a class="btn btn-success card-button__cart" type="submit">
                   <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                </button>
+                </a>
               </form>
               {{/if}}
             </div>
+            <div class="course-tag">
+              {{#if isMostView}}
+              <div class="new-course-tag">Most view</div>
+              {{/if}}
+              {{#if isNew}}
+              <div class="new-course-tag">New</div>
+              {{/if}}
+            </div>
+            {{#if isWeekly}}
+            <div class="hot-course-tag">
+              <span class="hot-course-tag__icon"><i class="fab fa-hotjar"></i></span>
+              <span class="hot-course-tag__text">Hot</span>
+            </div>
+            {{/if}}
           </div>
-
 
         </div>
         {{/each}}
@@ -478,7 +496,7 @@
       showConfirmButton: false,
       timer: 1500
     })
-  } else if(msg === "noPermission") {
+  } else if (msg === "noPermission") {
     Swal.fire({
       position: 'top-end',
       icon: 'error',

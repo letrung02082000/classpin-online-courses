@@ -18,7 +18,9 @@ module.exports = {
         //let allCourses = await Course.loadAllCourses();
         let page = +req.query.page || 1;
         let perPage = 8; //16
-        let allCourses = await courseModel.loadLimitedCourses(perPage, page, { disable: false });
+        let allCourses = await courseModel.loadLimitedCourses(perPage, page, {
+            disable: false,
+        });
         let totalPage = allCourses.totalPages;
         let pageArr = paging(page, totalPage);
 
@@ -108,14 +110,16 @@ module.exports = {
             );
 
             for (const course of relatedCourses) {
-                var relatedCourse = await courseModel.findById(course._id);
+                var relatedCourse = await courseModel.findByIdWithTeacherInfo(
+                    course._id
+                );
                 if (course._id.toString() === courseID.toString()) continue;
-                const discount = relatedCourse.discount || 0;
-                relatedCourse.salePrice =
-                    relatedCourse.price * (1 - discount / 100);
+
                 fiveRelatedCourses.push(relatedCourse);
             }
         }
+
+        console.log(fiveRelatedCourses);
 
         for (const course of fiveRelatedCourses) {
             if (req.user) {
@@ -129,6 +133,44 @@ module.exports = {
                         course.isStudent = true;
                     }
                 }
+            }
+        }
+
+        for (const course of fiveRelatedCourses) {
+            if (course.discount && course.discount > 0) {
+                const discount = course.discount;
+                course.salePrice = course.price * (1 - discount / 100);
+                course.isDiscount = true;
+            }
+        }
+
+        const mostViewCourses = await courseModel.loadTenViewCourses();
+
+        const mostViewCoursesId = mostViewCourses.map((child) => {
+            return child._id.toString();
+        });
+
+        const tenNewestCourses = await courseModel.LoadTenNewestCourses();
+        const tenNewestCoursesId = tenNewestCourses.map((child) => {
+            return child._id.toString();
+        });
+
+        const fourWeeklyCourses = await courseModel.getWeeklyCourse();
+        const fourWeeklyCoursesId = fourWeeklyCourses.map((child) => {
+            return child._id.toString();
+        });
+
+        for (const child of fiveRelatedCourses) {
+            if (mostViewCoursesId.includes(child._id.toString())) {
+                child.isMostView = true;
+            }
+
+            if (fourWeeklyCoursesId.includes(child._id.toString())) {
+                child.isWeekly = true;
+            }
+
+            if (tenNewestCoursesId.includes(child._id.toString())) {
+                child.isNew = true;
             }
         }
 
@@ -150,7 +192,7 @@ module.exports = {
 
         // check user rating this course before
         // check student had feedback before
-        console.log(matchedCourse);
+        //console.log(matchedCourse);
         let isRating = false;
         if (req.user) {
             for (i of matchedCourse.list_rating) {
@@ -380,7 +422,7 @@ module.exports = {
         let cond = {};
 
         cond.disable = false;
-        if (query !== "") {
+        if (query !== '') {
             cond.$text = { $search: query };
         }
         if (category !== '' && category !== 'all') {
