@@ -18,7 +18,7 @@ module.exports = {
         //let allCourses = await Course.loadAllCourses();
         let page = +req.query.page || 1;
         let perPage = 8; //16
-        let allCourses = await courseModel.loadLimitedCourses(perPage, page);
+        let allCourses = await courseModel.loadLimitedCourses(perPage, page, { disable: false });
         let totalPage = allCourses.totalPages;
         let pageArr = paging(page, totalPage);
         for (const course of allCourses.docs) {
@@ -341,6 +341,7 @@ module.exports = {
             };
         }
         let cond = {};
+        cond.disable = false;
         if (query !== "") {
             cond.$text = { $search: query };
         }

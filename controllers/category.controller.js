@@ -17,6 +17,7 @@ module.exports = {
         }
         let matchCourses = await courseModel.loadLimitedCourses(perPage, page, {
             category: matchedCategory._id,
+            disable: false,
         });
 
         let pageArr = paging(page, matchCourses.totalPages);
