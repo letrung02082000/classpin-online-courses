@@ -56,11 +56,18 @@
     <form id="delForm" action="/admin/courses/del" method="POST">
         <input id="txtCourseID" type="hidden" value="" name="courseID">
     </form>
+    <form id="disableForm" action="/admin/courses/disable" method="POST">
+        <input id="txtDisableCourseId" type="hidden" value="" name="courseId">
+    </form>
+    <form id="enableForm" action="/admin/courses/enable" method="POST">
+        <input id="txtEnableCourseId" type="hidden" value="" name="courseId">
+    </form>
     <table class="table">
         <thead>
             <tr>
                 <th scope="col">Course</th>
                 <th scope="col">Instructors</th>
+                <th scope="col"></th>
                 <th scope="col"></th>
                 <th scope="col"></th>
             </tr>
@@ -74,6 +81,11 @@
                 <td>{{name}}</td>
                 <td>{{teacher.fullname}}</td>
                 <td><a class="btn btn-success" href="/admin/courses/{{_id}}">Detail</a></td>
+                {{#if disable}}
+                <td><a data-id="{{_id}}" class="btn btn-secondary btnEnable" href="#">Enable</a></td>
+                {{else}}
+                <td><a data-id="{{_id}}" class="btn btn-primary btnDisable" href="#">Disable</a></td>
+                {{/if}}
                 <td><a data-id="{{_id}}" class="btn btn-danger btnDel" href="#">Delete</a></td>
             </tr>
             {{/each}}
@@ -107,6 +119,51 @@
                 $('#delForm').off('submit').submit();
             } else if (result.isDenied) {
                 Swal.fire('Cancel!', '', 'info')
+            }
+        })
+    })
+</script>
+<script>
+    $('.btnDisable').on('click', function () {
+        $('#txtDisableCourseId').val($(this).data('id'));
+        $('#disableForm').submit();
+    })
+
+    $('#disableForm').on('submit', function (e) {
+        e.preventDefault();
+        Swal.fire({
+            title: 'Are you sure to disable this course?',
+            showDenyButton: true,
+            confirmButtonText: `Confirm`,
+            denyButtonText: `No`,
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                $('#disableForm').off('submit').submit();
+            } else if (result.isDenied) {
+                Swal.fire('Cancel!', '', 'info')
+            }
+        })
+    })
+</script>
+<script>
+    $('.btnEnable').on('click', function () {
+        $('#txtEnableCourseId').val($(this).data('id'));
+        $('#enableForm').submit();
+    })
+
+    $('#enableForm').on('submit', function (e) {
+        e.preventDefault();
+        Swal.fire({
+            title: 'Are you sure to enable this course?',
+            showDenyButton: true,
+            confirmButtonText: `Confirm`,
+            denyButtonText: `No`,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $('#enableForm').off('submit').submit();
+            } else if (result.isDenied) {
+                Swal.fire('Cancel', '', 'info')
             }
         })
     })
