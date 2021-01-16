@@ -294,6 +294,15 @@ body {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
 
+.student-feedback{
+    max-height: 450px;
+    overflow-y: scroll;
+}
+
+.student-feedback::-webkit-scrollbar {
+    display: none;
+}
+
 .panel {
     display: none;
 }
@@ -494,4 +503,37 @@ body {
 .related-courses__heading {
     font-weight: bold;
     font-size: 2rem;
+}
+
+.u-center-text {
+    text-align: center !important;
+}
+
+.u-margin-bottom-big {
+    margin-bottom: 8rem !important;
+}
+
+.u-margin-bottom-small {
+    margin-bottom: 1.5rem !important;
+}
+.u-margin-top-small {
+    margin-top: 1rem !important;
+}
+
+
+.heading-secondary {
+    font-size: 25px;
+    text-transform: uppercase;
+    font-weight: 600;
+    display: inline-block;
+    letter-spacing: 7px;
+    cursor: pointer;
+    background-image: linear-gradient(to right, #8e9efc, #1c3eff);
+    color: transparent;
+    -webkit-background-clip: text;
+    transition: all 0.2s;
+}
+.heading-secondary:hover {
+    transform: skewY(5deg) scale(1.1);
+    text-shadow: 6px 10px 5px rgba(0, 0, 0, 0.2);
 }

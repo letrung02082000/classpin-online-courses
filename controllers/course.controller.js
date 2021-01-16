@@ -119,7 +119,7 @@ module.exports = {
             }
         }
 
-        console.log(fiveRelatedCourses);
+        //console.log(fiveRelatedCourses);
 
         for (const course of fiveRelatedCourses) {
             if (req.user) {
@@ -195,12 +195,14 @@ module.exports = {
         //console.log(matchedCourse);
         let isRating = false;
         if (req.user) {
-            for (i of matchedCourse.list_rating) {
-                if (String(i.student) === String(req.user._id)) {
+            for (let i of matchedCourse.list_rating) {
+                if (String(i.student._id) === String(req.user._id)) {
                     isRating = true;
                 }
             }
         }
+
+        //console.log(isRating);
 
         // check course in wishlist
         let isInWishList = false;
@@ -327,7 +329,6 @@ module.exports = {
             i.avgRating = avgRating;
         }
 
-        console.log(isRating);
         res.render('course/index', {
             _id: courseID,
             course: matchedCourse,
