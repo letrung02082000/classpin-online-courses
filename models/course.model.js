@@ -83,17 +83,26 @@ module.exports = {
                 },
             },
         ];
+        if (query.category) {
+            query.category = mongoose.Types.ObjectId(query.category);
+        }
+        if (Object.keys(query).length !== 0) {
+            agg.unshift({ $match: query });
+        }
+        // if (query.category) {
+        //     agg.unshift({
+        //         $match: { category: mongoose.Types.ObjectId(query.category) },
+        //     });
+        // }
         // if (Object.keys(query).length !== 0) {
         //     agg.unshift({ $match: query });
         // }
-        if (query.category) {
-            agg.unshift({
-                $match: { category: mongoose.Types.ObjectId(query.category) },
-            });
-        }
-        if (query.$text) {
-            agg.unshift({ $match: { $text: query.$text } });
-        }
+        // if (query.category) {
+        //     agg.unshift({ $match: { category: mongoose.Types.ObjectId(query.category) } });
+        // }
+        // if (query.$text) {
+        //     agg.unshift({ $match: { $text: query.$text } });
+        // }
         console.log('printsomthing');
         //console.log(await Course.aggregate([{ $match: { $text: query.$text } }]));
         var mya = Course.aggregate(agg);
