@@ -48,17 +48,21 @@ module.exports = {
     },
 
     getCourses: async function (req, res) {
-        let query = (req.query.q === 'undefined' ? '' : req.query.q) || "";
-        let cat = (req.query.category === 'undefined' ? 'all' : req.query.category) || "";
-        let te = (req.query.teacher === 'undefined' ? 'all' : req.query.teacher) || "";
+        let query = (req.query.q === 'undefined' ? '' : req.query.q) || '';
+        let cat =
+            (req.query.category === 'undefined' ? 'all' : req.query.category) ||
+            '';
+        let te =
+            (req.query.teacher === 'undefined' ? 'all' : req.query.teacher) ||
+            '';
         let cond = {};
-        if (query !== "") {
+        if (query !== '') {
             cond.$text = { $search: query };
         }
-        if (cat !== "" && cat !== "all") {
+        if (cat !== '' && cat !== 'all') {
             cond.category = cat;
         }
-        if (te !== "" && te !== "all") {
+        if (te !== '' && te !== 'all') {
             cond.teacher = te;
         }
         const courses = await courseModel.getCourse(cond);
@@ -286,14 +290,18 @@ module.exports = {
         let cat = await categoryModel.loadAll();
         var c = [];
         for (var a = 0; a < cat.length; a++) {
-            var course = await courseModel.loadCourses({ category: cat[a]._id });
+            var course = await courseModel.loadCourses({
+                category: cat[a]._id,
+            });
             if (course.length) {
                 cat[a].deletable = false;
             } else {
                 cat[a].deletable = true;
             }
             for (var b = 0; b < cat[a].sub_category.length; b++) {
-                course = await courseModel.loadCourses({ category: cat[a].sub_category[b]._id });
+                course = await courseModel.loadCourses({
+                    category: cat[a].sub_category[b]._id,
+                });
                 if (course.length) {
                     cat[a].deletable = false;
                 }
@@ -373,7 +381,6 @@ module.exports = {
         }
         // delete thumbnail course
 
-
         //delete lesson in chapter
         for (i of matchedCourse.list_chapter) {
             await lessonModel.delete(i);
@@ -386,6 +393,20 @@ module.exports = {
         await courseModel.deleteOneCourse(courseID);
 
         // redirect
+        res.redirect('/admin/courses');
+    },
+
+    postDisableCourse: async function (req, res) {
+        const courseId = req.body.courseId;
+
+        await courseModel.disableCourseById(courseId);
+        res.redirect('/admin/courses');
+    },
+
+    postEnableCourse: async function (req, res) {
+        const courseId = req.body.courseId;
+
+        await courseModel.enableCourseById(courseId);
         res.redirect('/admin/courses');
     },
 
