@@ -136,6 +136,10 @@ module.exports = {
         return Course.findById(courseId).lean();
     },
 
+    findByIdAndMapChapter(courseId) {
+        return Course.findById(courseId).populate({path: 'list_chapter'});
+    },
+
     findByIdWithTeacherInfo(courseId) {
         return Course.findOne({ _id: mongoose.mongo.ObjectId(courseId) })
             .populate('teacher', 'fullname')
@@ -146,13 +150,14 @@ module.exports = {
     // return rating embeded in list_rating of course
     findAllRatingOfCourse(courseID) {
         return Course.findById(courseID)
-            .populate([{ path: 'list_rating', populate: { path: 'student' } }])
+            .populate([{ path: 'list_rating', options: {sort: {'date_rating': -1}}, populate: { path: 'student'}}])
             .populate({ path: 'teacher' })
             .lean();
     },
 
     findCoursePurchased(studentID) {
         return Course.find({
+            disable: false,
             list_student: { $all: [mongoose.Types.ObjectId(studentID)] },
         })
             .populate({ path: 'teacher' })
