@@ -22,7 +22,7 @@
     transition: transform 0.5s;
 }
 .carousel-container2 .card-container {
-    width: 300px;
+    width: 320px;
     flex-shrink: 0;
     height: 370px;
     padding-right: 15px;
