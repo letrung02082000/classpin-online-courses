@@ -1,3 +1,7 @@
+body{
+    font-family: "Poppins", sans-serif;
+}
+
 .category-container {
     min-height: 100vh;
 }

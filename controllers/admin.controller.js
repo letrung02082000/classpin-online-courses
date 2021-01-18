@@ -375,17 +375,24 @@ module.exports = {
 
     postDeleteCourse: async function (req, res) {
         const courseID = req.body.courseID;
-        const matchedCourse = await courseModel.findById(courseID);
+        const matchedCourse = await courseModel.findByIdAndMapChapter(courseID);
         // delete rating of course
         if (matchedCourse.list_rating) {
             const filter = { _id: { $in: matchedCourse.list_rating } };
             await ratingModel.deleteMany(filter);
         }
         // delete thumbnail course
-
+        if (matchedCourse.thumbnail) {
+            fs.unlink('.\\' + matchedCourse.thumbnail, (e) => {
+              console.log(e);
+              return;
+            });
+        }
         //delete lesson in chapter
         for (i of matchedCourse.list_chapter) {
-            await lessonModel.delete(i);
+            for(j of i.list_lesson) {
+                await lessonModel.delete(j._id);
+            }
         }
         // delete chapter in course
         if (matchedCourse.list_chapter) {

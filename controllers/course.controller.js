@@ -92,6 +92,10 @@ module.exports = {
         //trung calculate view
         await increaseCourseView(courseID);
         const course = await courseModel.findById(courseID);
+        if(course.disable) {
+            res.sendStatus(404);
+            return;
+        }
         var lastView = new Date(course.last_view);
         const mondayDate = getMonday();
 
@@ -198,8 +202,13 @@ module.exports = {
         // check student had feedback before
         //console.log(matchedCourse);
         let isRating = false;
+        console.log(matchedCourse.list_rating);
+        console.log(req.user);
         if (req.user) {
             for (let i of matchedCourse.list_rating) {
+                if(!i.student) {
+                    continue;
+                }
                 if (String(i.student._id) === String(req.user._id)) {
                     isRating = true;
                 }
@@ -355,8 +364,10 @@ module.exports = {
         });
     },
     rating: function (req, res) {
+        const courseID = req.params.id;
         res.render('course/rating', {
             layout: false,
+            courseID: courseID,
         });
     },
 
