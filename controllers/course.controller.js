@@ -92,6 +92,10 @@ module.exports = {
         //trung calculate view
         await increaseCourseView(courseID);
         const course = await courseModel.findById(courseID);
+        if(course.disable) {
+            res.sendStatus(404);
+            return;
+        }
         var lastView = new Date(course.last_view);
         const mondayDate = getMonday();
 
@@ -356,8 +360,10 @@ module.exports = {
         });
     },
     rating: function (req, res) {
+        const courseID = req.params.id;
         res.render('course/rating', {
             layout: false,
+            courseID: courseID,
         });
     },
 

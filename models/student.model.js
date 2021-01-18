@@ -71,7 +71,7 @@ module.exports = {
     },
 
     findWishList(studentID) {
-        return Student.findOne({ _id: studentID }, { wishlist: 1, _id: 0 })
+        return Student.findOne({_id: studentID}, { wishlist: 1, _id: 0 })
             .populate([{ path: 'wishlist', populate: {path: 'teacher'}}])
             .lean();
     },

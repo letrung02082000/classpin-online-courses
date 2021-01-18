@@ -127,6 +127,13 @@
           </h2>
         </div>
       <div class="description">
+        {{#unless isMember}}
+        {{#if course.done}}
+        <p class="text-success mt-2"><i class="fas fa-check-circle mr-2"></i>Completed</p>
+        {{else}}
+        <p class="text-danger"><i class="fas fa-spinner mr-2"></i> Incomplete</p>
+        {{/if}}
+        {{/unless}}
         {{#each chapterList}}
         <div class="card mt-2">
           <div class="card-header flip" style="cursor: pointer;">
