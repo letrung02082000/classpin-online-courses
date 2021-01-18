@@ -153,6 +153,7 @@ module.exports = {
 
     findCoursePurchased(studentID) {
         return Course.find({
+            disable: false,
             list_student: { $all: [mongoose.Types.ObjectId(studentID)] },
         })
             .populate({ path: 'teacher' })

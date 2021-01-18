@@ -135,7 +135,15 @@ module.exports = {
     profile: async function (req, res) {
         var status = req.query.status;
         const PurchasedCourse = await courseModel.findCoursePurchased(req.user._id);
-        const ObjWl = await studentModel.findWishList(req.user._id);
+        let ObjWl = await studentModel.findWishList(req.user._id);
+        //console.log(ObjWl);
+        // remove disable course in wishlist
+        for(let i = 0; i< ObjWl.wishlist.length; i++) {
+            if(ObjWl.wishlist[i].disable === true) {
+                ObjWl.wishlist.splice(i, 1);
+            }
+        }
+        //console.log(ObjWl.wishlist);
         res.render('user/profile', {
             status: status,
             PurchasedCourse: PurchasedCourse,
