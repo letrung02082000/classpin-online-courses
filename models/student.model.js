@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const courseModel = require('./course.model');
+const ratingModel = require('./rating.model');
 
 const Schema = mongoose.Schema;
 
@@ -14,7 +15,7 @@ const schema = new Schema({
     verify: { type: Boolean, default: false },
     verify_key: String,
     wishlist: [{ type: Schema.Types.ObjectId, ref: 'Course' }], // ObjectId khoa hoc
-    isBlock: {type: Boolean, default: false}
+    isBlock: { type: Boolean, default: false },
 });
 
 const Student = mongoose.model('Student', schema, 'Student');
@@ -72,7 +73,7 @@ module.exports = {
 
     findWishList(studentID) {
         return Student.findOne({ _id: studentID }, { wishlist: 1, _id: 0 })
-            .populate([{ path: 'wishlist', populate: {path: 'teacher'}}])
+            .populate([{ path: 'wishlist', populate: { path: 'teacher' } }])
             .lean();
     },
 
@@ -95,7 +96,13 @@ module.exports = {
     },
 
     deleteStudent: async function (id) {
+        //delete student from courses
         await courseModel.FindAndRemoveStudent(id);
+
+        //delete all rating of this student
+        await ratingModel.deleteMany({ student: mongoose.mongo.ObjectId(id) });
+
+        //delete student
         await Student.deleteOne(
             { _id: mongoose.mongo.ObjectId(id) },
             function (err) {
