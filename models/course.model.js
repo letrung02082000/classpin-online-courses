@@ -146,7 +146,7 @@ module.exports = {
     // return rating embeded in list_rating of course
     findAllRatingOfCourse(courseID) {
         return Course.findById(courseID)
-            .populate([{ path: 'list_rating', populate: { path: 'student' } }])
+            .populate([{ path: 'list_rating', options: {sort: {'date_rating': -1}}, populate: { path: 'student'}}])
             .populate({ path: 'teacher' })
             .lean();
     },

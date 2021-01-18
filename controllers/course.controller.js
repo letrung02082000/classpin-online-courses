@@ -194,8 +194,13 @@ module.exports = {
         // check student had feedback before
         //console.log(matchedCourse);
         let isRating = false;
+        console.log(matchedCourse.list_rating);
+        console.log(req.user);
         if (req.user) {
             for (let i of matchedCourse.list_rating) {
+                if(!i.student) {
+                    continue;
+                }
                 if (String(i.student._id) === String(req.user._id)) {
                     isRating = true;
                 }
