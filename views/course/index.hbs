@@ -59,7 +59,7 @@
         </div>
         {{#if isMember}}
         <div class="text-danger text-center mt-2">
-            <i><b>You are in</b></i>
+          <i><b>You are in</b></i>
         </div>
         <div class="card-text">
           <b>This course includes:</b><br>
@@ -68,9 +68,9 @@
           <br>
           {{/each}}
           {{#if course.done}}
-            <p class="text-success mt-2"><i class="fas fa-check-circle mr-2"></i>Completed</p>
+          <p class="text-success mt-2"><i class="fas fa-check-circle mr-2"></i>Completed</p>
           {{else}}
-            <p class="text-danger"><i class="fas fa-spinner mr-2"></i> Incomplete</p>
+          <p class="text-danger"><i class="fas fa-spinner mr-2"></i> Incomplete</p>
           {{/if}}
         </div>
         {{else}}
@@ -109,15 +109,23 @@
     <div class="card-description mb-5">
 
       <div class="description">
-        <b class="mb-2">Description</b>
-        <p>
+        <div class="u-center-text u-margin-bottom-small u-margin-top-small">
+          <h2 class="heading-secondary">
+             Description
+          </h2>
+        </div>
+        <div class="p-3">
           {{{course.description}}}
-        </p>
+        </div>
       </div>
     </div>
 
     <div class="card-body card-table-content">
-      <b class="mb-2">Course content</b>
+      <div class="u-center-text u-margin-bottom-small u-margin-top-small">
+          <h2 class="heading-secondary">
+             Course content
+          </h2>
+        </div>
       <div class="description">
         {{#each chapterList}}
         <div class="card mt-2">
@@ -166,7 +174,11 @@
     <br id="ins">
     <div class="card">
       <div class="card-body">
-        <b class="mb-1">Instructors</b>
+        <div class="u-center-text u-margin-bottom-small u-margin-top-small">
+          <h2 class="heading-secondary">
+             Instructors
+          </h2>
+        </div>
         <div>
           <section class="section-instructors">
             <div class="row">
@@ -210,9 +222,13 @@
     <br>
 
     <div class="card-body card-list-rating">
-      <b class="mb-1">Student feedback</b>
+      <div class="u-center-text u-margin-bottom-small u-margin-top-small">
+          <h2 class="heading-secondary">
+             Student feedback
+          </h2>
+      </div>
       <div class="row">
-        <div class="rating">
+        <div class="rating text-center">
           <div class="rateYo" data-rateyo-rating="{{this.avgRating}}"></div>
           <p class="mt-2">{{this.avgRating}} average based on {{this.totalRating}} ratings.</p>
         </div>
@@ -302,8 +318,12 @@
     </div>
     <div>
       <div class="card-header bg-white mt-5">
-        <b class="mb-2 flip" style="cursor: pointer;">Reviews</b>
-        <div class="student-feedback mt-2 panel">
+        <div class="u-center-text u-margin-bottom-small u-margin-top-small">
+          <h2 class="heading-secondary">
+             Reviews
+          </h2>
+        </div>
+        <div class="student-feedback mt-2">
           <div class="testimonial">
             {{#each this.course.list_rating}}
             <div class="card-body card-testimonial">
@@ -316,7 +336,7 @@
                 </figure>
               </div>
               <div class="testimonial__text mt-2">
-                <h3 class="heading-tertiary u-margin-bottom-small">
+                <h3 class="heading-tertiary">
                   {{this.student.fullname}}
                   <span class="time">{{fromNow this.date_rating}}</span>
                 </h3>
@@ -324,7 +344,7 @@
                   <div class="rateYo mt-1 mb-1" data-rateyo-rating={{this.rating}} data-rateyo-star-width="25px">
                   </div>
                 </div>
-                <p>
+                <p style="margin-bottom: 0;">
                   {{this.description}}
                 </p>
               </div>
@@ -345,7 +365,11 @@
 <hr>
 
 <div class="related-courses mt-3">
-  <p class="ml-5 related-courses__heading">Related Courses</p>
+  <div class="ml-5 related-courses__heading u-margin-bottom-small u-margin-top-small">
+    <h2 class="heading-secondary">
+        Related Courses
+    </h2>
+  </div>
   <div class="carousel-container">
     <div class="carousel-inner">
       <div class="track">
@@ -369,8 +393,13 @@
                 <div class="rateYo" data-rateyo-rating="{{avgRating}}" data-rateyo-star-width="20px">
                 </div>
               </div>
-              <div class="card__allprice"><span class="card__discount">${{salePrice}}</span> &nbsp; <del
-                  class="card__price">${{price}}</del></div>
+              {{#if isDiscount}}
+              <div class="card__allprice"><span class="card__discount">$ {{salePrice}}</span> &nbsp;
+                <del class="card__price">$ {{price}}</del>
+              </div>
+              {{else}}
+              <div class="card__discount">$ {{price}}</div>
+              {{/if}}
             </div>
             <div class="card-button">
               {{#if isStudent}}
@@ -381,14 +410,27 @@
                 Detail</a>
               <form method="POST" action="/cart/add">
                 <input type="hidden" value="{{_id}}" name="courseId" />
-                <button class="btn btn-success card-button__cart" type="submit">
+                <a class="btn btn-success card-button__cart" type="submit">
                   <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                </button>
+                </a>
               </form>
               {{/if}}
             </div>
+            <div class="course-tag">
+              {{#if isMostView}}
+              <div class="new-course-tag">Most view</div>
+              {{/if}}
+              {{#if isNew}}
+              <div class="new-course-tag">New</div>
+              {{/if}}
+            </div>
+            {{#if isWeekly}}
+            <div class="hot-course-tag">
+              <span class="hot-course-tag__icon"><i class="fab fa-hotjar"></i></span>
+              <span class="hot-course-tag__text">Hot</span>
+            </div>
+            {{/if}}
           </div>
-
 
         </div>
         {{/each}}
@@ -478,7 +520,7 @@
       showConfirmButton: false,
       timer: 1500
     })
-  } else if(msg === "noPermission") {
+  } else if (msg === "noPermission") {
     Swal.fire({
       position: 'top-end',
       icon: 'error',

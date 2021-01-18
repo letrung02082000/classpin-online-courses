@@ -60,3 +60,15 @@
 .nav .next.hide {
     display: none;
 }
+
+.new-course-tag {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: #593d00;
+    background-color: #ffe799;
+    padding: 0.25rem 0.5rem;
+}

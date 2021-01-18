@@ -66,8 +66,12 @@ module.exports = {
                         }
                     }
                 }
-                const discount = course.discount || 0;
-                course.salePrice = course.price * (1 - discount / 100);
+
+                if (course.discount && course.discount > 0) {
+                    const discount = course.discount;
+                    course.salePrice = course.price * (1 - discount / 100);
+                    course.isDiscount = true;
+                }
             }
 
             var tenViewCourses = await loadTenViewCourses();
@@ -85,8 +89,12 @@ module.exports = {
                         }
                     }
                 }
-                const discount = course.discount || 0;
-                course.salePrice = course.price * (1 - discount / 100);
+
+                if (course.discount && course.discount > 0) {
+                    const discount = course.discount;
+                    course.salePrice = course.price * (1 - discount / 100);
+                    course.isDiscount = true;
+                }
             }
 
             var fourWeeklyCourses = await getWeeklyCourse();
@@ -104,8 +112,12 @@ module.exports = {
                         }
                     }
                 }
-                const discount = course.discount || 0;
-                course.salePrice = course.price * (1 - discount / 100);
+
+                if (course.discount && course.discount > 0) {
+                    const discount = course.discount;
+                    course.salePrice = course.price * (1 - discount / 100);
+                    course.isDiscount = true;
+                }
             }
 
             var tenWeeklyCategories = await categoryModel.loadTenWeeklyCategories();

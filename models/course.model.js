@@ -25,6 +25,7 @@ const schema = new Schema({
     last_view: { type: Date, default: Date.now },
     week_count: { type: Number, default: 0 },
     last_updated: { type: Date, default: Date.now },
+    disable: { type: Boolean, default: false },
 });
 
 schema.index({ '$**': 'text' });
@@ -50,7 +51,12 @@ module.exports = {
         return await Course.find(query).populate({ path: 'teacher' }).lean();
     },
 
-    async loadLimitedCourses(perPage, page, query = {}, option = {}) {
+    async loadLimitedCourses(
+        perPage,
+        page,
+        query = { disable: false },
+        option = {}
+    ) {
         //return await Course.find().limit(perPage).skip((page - 1) * perPage);
         return await Course.paginate(query, {
             page: page,
@@ -62,28 +68,41 @@ module.exports = {
     },
 
     async loadAggCourses(query = {}, option = {}) {
-        let agg = [{
-            $lookup: {
-                from: 'Rating',
-                localField: 'list_rating',
-                foreignField: '_id',
-                as: 'list_rating_info',
+        let agg = [
+            {
+                $lookup: {
+                    from: 'Rating',
+                    localField: 'list_rating',
+                    foreignField: '_id',
+                    as: 'list_rating_info',
+                },
             },
-        },
-        {
-            "$addFields": {
-                "rating_average": { "$avg": "$list_rating_info.rating" }
-            }
-        }];
+            {
+                $addFields: {
+                    rating_average: { $avg: '$list_rating_info.rating' },
+                },
+            },
+        ];
+        if (query.category) {
+            query.category = mongoose.Types.ObjectId(query.category);
+        }
+        if (Object.keys(query).length !== 0) {
+            agg.unshift({ $match: query });
+        }
+        // if (query.category) {
+        //     agg.unshift({
+        //         $match: { category: mongoose.Types.ObjectId(query.category) },
+        //     });
+        // }
         // if (Object.keys(query).length !== 0) {
         //     agg.unshift({ $match: query });
         // }
-        if (query.category) {
-            agg.unshift({ $match: { category: mongoose.Types.ObjectId(query.category) } });
-        }
-        if (query.$text) {
-            agg.unshift({ $match: { $text: query.$text } });
-        }
+        // if (query.category) {
+        //     agg.unshift({ $match: { category: mongoose.Types.ObjectId(query.category) } });
+        // }
+        // if (query.$text) {
+        //     agg.unshift({ $match: { $text: query.$text } });
+        // }
         console.log('printsomthing');
         //console.log(await Course.aggregate([{ $match: { $text: query.$text } }]));
         var mya = Course.aggregate(agg);
@@ -117,10 +136,17 @@ module.exports = {
         return Course.findById(courseId).lean();
     },
 
+    findByIdWithTeacherInfo(courseId) {
+        return Course.findOne({ _id: mongoose.mongo.ObjectId(courseId) })
+            .populate('teacher', 'fullname')
+            .populate('category', 'name')
+            .lean();
+    },
+
     // return rating embeded in list_rating of course
     findAllRatingOfCourse(courseID) {
         return Course.findById(courseID)
-            .populate([{ path: 'list_rating', populate: { path: 'student' } }])
+            .populate([{ path: 'list_rating', options: {sort: {'date_rating': -1}}, populate: { path: 'student'}}])
             .populate({ path: 'teacher' })
             .lean();
     },
@@ -128,7 +154,9 @@ module.exports = {
     findCoursePurchased(studentID) {
         return Course.find({
             list_student: { $all: [mongoose.Types.ObjectId(studentID)] },
-        }).populate({ path: 'teacher' }).lean();
+        })
+            .populate({ path: 'teacher' })
+            .lean();
     },
     // return a document nested in array have field avgRating, if empty array, avgRating = 0
     computeAvgRating(courseID) {
@@ -187,7 +215,7 @@ module.exports = {
         return Course.create(course);
     },
     async LoadTenNewestCourses() {
-        return await Course.find({})
+        return await Course.find({ disable: false })
             .populate('teacher', 'fullname')
             .populate('category', 'name')
             .sort({ date_created: -1 })
@@ -199,6 +227,7 @@ module.exports = {
     async findRelatedCourse(categoryId) {
         return await Course.aggregate(
             [
+                { $match: { disable: false } },
                 {
                     $project: {
                         length: { $size: '$list_student' },
@@ -231,7 +260,7 @@ module.exports = {
     },
 
     async loadTenViewCourses() {
-        return await Course.find({})
+        return await Course.find({ disable: false })
             .populate('teacher', 'fullname')
             .populate('category', 'name')
             .sort({ view_count: -1 })
@@ -309,6 +338,7 @@ module.exports = {
         console.log(mondayDate);
         return await Course.find({
             last_view: { $gte: mondayDate, $lte: now },
+            disable: false,
         })
             .populate('teacher', 'fullname')
             .populate('category', 'name')
@@ -332,6 +362,20 @@ module.exports = {
 
     deleteOneCourse(courseID) {
         return Course.deleteOne({ _id: courseID });
+    },
+
+    disableCourseById(courseId) {
+        return Course.findOneAndUpdate(
+            { _id: mongoose.mongo.ObjectId(courseId) },
+            { disable: true }
+        );
+    },
+
+    enableCourseById(courseId) {
+        return Course.findOneAndUpdate(
+            { _id: mongoose.mongo.ObjectId(courseId) },
+            { disable: false }
+        );
     },
 
     findAllChapterInCourse(courseID) {

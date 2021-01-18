@@ -18,13 +18,50 @@ module.exports = {
         //let allCourses = await Course.loadAllCourses();
         let page = +req.query.page || 1;
         let perPage = 8; //16
-        let allCourses = await courseModel.loadLimitedCourses(perPage, page);
+        let allCourses = await courseModel.loadLimitedCourses(perPage, page, {
+            disable: false,
+        });
         let totalPage = allCourses.totalPages;
         let pageArr = paging(page, totalPage);
+
         for (const course of allCourses.docs) {
-            const discount = course.discount || 0;
-            course.salePrice = course.price * (1 - discount / 100);
+            if (course.discount && course.discount > 0) {
+                const discount = course.discount;
+                course.salePrice = course.price * (1 - discount / 100);
+                course.isDiscount = true;
+            }
         }
+
+        const mostViewCourses = await courseModel.loadTenViewCourses();
+
+        const mostViewCoursesId = mostViewCourses.map((child) => {
+            return child._id.toString();
+        });
+
+        const tenNewestCourses = await courseModel.LoadTenNewestCourses();
+        const tenNewestCoursesId = tenNewestCourses.map((child) => {
+            return child._id.toString();
+        });
+
+        const fourWeeklyCourses = await courseModel.getWeeklyCourse();
+        const fourWeeklyCoursesId = fourWeeklyCourses.map((child) => {
+            return child._id.toString();
+        });
+
+        for (const child of allCourses.docs) {
+            if (mostViewCoursesId.includes(child._id.toString())) {
+                child.isMostView = true;
+            }
+
+            if (fourWeeklyCoursesId.includes(child._id.toString())) {
+                child.isWeekly = true;
+            }
+
+            if (tenNewestCoursesId.includes(child._id.toString())) {
+                child.isNew = true;
+            }
+        }
+
         res.render('course', {
             //courses: toObject.multipleMongooseToObj(allCourses.docs),
             courses: allCourses.docs,
@@ -73,14 +110,16 @@ module.exports = {
             );
 
             for (const course of relatedCourses) {
-                var relatedCourse = await courseModel.findById(course._id);
+                var relatedCourse = await courseModel.findByIdWithTeacherInfo(
+                    course._id
+                );
                 if (course._id.toString() === courseID.toString()) continue;
-                const discount = relatedCourse.discount || 0;
-                relatedCourse.salePrice =
-                    relatedCourse.price * (1 - discount / 100);
+
                 fiveRelatedCourses.push(relatedCourse);
             }
         }
+
+        //console.log(fiveRelatedCourses);
 
         for (const course of fiveRelatedCourses) {
             if (req.user) {
@@ -94,6 +133,44 @@ module.exports = {
                         course.isStudent = true;
                     }
                 }
+            }
+        }
+
+        for (const course of fiveRelatedCourses) {
+            if (course.discount && course.discount > 0) {
+                const discount = course.discount;
+                course.salePrice = course.price * (1 - discount / 100);
+                course.isDiscount = true;
+            }
+        }
+
+        const mostViewCourses = await courseModel.loadTenViewCourses();
+
+        const mostViewCoursesId = mostViewCourses.map((child) => {
+            return child._id.toString();
+        });
+
+        const tenNewestCourses = await courseModel.LoadTenNewestCourses();
+        const tenNewestCoursesId = tenNewestCourses.map((child) => {
+            return child._id.toString();
+        });
+
+        const fourWeeklyCourses = await courseModel.getWeeklyCourse();
+        const fourWeeklyCoursesId = fourWeeklyCourses.map((child) => {
+            return child._id.toString();
+        });
+
+        for (const child of fiveRelatedCourses) {
+            if (mostViewCoursesId.includes(child._id.toString())) {
+                child.isMostView = true;
+            }
+
+            if (fourWeeklyCoursesId.includes(child._id.toString())) {
+                child.isWeekly = true;
+            }
+
+            if (tenNewestCoursesId.includes(child._id.toString())) {
+                child.isNew = true;
             }
         }
 
@@ -115,16 +192,22 @@ module.exports = {
 
         // check user rating this course before
         // check student had feedback before
-        console.log(matchedCourse);
+        //console.log(matchedCourse);
         let isRating = false;
+        console.log(matchedCourse.list_rating);
+        console.log(req.user);
         if (req.user) {
-            for (i of matchedCourse.list_rating) {
-                if (String(i.student) === String(req.user._id)) {
+            for (let i of matchedCourse.list_rating) {
+                if(!i.student) {
+                    continue;
+                }
+                if (String(i.student._id) === String(req.user._id)) {
                     isRating = true;
                 }
             }
         }
 
+        //console.log(isRating);
 
         // check course in wishlist
         let isInWishList = false;
@@ -218,7 +301,6 @@ module.exports = {
                     }
                 }
             }
-
         }
 
         //find all course of teacher
@@ -252,7 +334,6 @@ module.exports = {
             i.avgRating = avgRating;
         }
 
-        console.log(isRating);
         res.render('course/index', {
             _id: courseID,
             course: matchedCourse,
@@ -271,7 +352,7 @@ module.exports = {
             avgRatingTeacher:
                 Math.round((avgRatingTeacher / countReviewTeacher) * 100) / 100,
             fiveRelatedCourses,
-            isRating: isRating
+            isRating: isRating,
         });
     },
     rating: function (req, res) {
@@ -300,8 +381,10 @@ module.exports = {
             // check student had feedback before
             for (i of matchedCourse.list_rating) {
                 if (i.student.toString() === req.user._id.toString()) {
-                    let msg = encodeURIComponent('ratingExist')
-                    res.redirect('/course/' + matchedCourse._id + '/status=' + msg);
+                    let msg = encodeURIComponent('ratingExist');
+                    res.redirect(
+                        '/course/' + matchedCourse._id + '/status=' + msg
+                    );
                     return;
                 }
             }
@@ -326,8 +409,10 @@ module.exports = {
     },
     async search(req, res) {
         let query = req.query.q;
-        let sort = req.query.sort || "";
-        let category = (req.query.category === 'undefined' ? 'all' : req.query.category) || "";
+        let sort = req.query.sort || '';
+        let category =
+            (req.query.category === 'undefined' ? 'all' : req.query.category) ||
+            '';
         let page = +req.query.page || 1;
         let perPage = 8; //16
         let option = { limit: perPage, page };
@@ -341,10 +426,12 @@ module.exports = {
             };
         }
         let cond = {};
-        if (query !== "") {
+
+        cond.disable = false;
+        if (query !== '') {
             cond.$text = { $search: query };
         }
-        if (category !== "" && category !== "all") {
+        if (category !== '' && category !== 'all') {
             cond.category = category;
         }
         var searchCourses = await courseModel.loadAggCourses(cond, option);
@@ -366,6 +453,45 @@ module.exports = {
             i.avgRating = avgRating;
         }
         //let qr = `q=${req.query.q}&category=${req.query.category}&sort=${req.query.sort}`
+
+        for (const course of searchCourses.docs) {
+            if (course.discount && course.discount > 0) {
+                const discount = course.discount;
+                course.salePrice = course.price * (1 - discount / 100);
+                course.isDiscount = true;
+            }
+        }
+
+        const mostViewCourses = await courseModel.loadTenViewCourses();
+
+        const mostViewCoursesId = mostViewCourses.map((child) => {
+            return child._id.toString();
+        });
+
+        const tenNewestCourses = await courseModel.LoadTenNewestCourses();
+        const tenNewestCoursesId = tenNewestCourses.map((child) => {
+            return child._id.toString();
+        });
+
+        const fourWeeklyCourses = await courseModel.getWeeklyCourse();
+        const fourWeeklyCoursesId = fourWeeklyCourses.map((child) => {
+            return child._id.toString();
+        });
+
+        for (const child of searchCourses.docs) {
+            if (mostViewCoursesId.includes(child._id.toString())) {
+                child.isMostView = true;
+            }
+
+            if (fourWeeklyCoursesId.includes(child._id.toString())) {
+                child.isWeekly = true;
+            }
+
+            if (tenNewestCoursesId.includes(child._id.toString())) {
+                child.isNew = true;
+            }
+        }
+
         res.render('course', {
             courses: searchCourses.docs,
             empty: searchCourses.docs.length === 0,
@@ -413,7 +539,7 @@ module.exports = {
             }
             console.log(isMember);
             if (isMember === false) {
-                var msg = encodeURIComponent('noPermission')
+                var msg = encodeURIComponent('noPermission');
                 res.redirect('/course/' + req.params.id + '/?status=' + msg);
                 return;
             }
@@ -445,7 +571,9 @@ module.exports = {
         }
 
         // list chapter in course
-        const returnCourse = await courseModel.findAllChapterInCourse(course._id);
+        const returnCourse = await courseModel.findAllChapterInCourse(
+            course._id
+        );
 
         // check lesson in progress
         if (req.user) {
@@ -461,7 +589,6 @@ module.exports = {
                     }
                 }
             }
-
         }
 
         res.render('course/viewLesson', {
@@ -470,4 +597,4 @@ module.exports = {
             chapterList: returnCourse.list_chapter,
         });
     },
-}
+};

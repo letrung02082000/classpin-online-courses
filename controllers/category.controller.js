@@ -17,14 +17,12 @@ module.exports = {
         }
         let matchCourses = await courseModel.loadLimitedCourses(perPage, page, {
             category: matchedCategory._id,
+            disable: false,
         });
 
         let pageArr = paging(page, matchCourses.totalPages);
 
         for (i of matchCourses.docs) {
-            var discount = i.discount || 0;
-            var salePrice = i.price * (1 - discount / 100);
-            i.salePrice = salePrice;
             const avg = await courseModel.computeAvgRating(i._id);
             let avgRating = 0;
             if (avg[0]) {
@@ -47,6 +45,43 @@ module.exports = {
             }
         }
 
+        for (const course of matchCourses.docs) {
+            if (course.discount && course.discount > 0) {
+                const discount = course.discount;
+                course.salePrice = course.price * (1 - discount / 100);
+                course.isDiscount = true;
+            }
+        }
+
+        const mostViewCourses = await courseModel.loadTenViewCourses();
+
+        const mostViewCoursesId = mostViewCourses.map((child) => {
+            return child._id.toString();
+        });
+
+        const tenNewestCourses = await courseModel.LoadTenNewestCourses();
+        const tenNewestCoursesId = tenNewestCourses.map((child) => {
+            return child._id.toString();
+        });
+
+        const fourWeeklyCourses = await courseModel.getWeeklyCourse();
+        const fourWeeklyCoursesId = fourWeeklyCourses.map((child) => {
+            return child._id.toString();
+        });
+
+        for (const child of matchCourses.docs) {
+            if (mostViewCoursesId.includes(child._id.toString())) {
+                child.isMostView = true;
+            }
+
+            if (fourWeeklyCoursesId.includes(child._id.toString())) {
+                child.isWeekly = true;
+            }
+
+            if (tenNewestCoursesId.includes(child._id.toString())) {
+                child.isNew = true;
+            }
+        }
 
         res.render('course', {
             courses: matchCourses.docs,
