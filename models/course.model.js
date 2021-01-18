@@ -136,6 +136,10 @@ module.exports = {
         return Course.findById(courseId).lean();
     },
 
+    findByIdAndMapChapter(courseId) {
+        return Course.findById(courseId).populate({path: 'list_chapter'});
+    },
+
     findByIdWithTeacherInfo(courseId) {
         return Course.findOne({ _id: mongoose.mongo.ObjectId(courseId) })
             .populate('teacher', 'fullname')
