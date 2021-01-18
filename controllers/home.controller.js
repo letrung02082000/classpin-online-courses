@@ -70,6 +70,7 @@ module.exports = {
                 if (course.discount && course.discount > 0) {
                     const discount = course.discount;
                     course.salePrice = course.price * (1 - discount / 100);
+                    course.salePrice = +course.salePrice.toFixed(2);
                     course.isDiscount = true;
                 }
             }
@@ -93,6 +94,7 @@ module.exports = {
                 if (course.discount && course.discount > 0) {
                     const discount = course.discount;
                     course.salePrice = course.price * (1 - discount / 100);
+                    course.salePrice = +course.salePrice.toFixed(2);
                     course.isDiscount = true;
                 }
             }
@@ -116,6 +118,7 @@ module.exports = {
                 if (course.discount && course.discount > 0) {
                     const discount = course.discount;
                     course.salePrice = course.price * (1 - discount / 100);
+                    course.salePrice = +course.salePrice.toFixed(2);
                     course.isDiscount = true;
                 }
             }

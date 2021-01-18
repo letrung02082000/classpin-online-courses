@@ -22,7 +22,7 @@ const schema = new Schema({
     category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' }, // id category
     date_created: { type: Date, default: Date.now },
     view_count: { type: Number, default: 0 },
-    last_view: { type: Date, default: Date.now },
+    last_view: { type: Date },
     week_count: { type: Number, default: 0 },
     last_updated: { type: Date, default: Date.now },
     disable: { type: Boolean, default: false },
@@ -338,11 +338,14 @@ module.exports = {
     },
 
     async getWeeklyCourse() {
-        const mondayDate = getMonday();
+        let mondayDate = getMonday();
         const now = Date.now();
-        console.log(mondayDate);
+
         return await Course.find({
-            last_view: { $gte: mondayDate, $lte: now },
+            last_view: {
+                $gte: mondayDate,
+                $lte: now,
+            },
             disable: false,
         })
             .populate('teacher', 'fullname')
