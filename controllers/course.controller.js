@@ -142,6 +142,7 @@ module.exports = {
             if (course.discount && course.discount > 0) {
                 const discount = course.discount;
                 course.salePrice = course.price * (1 - discount / 100);
+                course.salePrice = +course.salePrice.toFixed(2);
                 course.isDiscount = true;
             }
         }
@@ -177,8 +178,13 @@ module.exports = {
         }
 
         const matchedCourse = await courseModel.findAllRatingOfCourse(courseID);
-        const discount = matchedCourse.discount || 0;
-        matchedCourse.salePrice = matchedCourse.price * (1 - discount / 100);
+        if (matchedCourse.discount && matchedCourse.discount > 0) {
+            const discount = matchedCourse.discount;
+            matchedCourse.salePrice =
+                matchedCourse.price * (1 - discount / 100);
+            matchedCourse.salePrice = +matchedCourse.salePrice.toFixed(2);
+            matchedCourse.isDiscount = true;
+        }
 
         //checkout user was a member in course
         let isMember = false;
@@ -462,6 +468,7 @@ module.exports = {
             if (course.discount && course.discount > 0) {
                 const discount = course.discount;
                 course.salePrice = course.price * (1 - discount / 100);
+                course.salePrice = +course.salePrice.toFixed(2);
                 course.isDiscount = true;
             }
         }

@@ -8,6 +8,9 @@ module.exports = {
         } else {
             prevMonday.setDate(date.getDate() - (day - 1));
         }
+
+        prevMonday.setUTCHours(0, 0, 0, 0);
+
         return prevMonday;
     },
 };

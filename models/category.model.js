@@ -12,8 +12,8 @@ const schema = new Schema({
     sub_category: Array, // id cac category con
     name: String,
     description: String,
-    last_count: { type: Date, default: Date.now },
-    student_count: { type: Number, default: 0 },
+    last_count: { type: Date },
+    student_count: { type: Number },
 });
 
 schema.plugin(paginate);
@@ -126,7 +126,7 @@ module.exports = {
             last_count: { $gte: monday, $lte: now },
         })
             .sort({ student_count: -1 })
-            .limit(10)
+            .limit(5)
             .lean();
     },
 };
