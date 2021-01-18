@@ -123,8 +123,6 @@ module.exports = {
             }
         }
 
-        //console.log(fiveRelatedCourses);
-
         for (const course of fiveRelatedCourses) {
             if (req.user) {
                 const result = await courseModel.checkStudentInCourse(

@@ -77,6 +77,7 @@
         <div class="card-text">
           <div class="card-all-price">
             {{#with this.course}}
+            {{#if isDiscount}}
             <p>
               <strong class="card-sale-price">
                 ${{salePrice}}
@@ -85,6 +86,14 @@
             </p>
             <del class="card-price">$ {{price}}</del>
             <p class="card-price">{{discount}}% off</p>
+            {{else}}
+            <p>
+              <strong class="card-sale-price">
+                ${{price}}
+                &nbsp;
+              </strong>
+            </p>
+            {{/if}}
             {{/with}}
           </div>
           <div class="cart">
@@ -111,7 +120,7 @@
       <div class="description">
         <div class="u-center-text u-margin-bottom-small u-margin-top-small">
           <h2 class="heading-secondary">
-             Description
+            Description
           </h2>
         </div>
         <div class="p-3">
@@ -122,10 +131,10 @@
 
     <div class="card-body card-table-content">
       <div class="u-center-text u-margin-bottom-small u-margin-top-small">
-          <h2 class="heading-secondary">
-             Course content
-          </h2>
-        </div>
+        <h2 class="heading-secondary">
+          Course content
+        </h2>
+      </div>
       <div class="description">
         {{#unless isMember}}
         {{#if course.done}}
@@ -183,7 +192,7 @@
       <div class="card-body">
         <div class="u-center-text u-margin-bottom-small u-margin-top-small">
           <h2 class="heading-secondary">
-             Instructors
+            Instructors
           </h2>
         </div>
         <div>
@@ -230,9 +239,9 @@
 
     <div class="card-body card-list-rating">
       <div class="u-center-text u-margin-bottom-small u-margin-top-small">
-          <h2 class="heading-secondary">
-             Student feedback
-          </h2>
+        <h2 class="heading-secondary">
+          Student feedback
+        </h2>
       </div>
       <div class="row">
         <div class="rating text-center">
@@ -327,7 +336,7 @@
       <div class="card-header bg-white mt-5">
         <div class="u-center-text u-margin-bottom-small u-margin-top-small">
           <h2 class="heading-secondary">
-             Reviews
+            Reviews
           </h2>
         </div>
         <div class="student-feedback mt-2">
@@ -374,7 +383,7 @@
 <div class="related-courses mt-3">
   <div class="ml-5 related-courses__heading u-margin-bottom-small u-margin-top-small">
     <h2 class="heading-secondary">
-        Related Courses
+      Related Courses
     </h2>
   </div>
   <div class="carousel-container">

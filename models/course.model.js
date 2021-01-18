@@ -232,7 +232,12 @@ module.exports = {
     async findRelatedCourse(categoryId) {
         return await Course.aggregate(
             [
-                { $match: { disable: false } },
+                {
+                    $match: {
+                        disable: false,
+                        category: mongoose.mongo.ObjectId(categoryId),
+                    },
+                },
                 {
                     $project: {
                         length: { $size: '$list_student' },
