@@ -5,83 +5,94 @@ const multer = require('multer');
 const teacherModel = require('../models/teacher.model');
 const chapterModel = require('../models/chapter.model');
 const lessonModel = require('../models/lesson.model');
-
+const studentModel = require('../models/student.model');
 
 module.exports = {
-  async addCourse(req, res) {
-    let categories = await categoryModel.loadTopCategory();
-    res.render('teacher/addCourse', {
-      categories: categories,
-      layout: 'teacher',
-    });
-  },
-  async postAddCourse(req, res) {
-    //courseModel.addCourse(req.body);
-    let course = {
-      _id: mongoose.Types.ObjectId(),
-      name: req.body.title,
-      short_description: req.body.shortDesciption,
-      description: req.body.description,
-      price: req.body.price,
-      discount: req.body.discount,
-      category: req.body.category,
-      teacher: req.user._id,
-    }
-    if (req.file) {
-      course.thumbnail = '\\' + req.file.path;
-    }
-    await courseModel.addCourse(course);
-    res.redirect('/teacher/courses');
-  },
+    async addCourse(req, res) {
+        let categories = await categoryModel.loadTopCategory();
+        res.render('teacher/addCourse', {
+            categories: categories,
+            layout: 'teacher',
+        });
+    },
+    async postAddCourse(req, res) {
+        //courseModel.addCourse(req.body);
+        let course = {
+            _id: mongoose.Types.ObjectId(),
+            name: req.body.title,
+            short_description: req.body.shortDesciption,
+            description: req.body.description,
+            price: req.body.price,
+            discount: req.body.discount,
+            category: req.body.category,
+            teacher: req.user._id,
+        };
+        if (req.file) {
+            course.thumbnail = '\\' + req.file.path;
+        }
+        await courseModel.addCourse(course);
+        res.redirect('/teacher/courses');
+    },
 
-  getLogin: function (req, res) {
-    if (req.isAuthenticated() && req.user.type === 2) { // check if teacher already login
-      res.redirect('/teacher/dashboard');
-      return;
-    }
+    getLogin: function (req, res) {
+        if (req.isAuthenticated() && req.user.type === 2) {
+            // check if teacher already login
+            res.redirect('/teacher/dashboard');
+            return;
+        }
 
-    res.render('teacher/login', {
-      layout: false,
-      msg: req.flash(),
-    });
-  },
+        res.render('teacher/login', {
+            layout: false,
+            msg: req.flash(),
+        });
+    },
 
-  postLogin: function (req, res) {
-    res.redirect('/teacher/dashboard');
-  },
+    postLogin: function (req, res) {
+        res.redirect('/teacher/dashboard');
+    },
 
-  getProfile: function (req, res) {
-    res.render('teacher/profile', {
-      layout: 'teacher',
-      authUser: req.user,
-    });
-  },
+    getProfile: function (req, res) {
+        res.render('teacher/profile', {
+            layout: 'teacher',
+            authUser: req.user,
+        });
+    },
 
-  postProfile: async function (req, res) {
-    const filter = { _id: req.user._id };
-    const update = {
-      fullname: req.body.fullname,
-      email: req.body.email,
-      phone: req.body.phone,
-      about: req.body.about
-    }
-    if (req.file) {
-      update.avatar = '\\' + req.file.path;
-    }
-    await teacherModel.updateOne(filter, update);
-    res.redirect('/teacher/profile');
-  },
+    postProfile: async function (req, res) {
+        const filter = { _id: req.user._id };
+        const update = {
+            fullname: req.body.fullname,
+            email: req.body.email,
+            phone: req.body.phone,
+            about: req.body.about,
+        };
+        if (req.file) {
+            update.avatar = '\\' + req.file.path;
+        }
+        await teacherModel.updateOne(filter, update);
+        res.redirect('/teacher/profile');
+    },
 
-  postLogout: function (req, res) {
-    req.logout();
-    res.redirect('/teacher/login');
-  },
+    postLogout: function (req, res) {
+        req.logout();
+        res.redirect('/teacher/login');
+    },
+  
+  getDashboard: async function (req, res) {
+        const totalCourse = await courseModel.findCourseOfTeacher(req.user._id);
+        let totalStudent = 0;
 
-  getDashboard: function (req, res) {
-    res.render('teacher/dashboard', {
-      layout: 'teacher'
-    });
-  },
+        for (const course of totalCourse) {
+            totalStudent += course.list_student.length;
+        }
+
+        res.render('teacher/dashboard', {
+            layout: 'teacher',
+            totalCourse: totalCourse.length,
+            totalStudent,
+        });
+    },
+  
   allCourse: async function (req, res) {
     const courseList = await courseModel.findCourseOfTeacher(req.user._id);
     res.render('teacher/allCourse', {

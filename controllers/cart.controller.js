@@ -20,7 +20,7 @@ module.exports = {
             for (ci of cartArr) {
                 const id = mongoose.mongo.ObjectId(ci.courseId);
                 var course = await courseModel.findDetailCourseById(id);
-                
+
                 //dat
                 const avg = await courseModel.computeAvgRating(course._id);
                 let avgRating = 0;
@@ -60,7 +60,9 @@ module.exports = {
                         courseId
                     );
 
-                    const avg = await courseModel.computeAvgRating(cartCourse._id);
+                    const avg = await courseModel.computeAvgRating(
+                        cartCourse._id
+                    );
                     let avgRating = 0;
                     if (avg[0]) {
                         avgRating = avg[0].avgRating;

@@ -101,7 +101,11 @@ module.exports = {
             }
         );
 
-        category.student_count += 1;
+        if (!category.student_count) {
+            category.student_count = 1;
+        } else {
+            category.student_count += 1;
+        }
         category.last_count = Date.now();
         category.save();
     },
