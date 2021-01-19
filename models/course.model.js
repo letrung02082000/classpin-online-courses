@@ -89,6 +89,17 @@ module.exports = {
                 $unwind: "$teacher"
             },
             {
+                $lookup: {
+                    from: 'Category',
+                    localField: 'category',
+                    foreignField: '_id',
+                    as: 'category',
+                }
+            },
+            {
+                $unwind: "$category"
+            },
+            {
                 $addFields: {
                     rating_average: { $avg: '$list_rating_info.rating' },
                 },
