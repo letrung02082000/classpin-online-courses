@@ -78,6 +78,17 @@ module.exports = {
                 },
             },
             {
+                $lookup: {
+                    from: 'Teacher',
+                    localField: 'teacher',
+                    foreignField: '_id',
+                    as: 'teacher',
+                }
+            },
+            {
+                $unwind: "$teacher"
+            },
+            {
                 $addFields: {
                     rating_average: { $avg: '$list_rating_info.rating' },
                 },
