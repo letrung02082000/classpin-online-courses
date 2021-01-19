@@ -191,6 +191,17 @@ module.exports = {
         res.redirect('/admin/teachers');
     },
 
+    isAvailable: async function (req, res) {
+        const username = req.query.username;
+        const result = await teacherModel.findByNameloginOrEmail(username);
+
+        if (result) {
+            res.json({ isValid: false });
+        } else {
+            res.json({ isValid: true });
+        }
+    },
+
     postDeleteTeacher: async function (req, res) {
         await courseModel.deleteTeacherCourses(req.body.teacherId);
         await teacherModel.deleteTeacher(req.body.teacherId);
@@ -384,13 +395,13 @@ module.exports = {
         // delete thumbnail course
         if (matchedCourse.thumbnail) {
             fs.unlink('.\\' + matchedCourse.thumbnail, (e) => {
-              console.log(e);
-              return;
+                console.log(e);
+                return;
             });
         }
         //delete lesson in chapter
         for (i of matchedCourse.list_chapter) {
-            for(j of i.list_lesson) {
+            for (j of i.list_lesson) {
                 await lessonModel.delete(j._id);
             }
         }

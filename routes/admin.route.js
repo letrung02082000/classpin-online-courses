@@ -41,6 +41,12 @@ router.post(
     controller.postCreateTeacher
 );
 
+router.get(
+    '/teachers/is-available',
+    requireAdmin.isAdmin,
+    controller.isAvailable
+);
+
 router.post(
     '/teachers/del',
     requireAdmin.isAdmin,
