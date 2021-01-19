@@ -114,6 +114,7 @@ module.exports = {
       description: req.body.description,
       price: req.body.price,
       discount: req.body.discount,
+      category: req.body.category,
       done: (req.body.done === 'true' ? true : false)
     };
     if (req.file) {

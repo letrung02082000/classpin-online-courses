@@ -19,6 +19,14 @@
     allowedFileExtensions: ['png', 'jpg', 'gif'],
   });
 </script>
+<script>
+  var listCat = document.getElementsByClassName('cat');
+  for (let i = 0; i < listCat.length; i++) {
+    if (listCat[i].getAttribute('value') === '{{course.category}}') {
+      listCat[i].setAttribute('selected', '');
+    }
+  }
+</script>
 {{/section}}
 
 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
@@ -42,7 +50,7 @@
               {{#each categories}}
               <optgroup label="{{this.name}}">
                 {{#each sub_category}}
-                <option value="{{this._id}}">{{this.name}}</option>
+                <option class="cat" value="{{this._id}}">{{this.name}}</option>
                 {{/each}}
               </optgroup>
               {{/each}}
