@@ -78,6 +78,28 @@ module.exports = {
                 },
             },
             {
+                $lookup: {
+                    from: 'Teacher',
+                    localField: 'teacher',
+                    foreignField: '_id',
+                    as: 'teacher',
+                }
+            },
+            {
+                $unwind: "$teacher"
+            },
+            {
+                $lookup: {
+                    from: 'Category',
+                    localField: 'category',
+                    foreignField: '_id',
+                    as: 'category',
+                }
+            },
+            {
+                $unwind: "$category"
+            },
+            {
                 $addFields: {
                     rating_average: { $avg: '$list_rating_info.rating' },
                 },
@@ -137,7 +159,7 @@ module.exports = {
     },
 
     findByIdAndMapChapter(courseId) {
-        return Course.findById(courseId).populate({path: 'list_chapter'});
+        return Course.findById(courseId).populate({ path: 'list_chapter' });
     },
 
     findByIdWithTeacherInfo(courseId) {
@@ -150,7 +172,7 @@ module.exports = {
     // return rating embeded in list_rating of course
     findAllRatingOfCourse(courseID) {
         return Course.findById(courseID)
-            .populate([{ path: 'list_rating', options: {sort: {'date_rating': -1}}, populate: { path: 'student'}}])
+            .populate([{ path: 'list_rating', options: { sort: { 'date_rating': -1 } }, populate: { path: 'student' } }])
             .populate({ path: 'teacher' })
             .lean();
     },
@@ -395,6 +417,7 @@ module.exports = {
         return Course.findById(courseID)
             .populate([
                 { path: 'list_chapter', populate: { path: 'list_lesson' } },
+                { path: 'category' },
             ])
             .lean();
     },

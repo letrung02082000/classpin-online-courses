@@ -92,7 +92,7 @@ module.exports = {
         //trung calculate view
         await increaseCourseView(courseID);
         const course = await courseModel.findById(courseID);
-        if(course.disable) {
+        if (course.disable) {
             res.sendStatus(404);
             return;
         }
@@ -206,7 +206,7 @@ module.exports = {
         console.log(req.user);
         if (req.user) {
             for (let i of matchedCourse.list_rating) {
-                if(!i.student) {
+                if (!i.student) {
                     continue;
                 }
                 if (String(i.student._id) === String(req.user._id)) {

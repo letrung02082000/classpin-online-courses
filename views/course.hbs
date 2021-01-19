@@ -34,10 +34,11 @@
                     <select class="form-control" name="category" id="category">
                         <option value="all">All category</option>
                         {{#each menuCategory}}
-                        {{#each sub_category}}
-                        <option class="cat" value="{{this._id}}">{{this.name}}</option>
-                        {{/each}}
-
+                        <optgroup label="{{this.name}}">
+                            {{#each sub_category}}
+                            <option class="cat" value="{{this._id}}">{{this.name}}</option>
+                            {{/each}}
+                        </optgroup>
                         {{/each}}
                     </select>
                 </div>
