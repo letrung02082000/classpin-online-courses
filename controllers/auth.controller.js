@@ -83,7 +83,7 @@ module.exports = {
             to: newStudent.email, // list of receivers
             subject: 'Verify your email', // Subject line
             text: '', // plain text body
-            html: `<b>Click this link to verify your email! </b><a href="http://localhost:3000/verify/?clientId=${createdStudent._id}&key=${verify_key}">verify</a>`, // html body
+            html: `<b>Click this link to verify your email! </b><a href="https://harukishima.live/verify/?clientId=${createdStudent._id}&key=${verify_key}">verify</a>`, // html body
         });
 
         console.log('Message sent: %s', info.messageId);
@@ -250,7 +250,7 @@ module.exports = {
                 to: req.body.email, // list of receivers
                 subject: 'Verify your email', // Subject line
                 text: '', // plain text body
-                html: `<b>Click this link to verify your email! </b><a href="http://localhost:3000/verify/?clientId=${createdStudent._id}&key=${verify_key}">verify</a>`, // html body
+                html: `<b>Click this link to verify your email! </b><a href="https://harukishima.live/verify/?clientId=${createdStudent._id}&key=${verify_key}">verify</a>`, // html body
             });
 
             console.log('Message sent: %s', info.messageId);
