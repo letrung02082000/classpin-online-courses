@@ -1,7 +1,5 @@
 # ClassPin Project - Online Courses Website
-- TechStack
-  + Lang: Javascript
-  + Platform: NodeJS
-  + Framework: Express
-  + View engine: Handlebars
-  + Database: MongoDB with mongoose
+- Backend: Nodejs
+- Frontend: HTML, CSS, Javascript
+- Database: MongoDB
+- Support library: Express, Mongoose, Handlebars
